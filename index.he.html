@@ -1,0 +1,2093 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>חוקי ניוטון - הרפתקת פיזיקה!</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #1A1A2E;
+    --card: #0F3460;
+    --law1: #00C9FF;
+    --law2: #FF6B35;
+    --law3: #7B2FBE;
+    --gold: #FFD700;
+    --success: #4CAF50;
+    --danger: #F44336;
+    --text: #E0E0E0;
+    --text-dim: #A0A0B0;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: Arial, Tahoma, sans-serif;
+    font-size: 17px;
+    min-height: 100vh;
+    overflow-x: hidden;
+    direction: rtl;
+    text-align: right;
+  }
+
+  /* HEADER */
+  #header {
+    background: var(--card);
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.4);
+    direction: rtl;
+  }
+
+  #header-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--gold);
+    white-space: nowrap;
+  }
+
+  #score-display {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  #score-text {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--gold);
+  }
+
+  #progress-dots {
+    display: flex;
+    gap: 8px;
+  }
+
+  .dot {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #333;
+    border: 2px solid #555;
+    transition: background 0.4s, border-color 0.4s;
+  }
+
+  .dot.done {
+    background: var(--gold);
+    border-color: var(--gold);
+    box-shadow: 0 0 8px var(--gold);
+  }
+
+  #stars-display {
+    font-size: 20px;
+    letter-spacing: 2px;
+  }
+
+  #progress-bar-wrap {
+    width: 100%;
+    height: 6px;
+    background: #333;
+    border-radius: 3px;
+    margin-top: 4px;
+  }
+
+  #progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--law1), var(--law2), var(--law3), var(--gold));
+    border-radius: 3px;
+    transition: width 0.5s ease;
+    width: 0%;
+  }
+
+  /* NAV TABS */
+  #nav-tabs {
+    display: flex;
+    background: rgba(0,0,0,0.3);
+    padding: 8px 12px;
+    gap: 6px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    direction: rtl;
+  }
+  #nav-tabs::-webkit-scrollbar { display: none; }
+
+  .tab-btn {
+    padding: 10px 18px;
+    border: none;
+    border-radius: 24px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+    white-space: nowrap;
+    transition: all 0.2s;
+    background: var(--card);
+    color: var(--text-dim);
+    font-family: Arial, Tahoma, sans-serif;
+  }
+
+  .tab-btn:hover {
+    filter: brightness(1.3);
+    transform: translateY(-1px);
+  }
+
+  .tab-btn.active { color: #fff; box-shadow: 0 3px 10px rgba(0,0,0,0.4); }
+  .tab-btn[data-tab="home"].active  { background: var(--success); }
+  .tab-btn[data-tab="law1"].active  { background: linear-gradient(135deg, #0070a0, var(--law1)); }
+  .tab-btn[data-tab="law2"].active  { background: linear-gradient(135deg, #a03000, var(--law2)); }
+  .tab-btn[data-tab="law3"].active  { background: linear-gradient(135deg, #4a0a7e, var(--law3)); }
+  .tab-btn[data-tab="quiz"].active  { background: linear-gradient(135deg, #a08000, var(--gold)); color: #1A1A2E; }
+
+  /* MAIN */
+  #main {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 20px 16px 60px;
+  }
+
+  .section { display: none; }
+  .section.active { display: block; }
+
+  /* CARDS */
+  .card {
+    background: var(--card);
+    border-radius: 16px;
+    padding: 22px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+  }
+
+  .card-law1  { border-right: 5px solid var(--law1); border-left: none; }
+  .card-law2  { border-right: 5px solid var(--law2); border-left: none; }
+  .card-law3  { border-right: 5px solid var(--law3); border-left: none; }
+  .card-quiz  { border-right: 5px solid var(--gold); border-left: none; }
+  .card-home  { border-right: 5px solid var(--success); border-left: none; }
+
+  h1 { font-size: 28px; margin-bottom: 12px; }
+  h2 { font-size: 22px; margin-bottom: 10px; }
+  h3 { font-size: 19px; margin-bottom: 8px; }
+  p  { line-height: 1.65; margin-bottom: 10px; font-size: 16px; }
+
+  .highlight-box {
+    border-radius: 12px;
+    padding: 16px;
+    margin: 14px 0;
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1.5;
+  }
+
+  .hl-law1 { background: rgba(0,201,255,0.12);   border: 2px solid rgba(0,201,255,0.4);   color: #cff5ff; }
+  .hl-law2 { background: rgba(255,107,53,0.12);  border: 2px solid rgba(255,107,53,0.4);  color: #ffe5d8; }
+  .hl-law3 { background: rgba(123,47,190,0.12);  border: 2px solid rgba(123,47,190,0.4);  color: #e8d4ff; }
+  .hl-gold { background: rgba(255,215,0,0.12);   border: 2px solid rgba(255,215,0,0.4);   color: #fff5c0; }
+
+  .examples-list { list-style: none; padding: 0; margin: 10px 0; }
+  .examples-list li {
+    padding: 8px 32px 8px 12px;
+    position: relative;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  .examples-list li::before { content: '\25C0'; position: absolute; right: 8px; opacity: 0.7; }
+
+  /* BUTTONS */
+  .btn {
+    display: inline-block;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 700;
+    transition: all 0.2s;
+    text-align: center;
+    line-height: 1.2;
+    font-family: Arial, Tahoma, sans-serif;
+  }
+  .btn:hover   { filter: brightness(1.15); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+  .btn:active  { transform: translateY(0); }
+
+  .btn-law1    { background: var(--law1);    color: #002030; }
+  .btn-law2    { background: var(--law2);    color: #fff; }
+  .btn-law3    { background: var(--law3);    color: #fff; }
+  .btn-gold    { background: var(--gold);    color: #1A1A2E; }
+  .btn-success { background: var(--success); color: #fff; }
+  .btn-danger  { background: var(--danger);  color: #fff; }
+  .btn-gray    { background: #444;           color: #ddd; }
+
+  .btn-sm { padding: 8px 16px;   font-size: 14px; }
+  .btn-lg { padding: 14px 32px;  font-size: 18px; }
+
+  .btn-row { display: flex; flex-wrap: wrap; gap: 10px; margin: 12px 0; align-items: center; }
+
+  /* CANVAS */
+  canvas {
+    display: block;
+    border-radius: 10px;
+    background: #0a0a1a;
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+  }
+
+  .canvas-wrap {
+    position: relative;
+    margin: 14px 0;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 2px solid rgba(255,255,255,0.1);
+  }
+
+  /* SLIDERS */
+  .slider-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 10px 0;
+    flex-wrap: wrap;
+    flex-direction: row-reverse;
+  }
+  .slider-label { min-width: 120px; font-size: 15px; font-weight: 600; text-align: right; }
+
+  input[type=range] {
+    flex: 1;
+    min-width: 120px;
+    height: 8px;
+    border-radius: 4px;
+    outline: none;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    background: #333;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  .slider-law1 { accent-color: var(--law1); }
+  .slider-law1::-webkit-slider-thumb { background: var(--law1); }
+  .slider-law2 { accent-color: var(--law2); }
+  .slider-law2::-webkit-slider-thumb { background: var(--law2); }
+  .slider-law3 { accent-color: var(--law3); }
+  .slider-law3::-webkit-slider-thumb { background: var(--law3); }
+
+  .slider-val { min-width: 64px; font-size: 16px; font-weight: 700; text-align: left; }
+
+  /* STATS */
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+    margin: 14px 0;
+  }
+  .stat-box  { background: rgba(0,0,0,0.3); border-radius: 10px; padding: 14px; text-align: center; }
+  .stat-label { font-size: 13px; color: var(--text-dim); margin-bottom: 4px; }
+  .stat-value { font-size: 22px; font-weight: 700; }
+
+  /* SURFACE BUTTONS */
+  .surface-btn {
+    padding: 10px 16px;
+    border-radius: 8px;
+    border: 2px solid transparent;
+    background: #1a2040;
+    color: #ccc;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.2s;
+    font-family: Arial, Tahoma, sans-serif;
+  }
+  .surface-btn:hover { filter: brightness(1.3); }
+  .surface-btn.selected { border-color: var(--law1); background: rgba(0,201,255,0.2); color: #fff; }
+
+  /* QUIZ */
+  .quiz-question {
+    background: rgba(0,0,0,0.3);
+    border-radius: 12px;
+    padding: 18px;
+    margin-bottom: 16px;
+  }
+  .q-text { font-size: 17px; font-weight: 600; margin-bottom: 12px; line-height: 1.5; }
+  .q-options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+  @media (max-width: 480px) { .q-options { grid-template-columns: 1fr; } }
+
+  .q-opt {
+    padding: 12px 16px;
+    border-radius: 9px;
+    border: 2px solid #444;
+    background: #1a2040;
+    color: #ddd;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+    text-align: right;
+    transition: all 0.2s;
+    line-height: 1.4;
+    font-family: Arial, Tahoma, sans-serif;
+  }
+  .q-opt:hover    { border-color: var(--gold); color: #fff; background: rgba(255,215,0,0.1); }
+  .q-opt.correct  { background: rgba(76,175,80,0.25);  border-color: var(--success); color: #a0ffb0; }
+  .q-opt.wrong    { background: rgba(244,67,54,0.25);  border-color: var(--danger);  color: #ffb0b0; }
+  .q-opt.disabled { cursor: not-allowed; opacity: 0.7; }
+
+  .q-explanation { margin-top: 10px; padding: 10px 14px; border-radius: 8px; font-size: 15px; line-height: 1.5; display: none; }
+  .q-explanation.show         { display: block; }
+  .q-explanation.correct-exp  { background: rgba(76,175,80,0.15);  color: #a0ffb0; border: 1px solid rgba(76,175,80,0.4); }
+  .q-explanation.wrong-exp    { background: rgba(244,67,54,0.15);  color: #ffb0b0; border: 1px solid rgba(244,67,54,0.4); }
+
+  /* COMPLETION */
+  #completion-screen  { text-align: center; padding: 30px 20px; }
+  .trophy-heading     { font-size: 32px; color: var(--gold); margin-bottom: 16px; text-shadow: 0 0 20px rgba(255,215,0,0.5); }
+  .final-score        { font-size: 52px; font-weight: 900; color: var(--gold); margin: 16px 0; }
+  .stars-big          { font-size: 40px; letter-spacing: 6px; margin: 14px 0; }
+
+  .law-summaries {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 14px;
+    margin: 24px 0;
+    text-align: right;
+  }
+  .law-summary-card { border-radius: 12px; padding: 16px; font-size: 15px; line-height: 1.5; }
+
+  /* NOTIFICATION */
+  #notif {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: var(--success);
+    color: #fff;
+    padding: 14px 28px;
+    border-radius: 30px;
+    font-size: 17px;
+    font-weight: 700;
+    z-index: 9999;
+    transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    white-space: nowrap;
+  }
+  #notif.show { transform: translateX(-50%) translateY(0); }
+
+  /* HOME */
+  .home-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+    margin: 20px 0;
+  }
+  .home-law-card {
+    border-radius: 14px;
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.25s;
+    text-align: center;
+  }
+  .home-law-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.4); }
+  .home-law-card h3 { font-size: 20px; margin-bottom: 8px; }
+  .home-law-card p  { font-size: 14px; opacity: 0.85; margin: 0; }
+
+  .home-card-1    { background: linear-gradient(135deg, #003050, #004870); border: 2px solid var(--law1); }
+  .home-card-2    { background: linear-gradient(135deg, #3a1400, #5a2000); border: 2px solid var(--law2); }
+  .home-card-3    { background: linear-gradient(135deg, #250a40, #3d1060); border: 2px solid var(--law3); }
+  .home-card-quiz { background: linear-gradient(135deg, #302000, #504000); border: 2px solid var(--gold); }
+
+  .done-badge {
+    display: inline-block;
+    background: var(--success);
+    color: #fff;
+    border-radius: 12px;
+    padding: 3px 10px;
+    font-size: 13px;
+    font-weight: 700;
+    margin-top: 8px;
+  }
+
+  /* TOGGLE */
+  .toggle-wrap { display: flex; align-items: center; gap: 10px; margin: 10px 0; flex-direction: row-reverse; justify-content: flex-end; }
+  .toggle-switch { position: relative; width: 52px; height: 28px; display: inline-block; }
+  .toggle-switch input { display: none; }
+  .toggle-slider {
+    position: absolute; inset: 0;
+    background: #444;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  .toggle-slider:before {
+    content: '';
+    position: absolute;
+    width: 22px; height: 22px;
+    left: 3px; top: 3px;
+    border-radius: 50%;
+    background: #aaa;
+    transition: 0.3s;
+  }
+  .toggle-switch input:checked + .toggle-slider { background: var(--law1); }
+  .toggle-switch input:checked + .toggle-slider:before { background: #fff; transform: translateX(24px); }
+  .atmosphere-status { font-size: 16px; font-weight: 700; }
+
+  /* ALTITUDE BAR */
+  .altitude-wrap { display: flex; align-items: flex-end; gap: 10px; height: 200px; margin: 12px 0; }
+  .altitude-bar-outer {
+    width: 40px; height: 100%;
+    background: rgba(0,0,0,0.4);
+    border-radius: 8px;
+    border: 2px solid #444;
+    position: relative;
+    overflow: hidden;
+  }
+  .altitude-bar-inner {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    background: linear-gradient(to top, var(--law3), #ff80ff);
+    transition: height 0.1s;
+    border-radius: 6px;
+  }
+  .altitude-label { font-size: 13px; color: var(--text-dim); writing-mode: vertical-rl; transform: rotate(180deg); }
+
+  @media (max-width: 600px) {
+    h1 { font-size: 22px; }
+    h2 { font-size: 18px; }
+    .btn-lg { font-size: 16px; padding: 12px 24px; }
+    #header-title { font-size: 15px; }
+    .tab-btn { padding: 8px 12px; font-size: 13px; }
+  }
+.lang-switch { color: var(--gold); border: 1px solid var(--gold); border-radius: 20px; padding: 4px 12px; font-size: 14px; text-decoration: none; white-space: nowrap; transition: background 0.2s; }
+.lang-switch:hover { background: rgba(255,215,0,0.15); }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div id="header">
+  <div id="header-title">חוקי ניוטון: הרפתקת פיזיקה! 🚀</div>
+  <div id="score-display">
+    <div id="stars-display">&#9734;&#9734;&#9734;&#9734;&#9734;</div>
+    <div id="score-text">ניקוד: 0 / 800</div>
+    <div id="progress-dots">
+      <div class="dot" id="dot-law1" title="חוק 1: אינרציה"></div>
+      <div class="dot" id="dot-law2" title="חוק 2: כוח=מסה×תאוצה"></div>
+      <div class="dot" id="dot-law3" title="חוק 3: פעולה/תגובה"></div>
+      <div class="dot" id="dot-quiz" title="חידון"></div>
+    </div>
+  </div>
+  <div id="progress-bar-wrap" style="flex-basis:100%"><div id="progress-bar"></div></div>
+  <a href="index.html" class="lang-switch">🇺🇸 English</a>
+</div>
+
+<!-- NAV TABS -->
+<div id="nav-tabs">
+  <button class="tab-btn active" data-tab="home">&#127968; בית</button>
+  <button class="tab-btn" data-tab="law1">&#128309; חוק 1</button>
+  <button class="tab-btn" data-tab="law2">&#128992; חוק 2</button>
+  <button class="tab-btn" data-tab="law3">&#128995; חוק 3</button>
+  <button class="tab-btn" data-tab="quiz">&#10067; חידון</button>
+</div>
+
+<div id="main">
+
+  <!-- ======== HOME ======== -->
+  <div class="section active" id="sec-home">
+    <div class="card card-home">
+      <h1>ברוכים הבאים לעולם הפיזיקה! 🎉</h1>
+      <p>גלו את חוקי ניוטון - שלושה חוקים שמסבירים כיצד הכל נע ביקום!</p>
+      <p>יצחק ניוטון גילה שלושה כללים מדהימים שמסבירים כיצד הכל ביקום נע — מדיסקי הוקי ועד רקטות ועד חגורות בטיחות. החוקים האלה נמצאים בכל מקום!</p>
+      <p>חקרו כל חוק, בצעו ניסויים, והוכיחו שאתם אלופי פיזיקה על ידי פתרון החידון!</p>
+    </div>
+
+    <div class="home-grid">
+      <div class="home-law-card home-card-1" onclick="switchTab('law1')">
+        <h3>&#128309; חוק 1</h3>
+        <h3>אינרציה</h3>
+        <p>גוף שנע ממשיך לנוע. גוף במנוחה נשאר במנוחה!</p>
+        <div id="home-done-1" style="display:none"><span class="done-badge">&#10003; הושלם!</span></div>
+      </div>
+      <div class="home-law-card home-card-2" onclick="switchTab('law2')">
+        <h3>&#128992; חוק 2</h3>
+        <h3>כוח = מסה &times; תאוצה</h3>
+        <p>דחיפה חזקה יותר = תאוצה גדולה יותר. כבד יותר = צריך יותר כוח!</p>
+        <div id="home-done-2" style="display:none"><span class="done-badge">&#10003; הושלם!</span></div>
+      </div>
+      <div class="home-law-card home-card-3" onclick="switchTab('law3')">
+        <h3>&#128995; חוק 3</h3>
+        <h3>פעולה &amp; תגובה</h3>
+        <p>לכל פעולה יש תגובה שווה ומנוגדת!</p>
+        <div id="home-done-3" style="display:none"><span class="done-badge">&#10003; הושלם!</span></div>
+      </div>
+      <div class="home-law-card home-card-quiz" onclick="switchTab('quiz')">
+        <h3>&#10067; חידון</h3>
+        <h3>בחן את עצמך!</h3>
+        <p>5 שאלות. עד 200 נקודות. מוכנים?</p>
+        <div id="home-done-quiz" style="display:none"><span class="done-badge">&#10003; הושלם!</span></div>
+      </div>
+    </div>
+
+    <div class="card" id="completion-screen" style="display:none">
+      <div class="trophy-heading">&#127942; אלוף הפיזיקה! &#127942;</div>
+      <div class="stars-big" id="final-stars">&#11088;&#11088;&#11088;&#11088;&#11088;</div>
+      <div class="final-score" id="final-score-display">0 / 800</div>
+      <p style="font-size:18px; color:#ccc; margin-bottom:20px;">סיימת את כל הניסויים ועברת את החידון!</p>
+      <p style="font-size:16px; color:var(--gold); margin-bottom:10px;">הניקוד הסופי שלך: <span id="final-score-display-2"></span> מתוך 800</p>
+      <p style="font-size:18px; color:#ccc; margin-bottom:20px;">תעודת אלוף פיזיקה — שלטת בשלושת חוקי ניוטון!</p>
+      <div class="law-summaries">
+        <div class="law-summary-card hl-law1">
+          <strong>&#128309; חוק 1 — אינרציה:</strong><br>
+          גוף ממשיך לעשות מה שהוא עושה אלא אם כן כוח פועל עליו. לכן חגורות הבטיחות מצילות חיים!
+        </div>
+        <div class="law-summary-card hl-law2">
+          <strong>&#128992; חוק 2 — כוח=מסה&times;תאוצה:</strong><br>
+          כוח שווה מסה כפול תאוצה. דחפו חזק יותר או הפחיתו מסה כדי להאיץ מהר יותר!
+        </div>
+        <div class="law-summary-card hl-law3">
+          <strong>&#128995; חוק 3 — פעולה/תגובה:</strong><br>
+          לכל דחיפה יש דחיפה חזרה שווה בכיוון הנגדי. כך רקטות עפות!
+        </div>
+      </div>
+      <button class="btn btn-gold btn-lg" onclick="resetGame()">שחק שוב! &#128260;</button>
+    </div>
+  </div>
+
+  <!-- ======== LAW 1 ======== -->
+  <div class="section" id="sec-law1">
+    <div class="card card-law1">
+      <h1>&#128309; חוק 1: חוק האינרציה</h1>
+      <div class="highlight-box hl-law1">
+        "גוף שנמצא במנוחה ישאר במנוחה, וגוף שנע ימשיך לנוע באותה מהירות — אלא אם כן כוח כלשהו פועל עליו! &#127944;"
+      </div>
+      <p>זה נקרא <strong>אינרציה</strong> — הנטייה של גופים להתנגד לשינויים בתנועתם.</p>
+      <p>דוגמאות מהחיים:</p>
+      <ul class="examples-list">
+        <li><strong>חגורת בטיחות ברכב:</strong> כשרכב עוצר פתאום, הגוף שלך ממשיך לנוע קדימה. חגורת הבטיחות היא הכוח שעוצר אותך!</li>
+        <li><strong>דיסק הוקי על קרח:</strong> על קרח חלק, הדיסק מחליק מרחק רב מאוד כי כמעט אין חיכוך שמאט אותו.</li>
+        <li><strong>חללית שדואה בחלל:</strong> ללא חיכוך אוויר בחלל, חללית שנזרקת קדימה דואה לנצח אלא אם מנועים נדלקים!</li>
+        <li><strong>טריק מפת השולחן:</strong> משיכת מפה מהירה מותירה את הכלים במקום בגלל האינרציה שלהם!</li>
+      </ul>
+    </div>
+
+    <!-- Game 1A: Surface Slide -->
+    <div class="card card-law1">
+      <h2>&#127918; ניסוי: החלקה על משטחים שונים</h2>
+      <p>בעטו בדיסק על משטחים שונים. שימו לב כיצד החיכוך משנה את המרחק שהוא עובר!</p>
+
+      <div class="btn-row" id="surface-btns">
+        <button class="surface-btn selected" data-surface="ice"   onclick="selectSurface('ice',this)">קרח ❄️ (&#956;=0.005)</button>
+        <button class="surface-btn"          data-surface="wood"  onclick="selectSurface('wood',this)">עץ 🪵 (&#956;=0.04)</button>
+        <button class="surface-btn"          data-surface="grass" onclick="selectSurface('grass',this)">דשא 🌱 (&#956;=0.09)</button>
+        <button class="surface-btn"          data-surface="sand"  onclick="selectSurface('sand',this)">חול 🏖️ (&#956;=0.15)</button>
+      </div>
+
+      <div class="canvas-wrap">
+        <canvas id="canvas-slide" width="780" height="180">הדפדפן שלך אינו תומך בקנבס. אנא השתמשו בדפדפן מודרני לצפייה בהנפשה.</canvas>
+      </div>
+
+      <div class="stat-grid">
+        <div class="stat-box">
+          <div class="stat-label">משטח:</div>
+          <div class="stat-value" id="slide-surface-name" style="color:var(--law1);font-size:16px">קרח</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">חיכוך (&#956;)</div>
+          <div class="stat-value" id="slide-friction-val" style="color:var(--law1)">0.005</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">מרחק:</div>
+          <div class="stat-value" id="slide-distance" style="color:var(--law1)">-- מ'</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">מהירות:</div>
+          <div class="stat-value" id="slide-speed" style="color:var(--law1)">0 מ'/ש'</div>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-law1 btn-lg" onclick="kickPuck()">בעיטה! 🦵</button>
+        <button class="btn btn-gray btn-sm" onclick="resetSlide()">אפס</button>
+        <span id="slide-pts-msg" style="color:var(--success);font-weight:700;font-size:16px;display:none">+100 נקודות!</span>
+      </div>
+    </div>
+
+    <!-- Game 1B: Space Drift -->
+    <div class="card card-law1">
+      <h2>&#127918; ניסוי: שייט בחלל</h2>
+      <p>הפעילו מנוע רקטה. הפעילו/כבו אטמוספרה. בחלל, שום דבר לא מאט אתכם!</p>
+
+      <div class="toggle-wrap">
+        <label class="toggle-switch">
+          <input type="checkbox" id="atmos-toggle" onchange="toggleAtmosphere()">
+          <span class="toggle-slider"></span>
+        </label>
+        <span class="atmosphere-status" id="atmos-label" style="color:#888">אטמוספרה: כבוי</span>
+      </div>
+
+      <div class="canvas-wrap">
+        <canvas id="canvas-space" width="780" height="200">הדפדפן שלך אינו תומך בקנבס. אנא השתמשו בדפדפן מודרני לצפייה בהנפשה.</canvas>
+      </div>
+
+      <div class="stat-grid">
+        <div class="stat-box">
+          <div class="stat-label">אטמוספרה:</div>
+          <div class="stat-value" id="space-atmos-status" style="color:#888;font-size:15px">כבוי</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">מהירות:</div>
+          <div class="stat-value" id="space-speed" style="color:var(--law1)">0 מ'/ש'</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">מרחק:</div>
+          <div class="stat-value" id="space-distance" style="color:var(--law1)">0 מ'</div>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-law1 btn-lg"
+          onmousedown="startThrust()" onmouseup="stopThrust()"
+          ontouchstart="startThrust()" ontouchend="stopThrust()">הפעל מנוע 🚀</button>
+        <button class="btn btn-gray btn-sm" onclick="resetSpace()">אפס</button>
+        <span id="space-pts-msg" style="color:var(--success);font-weight:700;font-size:16px;display:none">+100 נקודות!</span>
+      </div>
+      <p style="font-size:14px;color:var(--text-dim)">טיפ: הפעילו מנוע, ואז עצרו. כשהאטמוספרה כבויה, הרקטה דואה לנצח!</p>
+    </div>
+  </div>
+
+  <!-- ======== LAW 2 ======== -->
+  <div class="section" id="sec-law2">
+    <div class="card card-law2">
+      <h1>&#128992; חוק 2: כוח = מסה &times; תאוצה</h1>
+      <div class="highlight-box hl-law2">
+        "ככל שדוחפים חזק יותר, כך הגוף מאיץ מהר יותר! אבל גופים כבדים צריכים יותר כוח כדי לזוז. הנוסחה: תאוצה = כוח &divide; מסה &#128640;"
+      </div>
+      <p>משמעות הדבר: אם תדחפו עגלת קניות ורכב עם אותו כוח, העגלה תאיץ הרבה יותר כי היא קלה בהרבה.</p>
+      <ul class="examples-list">
+        <li><strong>כדור כדורגל לעומת כדור כדורת עם אותו כוח:</strong> בעטו בשניהם עם אותו כוח. הכדור הקל יעוף — הכדור הכבד יתגלגל לאט.</li>
+        <li><strong>עגלת קניות ריקה לעומת מלאה:</strong> אותה דחיפה, תוצאות שונות לחלוטין! הרכב כמעט לא יזוז.</li>
+        <li><strong>משאית ריקה לעומת טעונה:</strong> כדי להרים רקטה כבדה, צריך כוח עצום משריפת דלק!</li>
+      </ul>
+    </div>
+
+    <div class="card card-law2">
+      <h2>&#127918; ניסוי: מעבדת כוח ומסה</h2>
+      <p>שנו את הכוח והמסה וראו כיצד התאוצה משתנה. נסו את האובייקטים המוגדרים מראש!</p>
+
+      <div class="slider-row">
+        <span class="slider-label">כוח (ניוטון):</span>
+        <input type="range" class="slider-law2" id="force-slider" min="10" max="100" value="50" oninput="updateFMA()">
+        <span class="slider-val" id="force-val" style="color:var(--law2)">50 N</span>
+      </div>
+
+      <div class="slider-row">
+        <span class="slider-label">מסה (ק"ג):</span>
+        <input type="range" class="slider-law2" id="mass-slider" min="1" max="20" value="5" oninput="updateFMA()">
+        <span class="slider-val" id="mass-val" style="color:var(--law2)">5 ק"ג</span>
+      </div>
+
+      <div class="highlight-box hl-law2" style="text-align:center;font-size:20px;margin:14px 0;">
+        תאוצה = כוח &divide; מסה = <span id="fma-calc" style="color:var(--gold);font-size:24px;font-weight:900">10.0 מ'/ש'&sup2;</span>
+      </div>
+
+      <div class="btn-row">
+        <span style="font-size:14px;color:var(--text-dim);margin-right:4px">בחירה מהירה:</span>
+        <button class="btn btn-gray btn-sm" onclick="setPreset(0.45,'כדור כדורגל')">כדור כדורגל ⚽ (0.45 ק"ג)</button>
+        <button class="btn btn-gray btn-sm" onclick="setPreset(5,'קופסה')">קופסה 📦 (5 ק"ג)</button>
+        <button class="btn btn-gray btn-sm" onclick="setPreset(20,'סלע')">סלע 🪨 (20 ק"ג)</button>
+      </div>
+
+      <div class="canvas-wrap">
+        <canvas id="canvas-fma" width="780" height="180">הדפדפן שלך אינו תומך בקנבס. אנא השתמשו בדפדפן מודרני לצפייה בהנפשה.</canvas>
+      </div>
+
+      <div class="stat-grid">
+        <div class="stat-box">
+          <div class="stat-label">כוח</div>
+          <div class="stat-value" id="fma-f" style="color:var(--law2)">50 N</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">מסה</div>
+          <div class="stat-value" id="fma-m" style="color:var(--law2)">5 ק"ג</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">תאוצה</div>
+          <div class="stat-value" id="fma-a" style="color:var(--gold)">10.0 מ'/ש'&sup2;</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">עצם</div>
+          <div class="stat-value" id="fma-obj" style="color:var(--law2);font-size:14px">מותאם אישית</div>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-law2 btn-lg" onclick="launchFMA()">שגר! &#128640;</button>
+        <button class="btn btn-success btn-lg" onclick="raceMode()">מרוץ! &#127937;</button>
+        <button class="btn btn-gray btn-sm" onclick="resetFMA()">אפס</button>
+      </div>
+      <p style="font-size:14px;color:var(--text-dim)">מצב מרוץ משגר כדור כדורגל, קופסה וסלע בו-זמנית עם אותו כוח!</p>
+      <div style="margin-top:8px">
+        <span id="fma-pts-msg" style="color:var(--success);font-weight:700;font-size:16px;display:none">ניקוד!</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======== LAW 3 ======== -->
+  <div class="section" id="sec-law3">
+    <div class="card card-law3">
+      <h1>&#128995; חוק 3: פעולה ותגובה</h1>
+      <div class="highlight-box hl-law3">
+        "לכל פעולה יש תגובה שווה בגודלה ומנוגדת בכיוונה! כך טילים מתרוממים לאוויר! &#128640;"
+      </div>
+      <p>המילה המפתח היא <strong>שווה ומנוגד</strong>. הכוחות שווים בעוצמה, אך בכיוונים הפוכים!</p>
+      <ul class="examples-list">
+        <li><strong>מנוע סילון:</strong> המנועים דוחפים גזים חמים למטה — הגזים דוחפים את הרקטה למעלה!</li>
+        <li><strong>בלון שמשחרר אוויר:</strong> הבלון דוחף אוויר אחורה — האוויר דוחף את הבלון קדימה!</li>
+        <li><strong>שחיין שדוחף את הקיר:</strong> הידיים דוחפות מים אחורה — המים דוחפים את השחיין קדימה!</li>
+        <li><strong>קפיצה מסירה:</strong> אתם דוחפים את הסירה כשאתם קופצים — הסירה מתרחקת בכיוון ההפוך!</li>
+      </ul>
+    </div>
+
+    <!-- Game 3A: Balloon Rocket -->
+    <div class="card card-law3">
+      <h2>&#127918; ניסוי: רקטת בלון</h2>
+      <p>נפחו את הבלון יותר לכוח תגובה גדול יותר!</p>
+
+      <div class="slider-row">
+        <span class="slider-label">ניפוח:</span>
+        <input type="range" class="slider-law3" id="balloon-slider" min="10" max="100" value="60" oninput="updateBalloon()">
+        <span class="slider-val" id="balloon-val" style="color:var(--law3)">60%</span>
+      </div>
+
+      <div class="canvas-wrap">
+        <canvas id="canvas-balloon" width="780" height="190">הדפדפן שלך אינו תומך בקנבס. אנא השתמשו בדפדפן מודרני לצפייה בהנפשה.</canvas>
+      </div>
+
+      <div class="stat-grid">
+        <div class="stat-box">
+          <div class="stat-label">ניפוח</div>
+          <div class="stat-value" id="bal-inflation" style="color:var(--law3)">60%</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">כוח האוויר</div>
+          <div class="stat-value" id="bal-force" style="color:var(--law3)">60 N</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">מרחק:</div>
+          <div class="stat-value" id="bal-distance" style="color:var(--law3)">-- מ'</div>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-law3 btn-lg" onclick="releaseBalloon()">שחרר! &#128168;</button>
+        <button class="btn btn-gray btn-sm" onclick="resetBalloon()">אפס</button>
+        <span id="bal-pts-msg" style="color:var(--success);font-weight:700;font-size:16px;display:none">+100 נקודות!</span>
+      </div>
+      <p style="font-size:14px;color:var(--text-dim)">צפו בחצי הפעולה (אוויר ילך שמאלה) ותגובה (הבלון ילך ימינה)!</p>
+    </div>
+
+    <!-- Game 3B: Rocket Launch -->
+    <div class="card card-law3">
+      <h2>&#127918; ניסוי: שיגור רקטה</h2>
+      <p>שנו את עוצמת הדחף ושגרו את הרקטה! גזי הפליטה יורדים — הרקטה עולה!</p>
+
+      <div class="slider-row">
+        <span class="slider-label">כוח דחף:</span>
+        <input type="range" class="slider-law3" id="thrust-slider" min="20" max="100" value="60" oninput="updateThrust()">
+        <span class="slider-val" id="thrust-val" style="color:var(--law3)">60%</span>
+      </div>
+
+      <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:flex-start">
+        <div class="canvas-wrap" style="flex:1;min-width:240px">
+          <canvas id="canvas-rocket" width="380" height="300">הדפדפן שלך אינו תומך בקנבס. אנא השתמשו בדפדפן מודרני לצפייה בהנפשה.</canvas>
+        </div>
+        <div style="flex:0 0 auto;padding-top:4px">
+          <div style="margin-bottom:8px;font-size:14px;color:var(--text-dim)">גובה</div>
+          <div class="altitude-wrap">
+            <div class="altitude-bar-outer">
+              <div class="altitude-bar-inner" id="altitude-bar" style="height:0%"></div>
+            </div>
+          </div>
+          <div style="margin-top:6px;font-size:18px;font-weight:700;color:var(--law3)" id="altitude-text">0 מ'</div>
+        </div>
+      </div>
+
+      <div class="stat-grid">
+        <div class="stat-box">
+          <div class="stat-label">כוח דחף</div>
+          <div class="stat-value" id="rocket-thrust" style="color:var(--law3)">60%</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">גובה:</div>
+          <div class="stat-value" id="rocket-altitude" style="color:var(--law3)">0 מ'</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">מהירות:</div>
+          <div class="stat-value" id="rocket-speed" style="color:var(--law3)">0 מ'/ש'</div>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-law3 btn-lg" onclick="launchRocket()">שגר! &#128640;</button>
+        <button class="btn btn-gray btn-sm" onclick="resetRocket()">אפס</button>
+        <span id="rocket-pts-msg" style="color:var(--success);font-weight:700;font-size:16px;display:none">+100 נקודות!</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======== QUIZ ======== -->
+  <div class="section" id="sec-quiz">
+    <div class="card card-quiz">
+      <h1>&#10067; חידון: בחן את עצמך!</h1>
+      <p>ענה על 5 שאלות וגלה עד כמה אתה מומחה פיזיקה! 5 שאלות, 40 נקודות כל אחת. בהצלחה!</p>
+    </div>
+
+    <div id="quiz-questions"></div>
+
+    <div id="quiz-submit-area" style="text-align:center;margin:20px 0;">
+      <button class="btn btn-gold btn-lg" onclick="submitQuiz()" id="quiz-submit-btn">שלח תשובות! &#10003;</button>
+    </div>
+
+    <div id="quiz-result" style="display:none" class="card card-quiz">
+      <h2 id="quiz-result-heading">תוצאות החידון</h2>
+      <p id="quiz-result-msg"></p>
+      <div class="btn-row" style="justify-content:center;margin-top:16px">
+        <button class="btn btn-gold"    onclick="retakeQuiz()">שחק שוב &#128260;</button>
+        <button class="btn btn-success" onclick="switchTab('home')">חזרה לבית &#127968;</button>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end #main -->
+
+<div id="notif">+100 נקודות!</div>
+
+<script>
+// ================================================================
+//  STATE
+// ================================================================
+var state = {
+  score: 0,
+  law1done: false,
+  law2done: false,
+  law3done: false,
+  quizDone: false,
+  currentTab: 'home',
+  slide1aKicked: false,
+  space1bFired: false,
+  fmaLaunches: 0,
+  fmaTotalPts: 0,
+  bal3aDone: false,
+  rocket3bDone: false,
+  quizSubmitted: false
+};
+
+// ================================================================
+//  SCORE & UI
+// ================================================================
+function addScore(pts) {
+  state.score = Math.min(800, state.score + pts);
+  updateScoreDisplay();
+  showNotif('+' + pts + ' נקודות!');
+  checkCompletion();
+}
+
+function updateScoreDisplay() {
+  document.getElementById('score-text').textContent = 'ניקוד: ' + state.score + ' / 800';
+  var pct = (state.score / 800) * 100;
+  document.getElementById('progress-bar').style.width = pct + '%';
+  var thresholds = [100, 250, 450, 600, 750];
+  var stars = 0;
+  for (var i = 0; i < thresholds.length; i++) {
+    if (state.score >= thresholds[i]) stars++;
+  }
+  var full = '\u2B50', empty = '\u2606';
+  document.getElementById('stars-display').textContent = full.repeat(stars) + empty.repeat(5 - stars);
+}
+
+var notifTimer = null;
+function showNotif(msg) {
+  var n = document.getElementById('notif');
+  n.textContent = msg;
+  n.classList.add('show');
+  clearTimeout(notifTimer);
+  notifTimer = setTimeout(function() { n.classList.remove('show'); }, 2400);
+}
+
+function updateDot(id, done) {
+  var dot = document.getElementById('dot-' + id);
+  if (done) dot.classList.add('done');
+  else dot.classList.remove('done');
+}
+
+function checkLaw1Done() {
+  if (state.slide1aKicked && state.space1bFired && !state.law1done) {
+    state.law1done = true;
+    updateDot('law1', true);
+    document.getElementById('home-done-1').style.display = 'block';
+    showNotif('חוק 1 הושלם! כל הכבוד!');
+    checkCompletion();
+  }
+}
+
+function checkLaw2Done() {
+  if (state.fmaLaunches >= 3 && !state.law2done) {
+    state.law2done = true;
+    updateDot('law2', true);
+    document.getElementById('home-done-2').style.display = 'block';
+    showNotif('חוק 2 הושלם!');
+    checkCompletion();
+  }
+}
+
+function checkLaw3Done() {
+  if (state.bal3aDone && state.rocket3bDone && !state.law3done) {
+    state.law3done = true;
+    updateDot('law3', true);
+    document.getElementById('home-done-3').style.display = 'block';
+    showNotif('חוק 3 הושלם!');
+    checkCompletion();
+  }
+}
+
+function checkCompletion() {
+  if (state.law1done && state.law2done && state.law3done && state.quizDone) {
+    setTimeout(function() {
+      switchTab('home');
+      document.getElementById('completion-screen').style.display = 'block';
+      var s = document.getElementById('stars-display').textContent;
+      document.getElementById('final-stars').textContent = s;
+      document.getElementById('final-score-display').textContent = state.score + ' / 800';
+      var s2 = document.getElementById('final-score-display-2');
+      if (s2) s2.textContent = state.score;
+    }, 600);
+  }
+}
+
+function resetGame() {
+  state.score = 0;
+  state.law1done = false;
+  state.law2done = false;
+  state.law3done = false;
+  state.quizDone = false;
+  state.slide1aKicked = false;
+  state.space1bFired = false;
+  state.fmaLaunches = 0;
+  state.fmaTotalPts = 0;
+  state.bal3aDone = false;
+  state.rocket3bDone = false;
+  state.quizSubmitted = false;
+  updateScoreDisplay();
+  ['law1','law2','law3','quiz'].forEach(function(k) { updateDot(k, false); });
+  ['home-done-1','home-done-2','home-done-3','home-done-quiz'].forEach(function(id) {
+    document.getElementById(id).style.display = 'none';
+  });
+  document.getElementById('completion-screen').style.display = 'none';
+  ['slide-pts-msg','space-pts-msg','fma-pts-msg','bal-pts-msg','rocket-pts-msg'].forEach(function(id) {
+    document.getElementById(id).style.display = 'none';
+  });
+  currentSurface = 'ice';
+  document.querySelectorAll('.surface-btn').forEach(function(b) { b.classList.remove('selected'); });
+  document.querySelector('.surface-btn[data-surface="ice"]').classList.add('selected');
+  document.getElementById('slide-surface-name').textContent = 'קרח';
+  document.getElementById('slide-friction-val').textContent = '0.005';
+  resetSlide();
+  document.getElementById('atmos-toggle').checked = false;
+  toggleAtmosphere();
+  resetSpace();
+  resetFMA();
+  updateFMA();
+  resetBalloon();
+  updateBalloon();
+  resetRocket();
+  updateThrust();
+  buildQuiz();
+  switchTab('home');
+}
+
+// ================================================================
+//  STOP ALL ANIMATION LOOPS
+// ================================================================
+function stopAllAnimations() {
+  cancelAnimationFrame(slideState.raf);   slideState.running  = false;
+  cancelAnimationFrame(spaceState.raf);   spaceState.running  = false; spaceState.thrusting = false;
+  cancelAnimationFrame(fmaState.raf);     fmaState.running    = false;
+  cancelAnimationFrame(balloonState.raf); balloonState.running = false;
+  cancelAnimationFrame(rocketState.raf);  rocketState.running  = false;
+}
+
+// ================================================================
+//  TAB NAVIGATION
+// ================================================================
+function switchTab(tab) {
+  stopAllAnimations();
+  state.currentTab = tab;
+  document.querySelectorAll('.section').forEach(function(s) { s.classList.remove('active'); });
+  document.querySelectorAll('.tab-btn').forEach(function(b) {
+    b.classList.toggle('active', b.dataset.tab === tab);
+  });
+  var secMap = { home:'sec-home', law1:'sec-law1', law2:'sec-law2', law3:'sec-law3', quiz:'sec-quiz' };
+  document.getElementById(secMap[tab]).classList.add('active');
+  window.scrollTo(0, 0);
+  if (tab === 'law1') { setTimeout(function(){ drawSlideCanvas(); drawSpaceCanvas(); }, 50); }
+  if (tab === 'law2') { setTimeout(function(){ drawFMACanvas(); }, 50); }
+  if (tab === 'law3') { setTimeout(function(){ drawBalloonCanvas(); drawRocketCanvas(); }, 50); }
+}
+
+document.querySelectorAll('.tab-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() { switchTab(btn.dataset.tab); });
+});
+
+// ================================================================
+//  LAW 1A — SURFACE SLIDE
+// ================================================================
+var SURFACES = {
+  ice:   { name:'קרח',  mu:0.005, color:'#a8e8ff', emoji:'קרח' },
+  wood:  { name:'עץ',   mu:0.04,  color:'#c8a060', emoji:'עץ' },
+  grass: { name:'דשא',  mu:0.09,  color:'#5ab040', emoji:'דשא' },
+  sand:  { name:'חול',  mu:0.15,  color:'#d4b870', emoji:'חול' }
+};
+
+var currentSurface = 'ice';
+var slideState = { x:60, vx:0, running:false, puckR:18, startX:60, raf:null };
+
+function selectSurface(surf, btn) {
+  currentSurface = surf;
+  document.querySelectorAll('.surface-btn').forEach(function(b) { b.classList.remove('selected'); });
+  btn.classList.add('selected');
+  var s = SURFACES[surf];
+  document.getElementById('slide-surface-name').textContent = s.name;
+  document.getElementById('slide-friction-val').textContent = s.mu;
+  resetSlide();
+}
+
+function drawSlideCanvas() {
+  var cvs = document.getElementById('canvas-slide');
+  if (!cvs) return;
+  var ctx = cvs.getContext('2d');
+  var W = cvs.width, H = cvs.height;
+  var s = SURFACES[currentSurface];
+
+  ctx.clearRect(0, 0, W, H);
+
+  // Sky
+  var sky = ctx.createLinearGradient(0, 0, 0, H * 0.55);
+  sky.addColorStop(0, '#080818');
+  sky.addColorStop(1, '#101828');
+  ctx.fillStyle = sky;
+  ctx.fillRect(0, 0, W, H * 0.55);
+
+  // Ground
+  ctx.fillStyle = s.color;
+  ctx.fillRect(0, H * 0.55, W, H * 0.45);
+
+  // Texture
+  ctx.strokeStyle = 'rgba(0,0,0,0.12)';
+  ctx.lineWidth = 1;
+  for (var x = 0; x < W; x += 36) {
+    ctx.beginPath(); ctx.moveTo(x, H * 0.55); ctx.lineTo(x, H); ctx.stroke();
+  }
+
+  // Label
+  ctx.fillStyle = 'rgba(0,0,0,0.55)';
+  ctx.fillRect(W - 160, H * 0.56, 152, 28);
+  ctx.fillStyle = '#fff';
+  ctx.font = 'bold 13px Arial, sans-serif';
+  ctx.textAlign = 'right';
+  ctx.fillText('חיכוך: ' + s.mu + '  ' + s.name, W - 12, H * 0.56 + 19);
+  ctx.textAlign = 'left';
+
+  // Puck
+  var px = slideState.x;
+  var py = Math.floor(H * 0.55) - slideState.puckR;
+
+  ctx.shadowColor = 'rgba(0,201,255,0.6)';
+  ctx.shadowBlur = 12;
+  ctx.beginPath();
+  ctx.arc(px, py, slideState.puckR, 0, Math.PI * 2);
+  ctx.fillStyle = '#00C9FF';
+  ctx.fill();
+  ctx.strokeStyle = '#fff';
+  ctx.lineWidth = 2;
+  ctx.stroke();
+  ctx.shadowBlur = 0;
+
+  ctx.beginPath();
+  ctx.arc(px, py, 5, 0, Math.PI * 2);
+  ctx.fillStyle = '#fff';
+  ctx.fill();
+
+  // Velocity arrow
+  if (slideState.vx > 0.5) {
+    var arrLen = Math.min(slideState.vx * 4, 80);
+    ctx.strokeStyle = '#FFD700';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(px + slideState.puckR + 3, py);
+    ctx.lineTo(px + slideState.puckR + arrLen, py);
+    ctx.stroke();
+    ctx.fillStyle = '#FFD700';
+    ctx.beginPath();
+    ctx.moveTo(px + slideState.puckR + arrLen + 8, py);
+    ctx.lineTo(px + slideState.puckR + arrLen, py - 6);
+    ctx.lineTo(px + slideState.puckR + arrLen, py + 6);
+    ctx.fill();
+  }
+}
+
+function kickPuck() {
+  if (slideState.running) return;
+  cancelAnimationFrame(slideState.raf);
+  slideState.x = 60;
+  slideState.vx = 13;
+  slideState.running = true;
+  slideState.startX = 60;
+  document.getElementById('slide-distance').textContent = '-- מ\'';
+  document.getElementById('slide-speed').textContent = '0 מ\'/ש\'';
+  animateSlide();
+}
+
+function animateSlide() {
+  var cvs = document.getElementById('canvas-slide');
+  if (!cvs || !slideState.running) { slideState.running = false; return; }
+  var W = cvs.width;
+  var mu = SURFACES[currentSurface].mu;
+  var decel = mu * 9.8;
+
+  slideState.vx = Math.max(0, slideState.vx - decel * 0.055);
+  slideState.x += slideState.vx * 1.1;
+
+  var pixelsPerMeter = (W - 90) / 10;
+  var distMeters = (slideState.x - slideState.startX) / pixelsPerMeter;
+
+  document.getElementById('slide-speed').textContent = (slideState.vx * 0.65).toFixed(1) + ' מ\'/ש\'';
+  document.getElementById('slide-distance').textContent = distMeters.toFixed(1) + ' מ\'';
+
+  drawSlideCanvas();
+
+  if (slideState.running && slideState.vx > 0.05 && slideState.x < W - 30) {
+    slideState.raf = requestAnimationFrame(animateSlide);
+  } else {
+    slideState.running = false;
+    slideState.vx = 0;
+    drawSlideCanvas();
+    if (!state.slide1aKicked) {
+      state.slide1aKicked = true;
+      addScore(100);
+      document.getElementById('slide-pts-msg').style.display = 'inline';
+      checkLaw1Done();
+    }
+  }
+}
+
+function resetSlide() {
+  cancelAnimationFrame(slideState.raf);
+  slideState.x = 60;
+  slideState.vx = 0;
+  slideState.running = false;
+  document.getElementById('slide-speed').textContent = '0 מ\'/ש\'';
+  document.getElementById('slide-distance').textContent = '-- מ\'';
+  drawSlideCanvas();
+}
+
+// ================================================================
+//  LAW 1B — SPACE DRIFT
+// ================================================================
+var spaceState = {
+  x: 80, y: 100, vx: 0,
+  thrusting: false,
+  atmosphere: false,
+  running: false,
+  distance: 0,
+  raf: null,
+  particles: [],
+  frameCount: 0   /* used to auto-stop very long runs */
+};
+
+function toggleAtmosphere() {
+  spaceState.atmosphere = document.getElementById('atmos-toggle').checked;
+  var label  = document.getElementById('atmos-label');
+  var status = document.getElementById('space-atmos-status');
+  if (spaceState.atmosphere) {
+    label.textContent  = 'אטמוספרה: פועל';
+    label.style.color  = '#4CAF50';
+    status.textContent = 'פועל';
+    status.style.color = '#4CAF50';
+  } else {
+    label.textContent  = 'אטמוספרה: כבוי';
+    label.style.color  = '#888';
+    status.textContent = 'כבוי';
+    status.style.color = '#888';
+  }
+  drawSpaceCanvas();
+}
+
+function startThrust() {
+  spaceState.thrusting = true;
+  if (!spaceState.running) {
+    spaceState.running  = true;
+    spaceState.frameCount = 0;
+    animateSpace();
+  }
+}
+function stopThrust() { spaceState.thrusting = false; }
+
+var STAR_POS = [];
+(function() {
+  var seed = [13,47,71,103,157,211,263,311,367,421,479,523,577,631,683,739,797,853,907,967];
+  seed.forEach(function(s, i) {
+    STAR_POS.push({ x: (s*53 + i*137) % 780, y: (s*31 + i*97) % 200, r: (i % 3)*0.5 + 0.7 });
+  });
+})();
+
+function drawSpaceCanvas() {
+  var cvs = document.getElementById('canvas-space');
+  if (!cvs) return;
+  var ctx = cvs.getContext('2d');
+  var W = cvs.width, H = cvs.height;
+  ctx.clearRect(0, 0, W, H);
+
+  if (spaceState.atmosphere) {
+    var sg = ctx.createLinearGradient(0, 0, 0, H);
+    sg.addColorStop(0, '#001535');
+    sg.addColorStop(1, '#003060');
+    ctx.fillStyle = sg;
+  } else {
+    ctx.fillStyle = '#000510';
+  }
+  ctx.fillRect(0, 0, W, H);
+
+  ctx.fillStyle = 'rgba(255,255,255,0.75)';
+  STAR_POS.forEach(function(st) {
+    ctx.beginPath();
+    ctx.arc(st.x, st.y, st.r, 0, Math.PI * 2);
+    ctx.fill();
+  });
+
+  if (spaceState.atmosphere) {
+    ctx.fillStyle = 'rgba(0,160,255,0.07)';
+    ctx.fillRect(0, 0, W, H);
+    ctx.fillStyle = 'rgba(100,200,255,0.4)';
+    ctx.font = 'bold 13px Arial, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('התנגדות אוויר פעילה — הרקטה תאט', W/2, 20);
+    ctx.textAlign = 'left';
+  } else {
+    ctx.fillStyle = 'rgba(0,201,255,0.4)';
+    ctx.font = 'bold 13px Arial, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('ואקום חלל — אפס גרר! הרקטה דואה לנצח.', W/2, 20);
+    ctx.textAlign = 'left';
+  }
+
+  // Particles
+  spaceState.particles.forEach(function(p) {
+    ctx.globalAlpha = p.life;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+    ctx.fillStyle = p.color;
+    ctx.fill();
+  });
+  ctx.globalAlpha = 1;
+
+  // Rocket
+  var rx = spaceState.x, ry = spaceState.y;
+
+  ctx.fillStyle = '#ccccdd';
+  ctx.fillRect(rx-12, ry-20, 24, 38);
+  ctx.fillStyle = '#ddddef';
+  ctx.beginPath();
+  ctx.moveTo(rx, ry-36);
+  ctx.lineTo(rx-12, ry-20);
+  ctx.lineTo(rx+12, ry-20);
+  ctx.closePath();
+  ctx.fill();
+  ctx.fillStyle = '#00C9FF';
+  ctx.beginPath();
+  ctx.arc(rx, ry-6, 6, 0, Math.PI*2);
+  ctx.fill();
+  ctx.strokeStyle = '#fff';
+  ctx.lineWidth = 1.5;
+  ctx.stroke();
+  ctx.fillStyle = '#FF6B35';
+  ctx.beginPath();
+  ctx.moveTo(rx-12, ry+12); ctx.lineTo(rx-22, ry+26); ctx.lineTo(rx-12, ry+18); ctx.fill();
+  ctx.beginPath();
+  ctx.moveTo(rx+12, ry+12); ctx.lineTo(rx+22, ry+26); ctx.lineTo(rx+12, ry+18); ctx.fill();
+
+  if (spaceState.thrusting) {
+    ctx.fillStyle = '#FF6B35';
+    ctx.beginPath();
+    ctx.moveTo(rx-8, ry+18);
+    ctx.lineTo(rx, ry+34 + Math.random()*12);
+    ctx.lineTo(rx+8, ry+18);
+    ctx.closePath();
+    ctx.fill();
+    ctx.fillStyle = '#FFD700';
+    ctx.beginPath();
+    ctx.moveTo(rx-4, ry+18);
+    ctx.lineTo(rx, ry+25 + Math.random()*8);
+    ctx.lineTo(rx+4, ry+18);
+    ctx.closePath();
+    ctx.fill();
+  }
+
+  if (spaceState.vx > 0.4) {
+    var alen = Math.min(spaceState.vx * 5, 90);
+    ctx.strokeStyle = '#FFD700';
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    ctx.moveTo(rx+22, ry); ctx.lineTo(rx+22+alen, ry); ctx.stroke();
+    ctx.fillStyle = '#FFD700';
+    ctx.beginPath();
+    ctx.moveTo(rx+22+alen+8, ry);
+    ctx.lineTo(rx+22+alen, ry-5);
+    ctx.lineTo(rx+22+alen, ry+5);
+    ctx.fill();
+  }
+}
+
+function animateSpace() {
+  var cvs = document.getElementById('canvas-space');
+  if (!cvs || !spaceState.running) { spaceState.running = false; return; }
+  var W = cvs.width;
+
+  if (spaceState.thrusting) {
+    spaceState.vx = Math.min(spaceState.vx + 0.38, 16);
+    for (var i = 0; i < 3; i++) {
+      spaceState.particles.push({
+        x: spaceState.x,
+        y: spaceState.y + 20 + Math.random()*8,
+        vx: -(Math.random()*2+1),
+        vy: (Math.random()-0.5)*0.8,
+        r: Math.random()*4+1,
+        life: 1,
+        color: ['#FF6B35','#FFD700','#ff9900'][Math.floor(Math.random()*3)]
+      });
+    }
+  }
+
+  if (spaceState.atmosphere) {
+    spaceState.vx = Math.max(0, spaceState.vx - 0.16);
+  }
+
+  spaceState.x += spaceState.vx * 0.5;
+  spaceState.distance += spaceState.vx * 0.5;
+  spaceState.frameCount++;
+
+  if (spaceState.x > W + 40) spaceState.x = -40;
+
+  spaceState.particles = spaceState.particles
+    .filter(function(p) { return p.life > 0; })
+    .map(function(p) { return { x:p.x+p.vx, y:p.y+p.vy, vx:p.vx, vy:p.vy, r:p.r, life:p.life-0.04, color:p.color }; });
+
+  document.getElementById('space-speed').textContent = (spaceState.vx * 0.6).toFixed(1) + ' מ\'/ש\'';
+  document.getElementById('space-distance').textContent = Math.round(spaceState.distance * 0.5) + ' מ\'';
+
+  drawSpaceCanvas();
+
+  if (!state.space1bFired && spaceState.distance > 60) {
+    state.space1bFired = true;
+    addScore(100);
+    document.getElementById('space-pts-msg').style.display = 'inline';
+    checkLaw1Done();
+  }
+
+  var shouldStop = (spaceState.atmosphere && !spaceState.thrusting && spaceState.vx < 0.05)
+                || (spaceState.frameCount > 3600);
+
+  if (spaceState.running && !shouldStop) {
+    spaceState.raf = requestAnimationFrame(animateSpace);
+  } else {
+    spaceState.running = false;
+    drawSpaceCanvas();
+  }
+}
+
+function resetSpace() {
+  cancelAnimationFrame(spaceState.raf);
+  spaceState.x = 80;
+  spaceState.y = 100;
+  spaceState.vx = 0;
+  spaceState.thrusting = false;
+  spaceState.running = false;
+  spaceState.distance = 0;
+  spaceState.particles = [];
+  spaceState.frameCount = 0;
+  document.getElementById('space-speed').textContent = '0 מ\'/ש\'';
+  document.getElementById('space-distance').textContent = '0 מ\'';
+  drawSpaceCanvas();
+}
+
+// ================================================================
+//  LAW 2 — F=ma
+// ================================================================
+var fmaState = { objects:[], running:false, raf:null, currentObjName:'מותאם אישית' };
+var fmaForce = 50, fmaMass = 5;
+
+function updateFMA() {
+  fmaForce = parseInt(document.getElementById('force-slider').value);
+  fmaMass  = parseFloat(document.getElementById('mass-slider').value);
+  var acc = (fmaForce / fmaMass).toFixed(1);
+  document.getElementById('force-val').textContent  = fmaForce + ' N';
+  document.getElementById('mass-val').textContent   = fmaMass + ' ק"ג';
+  document.getElementById('fma-calc').textContent   = acc + ' מ\'/ש\'\u00B2';
+  document.getElementById('fma-f').textContent      = fmaForce + ' N';
+  document.getElementById('fma-m').textContent      = fmaMass + ' ק"ג';
+  document.getElementById('fma-a').textContent      = acc + ' מ\'/ש\'\u00B2';
+}
+
+function setPreset(mass, name) {
+  fmaMass = mass;
+  document.getElementById('mass-slider').value = Math.min(20, Math.max(1, mass));
+  document.getElementById('fma-obj').textContent = name;
+  fmaState.currentObjName = name;
+  updateFMA();
+}
+
+function drawFMACanvas() {
+  var cvs = document.getElementById('canvas-fma');
+  if (!cvs) return;
+  var ctx = cvs.getContext('2d');
+  var W = cvs.width, H = cvs.height;
+  ctx.clearRect(0, 0, W, H);
+
+  ctx.fillStyle = '#080818';
+  ctx.fillRect(0, 0, W, H);
+
+  ctx.strokeStyle = '#334455';
+  ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.moveTo(0, H-30); ctx.lineTo(W, H-30); ctx.stroke();
+
+  ctx.strokeStyle = 'rgba(255,215,0,0.5)';
+  ctx.lineWidth = 2;
+  ctx.setLineDash([6,4]);
+  ctx.beginPath(); ctx.moveTo(W-30, 0); ctx.lineTo(W-30, H-30); ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle = '#FFD700';
+  ctx.font = 'bold 13px Arial, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('קו סיום', W-30, 18);
+  ctx.textAlign = 'left';
+
+  fmaState.objects.forEach(function(obj) {
+    var r  = Math.max(10, Math.min(34, 8 + obj.mass * 1.4));
+    var cy = H - 30 - r;
+    ctx.shadowColor = obj.color + '80';
+    ctx.shadowBlur  = 12;
+    ctx.beginPath();
+    ctx.arc(obj.x, cy, r, 0, Math.PI*2);
+    ctx.fillStyle = obj.color;
+    ctx.fill();
+    ctx.strokeStyle = '#fff';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+    ctx.shadowBlur = 0;
+    if (obj.label) {
+      ctx.fillStyle = '#fff';
+      ctx.font = 'bold ' + Math.max(12, r*0.75) + 'px Arial, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(obj.label, obj.x, cy + r*0.35);
+      ctx.textAlign = 'left';
+    }
+    ctx.fillStyle = obj.color;
+    ctx.font = '12px Arial, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText((obj.vx*0.35).toFixed(1)+' מ\'/ש\'', obj.x, cy - r - 5);
+    ctx.textAlign = 'left';
+  });
+}
+
+function launchFMA() {
+  if (fmaState.running) return;
+  cancelAnimationFrame(fmaState.raf);
+  var acc = fmaForce / fmaMass;
+  fmaState.objects = [{ x:40, mass:fmaMass, vx:0, acc:acc, color:'#FF6B35', label:'' }];
+  fmaState.running = true;
+  state.fmaLaunches++;
+  animateFMA(false);
+}
+
+function raceMode() {
+  if (fmaState.running) return;
+  var force = fmaForce;
+  var presets = [
+    { mass:0.45, label:'כדור', color:'#00C9FF' },
+    { mass:5,    label:'קופסה', color:'#FF6B35' },
+    { mass:20,   label:'סלע', color:'#7B2FBE' }
+  ];
+  fmaState.objects = presets.map(function(p) {
+    return { x:40, mass:p.mass, vx:0, acc:force/p.mass, color:p.color, label:p.label };
+  });
+  fmaState.running = true;
+  if (state.fmaLaunches < 3) state.fmaLaunches = 3;
+  animateFMA(true);
+}
+
+function animateFMA(isRace) {
+  var cvs = document.getElementById('canvas-fma');
+  if (!cvs || !fmaState.running) { fmaState.running = false; return; }
+  var W = cvs.width;
+  var allDone = true;
+
+  fmaState.objects = fmaState.objects.map(function(obj) {
+    if (obj.x < W - 30) {
+      allDone = false;
+      obj.vx = Math.min(obj.vx + obj.acc * 0.028, obj.acc * 4.5);
+      obj.x  += obj.vx * 0.45;
+    }
+    return obj;
+  });
+
+  drawFMACanvas();
+
+  if (!allDone && fmaState.running) {
+    fmaState.raf = requestAnimationFrame(function() { animateFMA(isRace); });
+  } else {
+    fmaState.running = false;
+    if (!state.law2done) {
+      var ptsToAdd = (state.fmaLaunches >= 3) ? 70 : (state.fmaLaunches === 2 ? 60 : 70);
+      if (state.fmaTotalPts < 200) {
+        var pts = Math.min(ptsToAdd, 200 - state.fmaTotalPts);
+        state.fmaTotalPts += pts;
+        addScore(pts);
+      }
+      var msg = document.getElementById('fma-pts-msg');
+      msg.style.display = 'inline';
+      msg.textContent   = state.fmaLaunches >= 3 ? 'מעולה! 3+ ניסויים הושלמו!' : state.fmaLaunches + '/3 ניסויים';
+      checkLaw2Done();
+    }
+  }
+}
+
+function resetFMA() {
+  cancelAnimationFrame(fmaState.raf);
+  fmaState.objects = [];
+  fmaState.running = false;
+  fmaState.currentObjName = 'מותאם אישית';
+  document.getElementById('fma-obj').textContent = 'מותאם אישית';
+  drawFMACanvas();
+}
+
+// ================================================================
+//  LAW 3A — BALLOON ROCKET
+// ================================================================
+var balloonState = { x:80, running:false, raf:null, vx:0, inflation:60, particles:[] };
+
+function updateBalloon() {
+  balloonState.inflation = parseInt(document.getElementById('balloon-slider').value);
+  document.getElementById('balloon-val').textContent  = balloonState.inflation + '%';
+  document.getElementById('bal-inflation').textContent = balloonState.inflation + '%';
+  document.getElementById('bal-force').textContent     = balloonState.inflation + ' N';
+  drawBalloonCanvas();
+}
+
+function drawBalloonCanvas() {
+  var cvs = document.getElementById('canvas-balloon');
+  if (!cvs) return;
+  var ctx = cvs.getContext('2d');
+  var W = cvs.width, H = cvs.height;
+  ctx.clearRect(0, 0, W, H);
+
+  ctx.fillStyle = '#080828';
+  ctx.fillRect(0, 0, W, H);
+
+  ctx.strokeStyle = '#445';
+  ctx.lineWidth = 3;
+  ctx.setLineDash([8,4]);
+  ctx.beginPath(); ctx.moveTo(20, H/2); ctx.lineTo(W-20, H/2); ctx.stroke();
+  ctx.setLineDash([]);
+
+  balloonState.particles.forEach(function(p) {
+    ctx.globalAlpha = p.life;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+    ctx.fillStyle = '#99ccff';
+    ctx.fill();
+    ctx.strokeStyle = '#99ccff';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(p.x, p.y);
+    ctx.lineTo(p.x + p.vx * 3, p.y);
+    ctx.stroke();
+  });
+  ctx.globalAlpha = 1;
+
+  var bx  = balloonState.x;
+  var by  = H / 2;
+  var inf = balloonState.inflation;
+  var bw  = 18 + inf * 0.48;
+  var bh  = 14 + inf * 0.38;
+
+  ctx.shadowColor = 'rgba(123,47,190,0.7)';
+  ctx.shadowBlur  = 16;
+  ctx.fillStyle   = '#7B2FBE';
+  ctx.beginPath();
+  ctx.ellipse(bx, by, bw, bh, 0, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.fillStyle = 'rgba(255,255,255,0.18)';
+  ctx.beginPath();
+  ctx.ellipse(bx - bw*0.22, by - bh*0.28, bw*0.33, bh*0.28, -0.4, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.shadowBlur = 0;
+  ctx.fillStyle  = '#5a1a8e';
+  ctx.beginPath(); ctx.arc(bx + bw, by, 5, 0, Math.PI*2); ctx.fill();
+  ctx.strokeStyle = '#aaa'; ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(bx + bw + 5, by);
+  ctx.lineTo(bx + bw + 14, by + 18);
+  ctx.stroke();
+
+  if (balloonState.running) {
+    var ax = bx + bw + 4;
+    var alen = 60;
+    // Action arrow (air left)
+    ctx.strokeStyle = '#ff4444'; ctx.lineWidth = 3;
+    ctx.beginPath(); ctx.moveTo(ax, by-28); ctx.lineTo(ax-alen, by-28); ctx.stroke();
+    ctx.fillStyle = '#ff4444';
+    ctx.beginPath();
+    ctx.moveTo(ax-alen-8, by-28); ctx.lineTo(ax-alen, by-34); ctx.lineTo(ax-alen, by-22); ctx.fill();
+    ctx.font = 'bold 12px Arial, sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText('פעולה: אוויר נדחף לאחור', ax-alen/2, by-36);
+    // Reaction arrow (balloon right)
+    ctx.strokeStyle = '#44ff88'; ctx.lineWidth = 3;
+    ctx.beginPath(); ctx.moveTo(bx, by+28); ctx.lineTo(bx+alen, by+28); ctx.stroke();
+    ctx.fillStyle = '#44ff88';
+    ctx.beginPath();
+    ctx.moveTo(bx+alen+8, by+28); ctx.lineTo(bx+alen, by+22); ctx.lineTo(bx+alen, by+34); ctx.fill();
+    ctx.fillText('תגובה: הבלון נע קדימה', bx+alen/2, by+44);
+    ctx.textAlign = 'left';
+  }
+}
+
+function releaseBalloon() {
+  if (balloonState.running) return;
+  balloonState.x   = 80;
+  balloonState.vx  = balloonState.inflation * 0.09 + 0.8;
+  balloonState.running  = true;
+  balloonState.particles = [];
+  animateBalloon();
+}
+
+function animateBalloon() {
+  var cvs = document.getElementById('canvas-balloon');
+  if (!cvs || !balloonState.running) { balloonState.running = false; return; }
+  var W  = cvs.width;
+  var bw = 18 + balloonState.inflation * 0.48;
+
+  balloonState.vx = Math.max(0, balloonState.vx - 0.018);
+  balloonState.x += balloonState.vx;
+
+  if (balloonState.vx > 0.3) {
+    for (var i = 0; i < 3; i++) {
+      balloonState.particles.push({
+        x: balloonState.x + bw,
+        y: cvs.height/2 + (Math.random()-0.5)*18,
+        vx: -(balloonState.vx*1.4 + Math.random()*2),
+        vy: (Math.random()-0.5)*0.5,
+        r: Math.random()*3+1,
+        life: 1
+      });
+    }
+  }
+
+  balloonState.particles = balloonState.particles
+    .filter(function(p) { return p.life > 0; })
+    .map(function(p) { return { x:p.x+p.vx, y:p.y+p.vy, vx:p.vx, vy:p.vy, r:p.r, life:p.life-0.024 }; });
+
+  var pixPerM = (W - 80) / 5;
+  var dist = (balloonState.x - 80) / pixPerM;
+  document.getElementById('bal-distance').textContent = dist.toFixed(1) + ' מ\'';
+
+  drawBalloonCanvas();
+
+  if (balloonState.running && balloonState.x < W - bw - 20 && balloonState.vx > 0.04) {
+    balloonState.raf = requestAnimationFrame(animateBalloon);
+  } else {
+    balloonState.running = false;
+    if (!state.bal3aDone) {
+      state.bal3aDone = true;
+      addScore(100);
+      document.getElementById('bal-pts-msg').style.display = 'inline';
+      checkLaw3Done();
+    }
+  }
+}
+
+function resetBalloon() {
+  cancelAnimationFrame(balloonState.raf);
+  balloonState.x = 80;
+  balloonState.vx = 0;
+  balloonState.running = false;
+  balloonState.particles = [];
+  document.getElementById('bal-distance').textContent = '-- מ\'';
+  drawBalloonCanvas();
+}
+
+// ================================================================
+//  LAW 3B — ROCKET LAUNCH
+// ================================================================
+var rocketState = {
+  y: 262, vy: 0, thrust: 60,
+  running: false, raf: null,
+  exhaustParticles: [],
+  fuelFrames: 0,
+  maxFuel: 0
+};
+
+function updateThrust() {
+  rocketState.thrust = parseInt(document.getElementById('thrust-slider').value);
+  document.getElementById('thrust-val').textContent    = rocketState.thrust + '%';
+  document.getElementById('rocket-thrust').textContent = rocketState.thrust + '%';
+  drawRocketCanvas();
+}
+
+function drawRocketCanvas() {
+  var cvs = document.getElementById('canvas-rocket');
+  if (!cvs) return;
+  var ctx = cvs.getContext('2d');
+  var W = cvs.width, H = cvs.height;
+  ctx.clearRect(0, 0, W, H);
+
+  var grad = ctx.createLinearGradient(0, 0, 0, H);
+  grad.addColorStop(0, '#000010');
+  grad.addColorStop(0.65, '#0a0a30');
+  grad.addColorStop(1, '#1a2a10');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, W, H);
+
+  var RSTARS = [17,41,79,113,151,197,239,281,317,359,401];
+  ctx.fillStyle = 'rgba(255,255,255,0.85)';
+  RSTARS.forEach(function(s, i) {
+    var sx = (s*29 + i*53) % W;
+    var sy = (s*37 + i*71) % (H*0.75);
+    ctx.beginPath(); ctx.arc(sx, sy, 1.1, 0, Math.PI*2); ctx.fill();
+  });
+
+  ctx.fillStyle = '#1a3010';
+  ctx.fillRect(0, H-18, W, 18);
+  ctx.fillStyle = '#253515';
+  ctx.fillRect(0, H-20, W, 4);
+
+  ctx.strokeStyle = 'rgba(123,47,190,0.25)';
+  ctx.lineWidth = 1;
+  ctx.setLineDash([4,6]);
+  for (var h = 40; h <= H-20; h += 50) {
+    ctx.beginPath(); ctx.moveTo(0, h); ctx.lineTo(W, h); ctx.stroke();
+    ctx.fillStyle = 'rgba(255,255,255,0.25)';
+    ctx.font = '10px Arial, sans-serif';
+    ctx.fillText(Math.round(((H-20-h)/(H-20))*100)+'מ\'', 4, h-2);
+  }
+  ctx.setLineDash([]);
+
+  // Exhaust particles
+  rocketState.exhaustParticles.forEach(function(p) {
+    ctx.globalAlpha = p.life * 0.8;
+    ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+    ctx.fillStyle = p.color; ctx.fill();
+  });
+  ctx.globalAlpha = 1;
+
+  var rx = W/2, ry = rocketState.y;
+  var groundY = H - 38;
+  var altPct = Math.max(0, Math.min(100, ((groundY - ry) / groundY) * 100));
+
+  // Exhaust flame (action — down, only while fuel remains)
+  if (rocketState.running && rocketState.vy < 0 && rocketState.fuelFrames > 0) {
+    var fLen = 18 + (rocketState.thrust/100)*38;
+    ctx.fillStyle = '#FF6B35';
+    ctx.beginPath();
+    ctx.moveTo(rx-10, ry+22);
+    ctx.lineTo(rx, ry+22+fLen + Math.random()*14);
+    ctx.lineTo(rx+10, ry+22);
+    ctx.closePath(); ctx.fill();
+    ctx.fillStyle = '#FFD700';
+    ctx.beginPath();
+    ctx.moveTo(rx-5, ry+22);
+    ctx.lineTo(rx, ry+22+fLen*0.6 + Math.random()*8);
+    ctx.lineTo(rx+5, ry+22);
+    ctx.closePath(); ctx.fill();
+
+    ctx.fillStyle = 'rgba(255,100,70,0.85)';
+    ctx.font = 'bold 11px Arial, sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText('פעולה: גזים לאחור', rx, ry+22+fLen+18);
+  }
+
+  // Rocket body
+  ctx.fillStyle = '#ccccdd';
+  ctx.fillRect(rx-13, ry-20, 26, 42);
+  ctx.fillStyle = '#ddddef';
+  ctx.beginPath();
+  ctx.moveTo(rx, ry-40); ctx.lineTo(rx-13, ry-20); ctx.lineTo(rx+13, ry-20);
+  ctx.closePath(); ctx.fill();
+  ctx.fillStyle = '#FF6B35';
+  ctx.beginPath(); ctx.arc(rx, ry-40, 5, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle = '#7B2FBE';
+  ctx.beginPath(); ctx.arc(rx, ry-6, 7, 0, Math.PI*2); ctx.fill();
+  ctx.strokeStyle = '#fff'; ctx.lineWidth = 1.5; ctx.stroke();
+  // stripes
+  ctx.fillStyle = '#FF6B35';
+  ctx.fillRect(rx-13, ry+4, 26, 5);
+  // fins
+  ctx.beginPath();
+  ctx.moveTo(rx-13, ry+8); ctx.lineTo(rx-23, ry+28); ctx.lineTo(rx-13, ry+22); ctx.fill();
+  ctx.beginPath();
+  ctx.moveTo(rx+13, ry+8); ctx.lineTo(rx+23, ry+28); ctx.lineTo(rx+13, ry+22); ctx.fill();
+
+  // Reaction arrow (up) — only while thrusting with fuel
+  if (rocketState.running && rocketState.vy < 0 && rocketState.fuelFrames > 0) {
+    ctx.strokeStyle = '#44ff88'; ctx.lineWidth = 3;
+    ctx.beginPath(); ctx.moveTo(rx+36, ry); ctx.lineTo(rx+36, ry-46); ctx.stroke();
+    ctx.fillStyle = '#44ff88';
+    ctx.beginPath();
+    ctx.moveTo(rx+36, ry-54); ctx.lineTo(rx+30, ry-46); ctx.lineTo(rx+42, ry-46); ctx.fill();
+    ctx.font = 'bold 10px Arial, sans-serif'; ctx.textAlign = 'left';
+    ctx.fillText('תגובה:', rx+42, ry-36);
+    ctx.fillText('רקטה למעלה!', rx+42, ry-23);
+  }
+
+  ctx.textAlign = 'left';
+
+  // Altitude bar update
+  document.getElementById('altitude-bar').style.height   = altPct + '%';
+  document.getElementById('altitude-text').textContent   = Math.round(altPct) + ' מ\'';
+  document.getElementById('rocket-altitude').textContent = Math.round(altPct) + ' מ\'';
+}
+
+function launchRocket() {
+  if (rocketState.running) return;
+  var cvs = document.getElementById('canvas-rocket');
+  var groundY = cvs ? cvs.height - 38 : 262;
+  rocketState.y  = groundY;
+  rocketState.vy = 0;
+  rocketState.running = true;
+  rocketState.exhaustParticles = [];
+  rocketState.maxFuel  = Math.round(60 + rocketState.thrust * 0.8);
+  rocketState.fuelFrames = rocketState.maxFuel;
+  animateRocket();
+}
+
+function animateRocket() {
+  var cvs = document.getElementById('canvas-rocket');
+  if (!cvs || !rocketState.running) { rocketState.running = false; return; }
+  var H = cvs.height;
+  var groundY = H - 38;
+
+  var hasFuel = rocketState.fuelFrames > 0;
+  if (hasFuel) rocketState.fuelFrames--;
+
+  var thrustF = hasFuel ? rocketState.thrust * 0.0085 : 0;
+  var gravity = 0.055;
+  rocketState.vy -= thrustF;
+  rocketState.vy += gravity;
+  rocketState.vy  = Math.max(rocketState.vy, -10);
+  rocketState.y  += rocketState.vy;
+  if (rocketState.y < 18) { rocketState.y = 18; rocketState.vy = 0; }
+
+  if (hasFuel && rocketState.vy < 0) {
+    for (var i = 0; i < 4; i++) {
+      rocketState.exhaustParticles.push({
+        x: cvs.width/2 + (Math.random()-0.5)*14,
+        y: rocketState.y + 24 + Math.random()*8,
+        vx: (Math.random()-0.5)*1.4,
+        vy: Math.random()*3 + 0.8,
+        r:  Math.random()*4 + 2,
+        life: 1,
+        color: ['#FF6B35','#FFD700','#ff3300'][Math.floor(Math.random()*3)]
+      });
+    }
+  }
+
+  rocketState.exhaustParticles = rocketState.exhaustParticles
+    .filter(function(p) { return p.life > 0; })
+    .map(function(p) { return { x:p.x+p.vx, y:p.y+p.vy, vx:p.vx, vy:p.vy, r:p.r, life:p.life-0.03, color:p.color }; });
+
+  document.getElementById('rocket-speed').textContent = Math.abs(rocketState.vy * 2).toFixed(1) + ' מ\'/ש\'';
+
+  drawRocketCanvas();
+
+  if (rocketState.y >= groundY) {
+    rocketState.running = false;
+    rocketState.y  = groundY;
+    rocketState.vy = 0;
+    drawRocketCanvas();
+    if (!state.rocket3bDone) {
+      state.rocket3bDone = true;
+      addScore(100);
+      document.getElementById('rocket-pts-msg').style.display = 'inline';
+      checkLaw3Done();
+    }
+    return;
+  }
+
+  if (rocketState.running) {
+    rocketState.raf = requestAnimationFrame(animateRocket);
+  }
+}
+
+function resetRocket() {
+  cancelAnimationFrame(rocketState.raf);
+  var cvs = document.getElementById('canvas-rocket');
+  rocketState.y  = cvs ? cvs.height - 38 : 262;
+  rocketState.vy = 0;
+  rocketState.running = false;
+  rocketState.exhaustParticles = [];
+  rocketState.fuelFrames = 0;
+  rocketState.maxFuel   = 0;
+  document.getElementById('altitude-bar').style.height   = '0%';
+  document.getElementById('altitude-text').textContent   = '0 מ\'';
+  document.getElementById('rocket-altitude').textContent = '0 מ\'';
+  document.getElementById('rocket-speed').textContent    = '0 מ\'/ש\'';
+  drawRocketCanvas();
+}
+
+// ================================================================
+//  QUIZ
+// ================================================================
+var QUIZ_DATA = [
+  {
+    q: "דיסק הוקי מחליק הרבה יותר רחוק על קרח מאשר על דשא. זה בגלל חוק ניוטון ה...?",
+    opts: ["הראשון (אינרציה) ✓", "השני (כוח=מסה×תאוצה)", "השלישי (פעולה/תגובה)", "חוק הכבידה"],
+    correct: 0,
+    exp: "החוק הראשון אומר שגופים ממשיכים לנוע אלא אם כן כוח עוצר אותם. לקרח יש חיכוך נמוך מאוד, ולכן הדיסק מחליק הרבה יותר רחוק!"
+  },
+  {
+    q: "בעטת בכדור כדורגל ובכדור כדורת עם אותו כוח. מי יגיע רחוק יותר?",
+    opts: ["כדור הכדורגל ✓", "כדור הכדורת", "שניהם אותו דבר", "אף אחד לא זז"],
+    correct: 0,
+    exp: "חוק שני: תאוצה = כוח ÷ מסה. עם אותו כוח, כדור הכדורגל הקל מקבל תאוצה גדולה בהרבה מאשר כדור הכדורת הכבד!"
+  },
+  {
+    q: "מנוע הרקטה דוחף גזים חמים כלפי מטה. מה קורה לרקטה?",
+    opts: ["היא עולה למעלה ✓", "היא יורדת למטה", "היא נשארת במקום", "היא מסתובבת"],
+    correct: 0,
+    exp: "חוק שלישי! הרקטה דוחפת גזים למטה (פעולה), אז הגזים דוחפים את הרקטה למעלה (תגובה) — כוח שווה, כיוון הפוך!"
+  },
+  {
+    q: "למה צריך חגורת בטיחות כשהרכב עוצר פתאום?",
+    opts: ["הגוף ממשיך לנוע קדימה בגלל אינרציה ✓", "הרכב מושך אתכם קדימה", "הבלמים דוחפים אתכם", "הכבידה מושכת אתכם"],
+    correct: 0,
+    exp: "חוק ראשון — אינרציה! הגוף שלך נע עם הרכב. כשהרכב עוצר, הגוף רוצה להמשיך לנוע. חגורת הבטיחות מפעילה את כוח העצירה!"
+  },
+  {
+    q: "אם מכפילים את מסת העצם ושומרים על אותו כוח, התאוצה תהיה...?",
+    opts: ["מחצית ✓", "כפולה", "אותו הדבר", "פי שלוש"],
+    correct: 0,
+    exp: "תאוצה = כוח ÷ מסה. אם המסה מוכפלת והכוח נשאר זהה: תאוצה = כוח ÷ (2×מסה) = מחצית התאוצה המקורית!"
+  }
+];
+
+var quizAnswered = {};
+
+function buildQuiz() {
+  quizAnswered = {};
+  state.quizSubmitted = false;
+  var container = document.getElementById('quiz-questions');
+  container.innerHTML = '';
+  document.getElementById('quiz-result').style.display   = 'none';
+  document.getElementById('quiz-submit-area').style.display = 'block';
+  var btn = document.getElementById('quiz-submit-btn');
+  btn.disabled = false;
+  btn.style.opacity = '1';
+
+  QUIZ_DATA.forEach(function(q, qi) {
+    var div = document.createElement('div');
+    div.className = 'quiz-question';
+    div.id = 'q-' + qi;
+    var optsHtml = q.opts.map(function(opt, oi) {
+      return '<button class="q-opt" id="opt-'+qi+'-'+oi+'" onclick="selectAnswer('+qi+','+oi+')">'
+           + String.fromCharCode(65+oi) + ') ' + opt + '</button>';
+    }).join('');
+    div.innerHTML = '<div class="q-text">' + (qi+1) + '. ' + q.q + '</div>'
+                  + '<div class="q-options">' + optsHtml + '</div>'
+                  + '<div class="q-explanation" id="exp-' + qi + '"></div>';
+    container.appendChild(div);
+  });
+}
+
+function selectAnswer(qi, oi) {
+  if (state.quizSubmitted) return;
+  quizAnswered[qi] = oi;
+  for (var i = 0; i < QUIZ_DATA[qi].opts.length; i++) {
+    var b = document.getElementById('opt-'+qi+'-'+i);
+    b.style.borderColor = (i === oi) ? 'var(--gold)' : '#444';
+    b.style.background  = (i === oi) ? 'rgba(255,215,0,0.15)' : '';
+    b.style.color       = (i === oi) ? '#fff' : '';
+  }
+}
+
+function submitQuiz() {
+  if (Object.keys(quizAnswered).length < QUIZ_DATA.length) {
+    showNotif('ענה על כל 5 השאלות קודם!');
+    return;
+  }
+  state.quizSubmitted = true;
+  var correct = 0;
+
+  QUIZ_DATA.forEach(function(q, qi) {
+    var chosen    = quizAnswered[qi];
+    var isCorrect = (chosen === q.correct);
+    if (isCorrect) correct++;
+
+    for (var oi = 0; oi < q.opts.length; oi++) {
+      var btn = document.getElementById('opt-'+qi+'-'+oi);
+      btn.classList.add('disabled');
+      btn.style.borderColor = '';
+      btn.style.background  = '';
+      btn.style.color       = '';
+      if (oi === q.correct)                btn.classList.add('correct');
+      else if (oi === chosen && !isCorrect) btn.classList.add('wrong');
+    }
+
+    var expDiv = document.getElementById('exp-' + qi);
+    expDiv.textContent = isCorrect
+      ? '\u2705 ' + q.exp
+      : '\u274C תשובה נכונה: ' + q.opts[q.correct] + '. ' + q.exp;
+    expDiv.className = 'q-explanation show ' + (isCorrect ? 'correct-exp' : 'wrong-exp');
+  });
+
+  var pts = correct * 40;
+  document.getElementById('quiz-result-heading').textContent = 'תוצאות החידון: ' + correct + '/5 נכון!';
+  document.getElementById('quiz-result-msg').textContent = 'קיבלת ' + pts + ' נקודות מתוך 200!';
+  document.getElementById('quiz-result').style.display   = 'block';
+  document.getElementById('quiz-submit-area').style.display = 'none';
+
+  if (!state.quizDone) {
+    state.quizDone = true;
+    updateDot('quiz', true);
+    document.getElementById('home-done-quiz').style.display = 'block';
+    addScore(pts);
+    checkCompletion();
+  }
+}
+
+function retakeQuiz() {
+  state.quizSubmitted = false;
+  quizAnswered = {};
+  buildQuiz();
+}
+
+// ================================================================
+//  INIT
+// ================================================================
+buildQuiz();
+updateFMA();
+updateBalloon();
+updateThrust();
+
+window.addEventListener('load', function() {
+  drawSlideCanvas();
+  drawSpaceCanvas();
+  drawFMACanvas();
+  drawBalloonCanvas();
+  drawRocketCanvas();
+});
+</script>
+</body>
+</html>
