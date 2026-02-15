@@ -482,6 +482,22 @@
   }
 .lang-switch { color: var(--gold); border: 1px solid var(--gold); border-radius: 20px; padding: 4px 12px; font-size: 14px; text-decoration: none; white-space: nowrap; transition: background 0.2s; }
 .lang-switch:hover { background: rgba(255,215,0,0.15); }
+
+  /* INLINE LESSON QUIZ */
+  .lesson-quiz { background: rgba(255,215,0,0.07); border: 2px solid var(--gold); border-radius: 14px; padding: 20px 22px; margin-top: 28px; }
+  .lesson-quiz h3 { color: var(--gold); margin-bottom: 14px; font-size: 1.15em; }
+  .lq-question { margin-bottom: 18px; }
+  .lq-question .lq-text { font-weight: 600; margin-bottom: 10px; font-size: 1em; line-height: 1.5; }
+  .lq-opts { display: flex; flex-direction: column; gap: 7px; }
+  .lq-opt { background: var(--card); border: 2px solid #444; border-radius: 8px; padding: 9px 14px; cursor: pointer; text-align: right; font-size: 0.95em; transition: border-color 0.2s, background 0.2s; font-family: Arial, Tahoma, sans-serif; }
+  .lq-opt:hover:not(:disabled) { border-color: var(--gold); background: rgba(255,215,0,0.1); }
+  .lq-opt.correct { border-color: var(--success) !important; background: rgba(76,175,80,0.18) !important; color: #fff; }
+  .lq-opt.wrong   { border-color: var(--danger)  !important; background: rgba(244,67,54,0.18)  !important; color: #fff; }
+  .lq-feedback { margin-top: 8px; font-size: 0.9em; line-height: 1.5; padding: 8px 12px; border-radius: 6px; display: none; }
+  .lq-feedback.show { display: block; }
+  .lq-feedback.ok  { background: rgba(76,175,80,0.15); color: #86efac; }
+  .lq-feedback.bad { background: rgba(244,67,54,0.15); color: #fca5a5; }
+  .lesson-quiz-score { text-align: center; margin-top: 16px; font-size: 1.1em; font-weight: 700; color: var(--gold); display: none; }
 </style>
 </head>
 <body>
@@ -594,28 +610,26 @@
     <div class="card card-law1">
       <h1>&#128309; חוק 1: חוק האינרציה</h1>
       <div class="highlight-box hl-law1">
-        "גוף שנמצא במנוחה ישאר במנוחה, וגוף שנע ימשיך לנוע באותה מהירות — אלא אם כן כוח כלשהו פועל עליו! &#127944;"
+        אם עצם אינו זז — הוא יישאר עומד. אם עצם נע — הוא ימשיך לנוע באותה מהירות לאותו כיוון לנצח — אם לא יפעל עליו כוח כלשהו. ההתנגדות לשינוי הזאת נקראת אינרציה! 🏒
       </div>
-      <p>זה נקרא <strong>אינרציה</strong> — הנטייה של גופים להתנגד לשינויים בתנועתם.</p>
-      <p>דוגמאות מהחיים:</p>
+      <p>תחשבו על זה כך: עצמים הם עצלנים! הם לא רוצים להתחיל לזוז, וכשהם נעים, הם לא רוצים לעצור. אינרציה זה פשוט שם מפוצץ לעצלנות הזאת.</p>
       <ul class="examples-list">
-        <li><strong>חגורת בטיחות ברכב:</strong> כשרכב עוצר פתאום, הגוף שלך ממשיך לנוע קדימה. חגורת הבטיחות היא הכוח שעוצר אותך!</li>
-        <li><strong>דיסק הוקי על קרח:</strong> על קרח חלק, הדיסק מחליק מרחק רב מאוד כי כמעט אין חיכוך שמאט אותו.</li>
-        <li><strong>חללית שדואה בחלל:</strong> ללא חיכוך אוויר בחלל, חללית שנזרקת קדימה דואה לנצח אלא אם מנועים נדלקים!</li>
-        <li><strong>טריק מפת השולחן:</strong> משיכת מפה מהירה מותירה את הכלים במקום בגלל האינרציה שלהם!</li>
+        <li>🚗 <strong>חגורת בטיחות:</strong> כשמכונית בולמת בחוזקה, גופך ממשיך לעוף קדימה בגלל אינרציה. חגורת הבטיחות תופסת אותך ומפעילה את כוח הבלימה.</li>
+        <li>🏒 <strong>דיסק הוקי על קרח:</strong> קרח חלק מאוד (חיכוך נמוך), ולכן כמעט שום דבר לא מאט את הדיסק — הוא ממשיך להחליק ולהחליק!</li>
+        <li>🚀 <strong>חללית בחלל:</strong> אין אוויר בחלל, ולכן שום דבר לא מאט חללית נעה. היא מחליקה לנצח עד שכוח כלשהו יפעל עליה.</li>
       </ul>
     </div>
 
     <!-- Game 1A: Surface Slide -->
     <div class="card card-law1">
-      <h2>&#127918; ניסוי: החלקה על משטחים שונים</h2>
-      <p>בעטו בדיסק על משטחים שונים. שימו לב כיצד החיכוך משנה את המרחק שהוא עובר!</p>
+      <h2>&#127918; ניסוי 1א: החלקה על משטחים שונים</h2>
+      <p>בחר משטח ולחץ על <strong>בעיטה!</strong> כדי לשגר את הדיסק. ראה כמה רחוק הוא מחליק — ושים לב איך החיכוך מחליט מתי הוא עוצר. 👉 נסה את כל 4 המשטחים והשווה!</p>
 
       <div class="btn-row" id="surface-btns">
-        <button class="surface-btn selected" data-surface="ice"   onclick="selectSurface('ice',this)">קרח ❄️ (&#956;=0.005)</button>
-        <button class="surface-btn"          data-surface="wood"  onclick="selectSurface('wood',this)">עץ 🪵 (&#956;=0.04)</button>
-        <button class="surface-btn"          data-surface="grass" onclick="selectSurface('grass',this)">דשא 🌱 (&#956;=0.09)</button>
-        <button class="surface-btn"          data-surface="sand"  onclick="selectSurface('sand',this)">חול 🏖️ (&#956;=0.15)</button>
+        <button class="surface-btn selected" data-surface="ice"   onclick="selectSurface('ice',this)">❄️ קרח (חלק מאוד)</button>
+        <button class="surface-btn"          data-surface="wood"  onclick="selectSurface('wood',this)">🪵 עץ (קצת מחוספס)</button>
+        <button class="surface-btn"          data-surface="grass" onclick="selectSurface('grass',this)">🌱 דשא (מחוספס)</button>
+        <button class="surface-btn"          data-surface="sand"  onclick="selectSurface('sand',this)">🏖️ חול (מחוספס מאוד)</button>
       </div>
 
       <div class="canvas-wrap">
@@ -646,19 +660,20 @@
         <button class="btn btn-gray btn-sm" onclick="resetSlide()">אפס</button>
         <span id="slide-pts-msg" style="color:var(--success);font-weight:700;font-size:16px;display:none">+100 נקודות!</span>
       </div>
+      <p style="font-size:14px;color:var(--text-dim);margin-top:10px">💡 טיפ: על קרח הדיסק כמעט לא מאט — בדיוק כמו שניוטון אמר! על חול הוא עוצר מהר כי החיכוך הוא כוח גדול.</p>
     </div>
 
     <!-- Game 1B: Space Drift -->
     <div class="card card-law1">
-      <h2>&#127918; ניסוי: שייט בחלל</h2>
-      <p>הפעילו מנוע רקטה. הפעילו/כבו אטמוספרה. בחלל, שום דבר לא מאט אתכם!</p>
+      <h2>&#127918; ניסוי 1ב: שייט בחלל</h2>
+      <p>הפעל את המנוע פעם אחת ואז ראה מה קורה. נסה עם אטמוספרה כבויה (חלל אמיתי!) ואז הפעל אותה כדי לראות את ההבדל.</p>
 
       <div class="toggle-wrap">
         <label class="toggle-switch">
           <input type="checkbox" id="atmos-toggle" onchange="toggleAtmosphere()">
           <span class="toggle-slider"></span>
         </label>
-        <span class="atmosphere-status" id="atmos-label" style="color:#888">אטמוספרה: כבוי</span>
+        <span class="atmosphere-status" id="atmos-label" style="color:#888">🌌 מצב חלל (ללא התנגדות אוויר)</span>
       </div>
 
       <div class="canvas-wrap">
@@ -687,7 +702,12 @@
         <button class="btn btn-gray btn-sm" onclick="resetSpace()">אפס</button>
         <span id="space-pts-msg" style="color:var(--success);font-weight:700;font-size:16px;display:none">+100 נקודות!</span>
       </div>
-      <p style="font-size:14px;color:var(--text-dim)">טיפ: הפעילו מנוע, ואז עצרו. כשהאטמוספרה כבויה, הרקטה דואה לנצח!</p>
+      <p style="font-size:14px;color:var(--text-dim)">💡 כשהאטמוספרה כבויה תוכל לראות אינרציה בפעולה — החללית פשוט ממשיכה לנוע! זה בדיוק מה שחוק ניוטון הראשון מתאר.</p>
+
+      <div class="lesson-quiz">
+        <h3>🧠 בחן את עצמך — חוק 1: אינרציה</h3>
+        <div id="lq-law1"></div>
+      </div>
     </div>
   </div>
 
@@ -696,19 +716,19 @@
     <div class="card card-law2">
       <h1>&#128992; חוק 2: כוח = מסה &times; תאוצה</h1>
       <div class="highlight-box hl-law2">
-        "ככל שדוחפים חזק יותר, כך הגוף מאיץ מהר יותר! אבל גופים כבדים צריכים יותר כוח כדי לזוז. הנוסחה: תאוצה = כוח &divide; מסה &#128640;"
+        דחף משהו חזק יותר — הוא יאיץ מהר יותר. דחף משהו כבד יותר — הוא יאיץ לאט יותר. זאת הנוסחה: כוח = מסה &times; תאוצה (או: תאוצה = כוח &divide; מסה) 🚀
       </div>
-      <p>משמעות הדבר: אם תדחפו עגלת קניות ורכב עם אותו כוח, העגלה תאיץ הרבה יותר כי היא קלה בהרבה.</p>
+      <p>דמיינו שאתם דוחפים עגלת קניות. עגלה ריקה קלה לדחוף מהר. עגלה מלאה בקניות כבדה צריכה דחיפה הרבה יותר חזקה כדי לנוע. זה החוק הזה בפעולה! אותו כוח נותן לעצם קל יותר תאוצה גדולה יותר.</p>
       <ul class="examples-list">
-        <li><strong>כדור כדורגל לעומת כדור כדורת עם אותו כוח:</strong> בעטו בשניהם עם אותו כוח. הכדור הקל יעוף — הכדור הכבד יתגלגל לאט.</li>
-        <li><strong>עגלת קניות ריקה לעומת מלאה:</strong> אותה דחיפה, תוצאות שונות לחלוטין! הרכב כמעט לא יזוז.</li>
-        <li><strong>משאית ריקה לעומת טעונה:</strong> כדי להרים רקטה כבדה, צריך כוח עצום משריפת דלק!</li>
+        <li>⚽ <strong>אותה בעיטה, כדורים שונים:</strong> בעט בכדור כדורגל קל ובכדורת כבדה עם אותו כוח. הכדור עף רחוק; הכדורת כמעט לא זזה.</li>
+        <li>🏎️ <strong>למכוניות מירוץ יש מנועים עצומים:</strong> מכוניות מירוץ צריכות כוח אדיר כדי להאיץ את מסתן מ-0 ל-200 קמ"ש בשניות ספורות.</li>
+        <li>🛒 <strong>עגלת קניות:</strong> עגלה ריקה קלה לדחוף. מלאה בקניות — אותה דחיפה תיתן הרבה פחות תאוצה.</li>
       </ul>
     </div>
 
     <div class="card card-law2">
       <h2>&#127918; ניסוי: מעבדת כוח ומסה</h2>
-      <p>שנו את הכוח והמסה וראו כיצד התאוצה משתנה. נסו את האובייקטים המוגדרים מראש!</p>
+      <p>גרור את מחוון הכוח כדי לקבוע כמה חזק אתה דוחף. גרור את מחוון המסה כדי לקבוע כמה כבד העצם. צפה בשינוי התאוצה — ואז לחץ <strong>שגר</strong> כדי לראות אותו נע!</p>
 
       <div class="slider-row">
         <span class="slider-label">כוח (ניוטון):</span>
@@ -762,8 +782,15 @@
         <button class="btn btn-gray btn-sm" onclick="resetFMA()">אפס</button>
       </div>
       <p style="font-size:14px;color:var(--text-dim)">מצב מרוץ משגר כדור כדורגל, קופסה וסלע בו-זמנית עם אותו כוח!</p>
+      <p style="font-size:14px;color:var(--text-dim);margin-top:6px">💡 נסה: קבע כוח מקסימלי (100 N) ומסה מינימלית (1 ק"ג). אחר כך נסה מסה מקסימלית (20 ק"ג) עם אותו כוח. ראה את ההבדל?</p>
+      <p style="font-size:14px;color:var(--text-dim);margin-top:4px">💡 חץ התאוצה בציור גדל כשהתאוצה גדולה יותר!</p>
       <div style="margin-top:8px">
         <span id="fma-pts-msg" style="color:var(--success);font-weight:700;font-size:16px;display:none">ניקוד!</span>
+      </div>
+
+      <div class="lesson-quiz">
+        <h3>🧠 בחן את עצמך — חוק 2: F = ma</h3>
+        <div id="lq-law2"></div>
       </div>
     </div>
   </div>
@@ -773,24 +800,24 @@
     <div class="card card-law3">
       <h1>&#128995; חוק 3: פעולה ותגובה</h1>
       <div class="highlight-box hl-law3">
-        "לכל פעולה יש תגובה שווה בגודלה ומנוגדת בכיוונה! כך טילים מתרוממים לאוויר! &#128640;"
+        לכל דחיפה יש דחיפה חזרה שווה! אם דחפת משהו, הוא דוחף אותך חזרה בדיוק באותה עוצמה — אבל בכיוון ההפוך! 🚀
       </div>
-      <p>המילה המפתח היא <strong>שווה ומנוגד</strong>. הכוחות שווים בעוצמה, אך בכיוונים הפוכים!</p>
+      <p>נסה לדחוף קיר. אתה דוחף את הקיר קדימה; הקיר דוחף אותך אחורה בדיוק באותה עוצמה. לכן רקטות עובדות — הן דוחפות גז אחורה, והגז דוחף את הרקטה קדימה!</p>
       <ul class="examples-list">
-        <li><strong>מנוע סילון:</strong> המנועים דוחפים גזים חמים למטה — הגזים דוחפים את הרקטה למעלה!</li>
-        <li><strong>בלון שמשחרר אוויר:</strong> הבלון דוחף אוויר אחורה — האוויר דוחף את הבלון קדימה!</li>
-        <li><strong>שחיין שדוחף את הקיר:</strong> הידיים דוחפות מים אחורה — המים דוחפים את השחיין קדימה!</li>
-        <li><strong>קפיצה מסירה:</strong> אתם דוחפים את הסירה כשאתם קופצים — הסירה מתרחקת בכיוון ההפוך!</li>
+        <li>🚀 <strong>מנועי רקטה:</strong> גזים לוהטים יורים למטה (פעולה). הגזים דוחפים את הרקטה למעלה (תגובה). כוח שווה, כיוון הפוך!</li>
+        <li>🎈 <strong>בלון:</strong> שחרר בלון מנופח — האוויר יוצא מצד אחד (פעולה), הבלון עף לכיוון ההפוך (תגובה)!</li>
+        <li>🏊 <strong>שחייה:</strong> אתה דוחף מים אחורה עם הידיים (פעולה). המים דוחפים אותך קדימה (תגובה).</li>
+        <li>🚣 <strong>חתירה בסירה:</strong> אתה דוחף את המים אחורה עם המשוט (פעולה). המים דוחפים את הסירה קדימה (תגובה).</li>
       </ul>
     </div>
 
     <!-- Game 3A: Balloon Rocket -->
     <div class="card card-law3">
-      <h2>&#127918; ניסוי: רקטת בלון</h2>
-      <p>נפחו את הבלון יותר לכוח תגובה גדול יותר!</p>
+      <h2>&#127918; ניסוי 3א: רקטת בלון</h2>
+      <p>הזז את המחוון כדי לבחור כמה אוויר יש בבלון, ולחץ <strong>שחרר!</strong> האוויר ייצא אחורה (זאת כוח הפעולה) והבלון יעוף קדימה (זאת כוח התגובה). יותר אוויר = יותר כוח = מרחק גדול יותר!</p>
 
       <div class="slider-row">
-        <span class="slider-label">ניפוח:</span>
+        <span class="slider-label">💨 אוויר בבלון:</span>
         <input type="range" class="slider-law3" id="balloon-slider" min="10" max="100" value="60" oninput="updateBalloon()">
         <span class="slider-val" id="balloon-val" style="color:var(--law3)">60%</span>
       </div>
@@ -819,16 +846,16 @@
         <button class="btn btn-gray btn-sm" onclick="resetBalloon()">אפס</button>
         <span id="bal-pts-msg" style="color:var(--success);font-weight:700;font-size:16px;display:none">+100 נקודות!</span>
       </div>
-      <p style="font-size:14px;color:var(--text-dim)">צפו בחצי הפעולה (אוויר ילך שמאלה) ותגובה (הבלון ילך ימינה)!</p>
+      <p style="font-size:14px;color:var(--text-dim)">💡 שים לב לחצים: החץ השמאלי מראה את האוויר יוצא אחורה (פעולה) והחץ הימני מראה את הבלון נע קדימה (תגובה).</p>
     </div>
 
     <!-- Game 3B: Rocket Launch -->
     <div class="card card-law3">
-      <h2>&#127918; ניסוי: שיגור רקטה</h2>
-      <p>שנו את עוצמת הדחף ושגרו את הרקטה! גזי הפליטה יורדים — הרקטה עולה!</p>
+      <h2>&#127918; ניסוי 3ב: שיגור רקטה</h2>
+      <p>קבע את עוצמת המנוע ולחץ <strong>שגר!</strong> הרקטה דוחפת גזים בוערים למטה (פעולה) והגזים דוחפים את הרקטה למעלה (תגובה). יותר דחף = הרקטה עפה גבוה יותר!</p>
 
       <div class="slider-row">
-        <span class="slider-label">כוח דחף:</span>
+        <span class="slider-label">🔥 עוצמת המנוע:</span>
         <input type="range" class="slider-law3" id="thrust-slider" min="20" max="100" value="60" oninput="updateThrust()">
         <span class="slider-val" id="thrust-val" style="color:var(--law3)">60%</span>
       </div>
@@ -868,26 +895,34 @@
         <button class="btn btn-gray btn-sm" onclick="resetRocket()">אפס</button>
         <span id="rocket-pts-msg" style="color:var(--success);font-weight:700;font-size:16px;display:none">+100 נקודות!</span>
       </div>
+      <p style="font-size:14px;color:var(--text-dim);margin-top:10px">💡 שים לב ללהבה בתחתית — זאת כוח הפעולה. הרקטה שעפה למעלה — זאת כוח התגובה!</p>
+
+      <div class="lesson-quiz">
+        <h3>🧠 בחן את עצמך — חוק 3: פעולה ותגובה</h3>
+        <div id="lq-law3"></div>
+      </div>
     </div>
   </div>
 
   <!-- ======== ENERGY ======== -->
   <div class="section" id="sec-energy">
-    <div class="section-header" style="background:linear-gradient(135deg,#166534,var(--energy))">
+    <div class="section-header" style="background:linear-gradient(135deg,#166534,var(--energy));border-radius:16px;padding:22px;margin-bottom:20px">
       <h2>⚡ חוק שימור האנרגיה</h2>
       <p class="section-tagline">אנרגיה לא נוצרת ולא נעלמת — היא רק משנה צורה!</p>
     </div>
     <div class="section-body">
-      <div class="law-explanation">
-        <p>אנרגיה <strong>לא נוצרת ולא נעלמת</strong> — היא רק משנה צורה! ⚡ כשרכבת הרים יורדת במורד, <strong>אנרגיה פוטנציאלית</strong> (גובה) הופכת ל<strong>אנרגיה קינטית</strong> (תנועה). סך האנרגיה תמיד נשאר זהה!</p>
+      <div class="law-explanation card">
+        <p>אנרגיה היא כמו מטבע ש<strong>לעולם לא נעלם</strong> — הוא רק <em>מוחלף</em> בסוג אחר! ⚡</p>
+        <p><strong>אנרגיה פוטנציאלית</strong> היא אנרגיה שצבורה ומחכה — כמו כדור בראש גבעה, גומייה מתוחה, או סוללה. <strong>אנרגיה קינטית</strong> היא אנרגיה של תנועה — כמו כדור מתגלגל, מטוס עף, או ציטה רצה.</p>
+        <p>כשהכדור מתגלגל <em>במורד</em> הגבעה, כל האנרגיה הפוטנציאלית הופכת לקינטית. בתחתית — הכול קינטי. בראש — הכול פוטנציאלי. באמצע — תמהיל, אבל הסכום תמיד נשאר זהה. זה שימור האנרגיה!</p>
       </div>
-      <div class="real-world-box" style="border-color:var(--energy)">
+      <div class="card" style="border-right:5px solid var(--energy)">
         <h4>🌍 דוגמאות מהחיים:</h4>
         <ul><li>🎢 רכבת הרים הממירה גובה למהירות</li><li>🏀 כדור קופץ (קינטית→פוטנציאלית→קינטית)</li><li>💧 סכר הידרואלקטרי (פוטנציאלית→חשמלית)</li><li>🕰️ שעון מטוטלת</li><li>📱 סוללת טלפון (כימית→חשמלית)</li></ul>
       </div>
-      <div class="experiment-card">
+      <div class="card">
         <h3>🎢 ניסוי: אנרגיה ברכבת הרים</h3>
-        <p>קבע את הגובה ושגר את הקרון. צפה כיצד האנרגיה הפוטנציאלית (כחול) הופכת לקינטית (כתום) בירידה!</p>
+        <p>השתמש במחוון כדי לקבוע מה גובה הקרון. התחלה גבוהה = יותר אנרגיה צבורה (פוטנציאלית) = מהירות גבוהה יותר בתחתית! לחץ <strong>שגר</strong> וצפה בעמודה הכחולה (אנרגיה פוטנציאלית) מתכווצת בזמן שהעמודה הכתומה (אנרגיה קינטית) גדלה.</p>
         <div style="margin:10px 0">
           <label>גובה התחלתי: <span id="rc-height-val">70</span>%</label>
           <input type="range" id="rc-height" min="20" max="100" value="70" oninput="document.getElementById('rc-height-val').textContent=this.value">
@@ -896,10 +931,11 @@
         <button class="btn btn-dim" onclick="resetRollerCoaster()">אפס</button>
         <canvas id="canvas-rc" width="500" height="180" style="display:block;margin:10px 0;border-radius:8px;background:#0a1628;max-width:100%">סימולציית רכבת הרים</canvas>
         <div id="rc-status" style="color:var(--energy);font-size:14px;min-height:20px"></div>
+        <p style="font-size:14px;color:var(--text-dim);margin-top:8px">👀 מה לחפש: כשהקרון בראש, העמודה הכחולה מלאה. בתחתית, העמודה הכתומה מלאה. גובה שתי העמודות יחד לא משתנה — זה שימור האנרגיה!</p>
       </div>
-      <div class="experiment-card">
+      <div class="card">
         <h3>🏀 ניסוי: כדור קופץ</h3>
-        <p>שחרר כדור מגבהים שונים וצפה כיצד אנרגיה פוטנציאלית הופכת לקינטית ובחזרה. כל קפיצה מאבדת קצת אנרגיה לחום!</p>
+        <p>קבע מה גובה לשחרר את הכדור ולחץ <strong>שחרר!</strong> בראש כל קפיצה הכדור כמעט עצור — כמעט כל אנרגיה פוטנציאלית. בנפילה — הכל קינטי. כל קפיצה קצת נמוכה יותר כי כמות קטנה של אנרגיה הופכת לחום וקול.</p>
         <div style="margin:10px 0">
           <label>גובה שחרור: <span id="bb-height-val">80</span>%</label>
           <input type="range" id="bb-height" min="20" max="100" value="80" oninput="document.getElementById('bb-height-val').textContent=this.value">
@@ -908,57 +944,70 @@
         <button class="btn btn-dim" onclick="resetBounceBall()">אפס</button>
         <canvas id="canvas-bb" width="300" height="220" style="display:block;margin:10px 0;border-radius:8px;background:#0a1628;max-width:100%">סימולציית כדור קופץ</canvas>
       </div>
-      <div class="info-box" style="border-color:var(--energy)">
+      <div class="card" style="border-right:5px solid var(--energy)">
         <h4>⚡ סוגי אנרגיה:</h4>
         <p>🏃 <strong>קינטית</strong> — אנרגיית תנועה | 🏔️ <strong>פוטנציאלית</strong> — אנרגיה צבורה בגובה | 🔥 <strong>תרמית</strong> — אנרגיית חום | 🍎 <strong>כימית</strong> — מזון ודלק | ⚡ <strong>חשמלית</strong> — אלקטרונים זורמים</p>
+
+        <div class="lesson-quiz">
+          <h3>🧠 בחן את עצמך — אנרגיה</h3>
+          <div id="lq-energy"></div>
+        </div>
       </div>
     </div>
   </div>
 
   <!-- ======== GRAVITY ======== -->
   <div class="section" id="sec-gravity">
-    <div class="section-header" style="background:linear-gradient(135deg,#881337,var(--gravity))">
+    <div class="section-header" style="background:linear-gradient(135deg,#881337,var(--gravity));border-radius:16px;padding:22px;margin-bottom:20px">
       <h2>🌍 כבידה ותנועת קליעים</h2>
       <p class="section-tagline">כל עצם זרוק עוקב אחר פרבולה מושלמת!</p>
     </div>
     <div class="section-body">
-      <div class="law-explanation">
-        <p>הכבידה מושכת הכל לכיוון מרכז כדור הארץ בתאוצה של <strong>9.8 מ׳/שנייה²</strong>! 🌍 כשזורקים כדור, הוא נע <strong>קדימה</strong> (בגלל הזריקה) וגם <strong>נופל למטה</strong> (בגלל כבידה) — יחד יוצרים קשת הנקראת <strong>פרבולה</strong>!</p>
+      <div class="law-explanation card">
+        <p>הכבידה היא כוח ש<strong>מושך כל עצם לכיוון מרכז כדור הארץ</strong>. היא נותנת לכל דבר תאוצה של <strong>9.8 מ'/שנ²</strong> — כלומר כל שנייה שאתה נופל, אתה נע מהר יותר ב-9.8 מטר לשנייה! 🌍</p>
+        <p>כשזורקים כדור, שני דברים קורים בו-זמנית: הוא נע <strong>הצידה</strong> כי זרקת אותו, וגם נע <strong>למטה</strong> כי הכבידה תמיד מושכת. השילוב של שתי התנועות האלה יוצר את הנתיב המעוקל הנקרא <strong>פרבולה</strong> — בכל זריקה, בעיטה, או יריה שראית!</p>
+        <p>הזווית שאתה זורק בה חשובה מאוד. זריקה שטוחה מדי ותפגע בקרקע לפני שתגיע רחוק. זריקה תלולה מדי והכדור יעלה בעיקר למעלה. <strong>הנקודה המושלמת היא 45°</strong> — איזון מושלם בין גובה למרחק.</p>
       </div>
-      <div class="real-world-box" style="border-color:var(--gravity)">
+      <div class="card" style="border-right:5px solid var(--gravity)">
         <h4>🌍 דוגמאות מהחיים:</h4>
         <ul><li>🏀 זריקת כדורסל לסל</li><li>🏈 מסירת כדורגל אמריקאי</li><li>⚽ בעיטת פנדל שעוקפת קיר</li><li>🌊 קשת מזרקה</li><li>🚀 מסלולי חלליות</li></ul>
       </div>
-      <div class="experiment-card">
+      <div class="card">
         <h3>🏀 ניסוי: משגר קליעים</h3>
-        <p>שנה את הזווית והמהירות, ואז שגר! נסה זוויות שונות כדי למצוא מי שולחת הכי רחוק (רמז: 45°!)</p>
+        <p>קבע את הזווית והמהירות עם המחוונים, ואז לחץ <strong>שגר!</strong> הנתיב המנוקד מראה את הנתיב המעוקל (פרבולה). 👉 נסה זוויות שונות: איזו שולחת את הכדור הכי רחוק? (רמז: נסה 45°!)</p>
         <div style="margin:10px 0;display:flex;gap:20px;flex-wrap:wrap">
-          <div><label>זווית: <span id="proj-angle-val">45</span>°</label><br>
+          <div><label>🎯 זווית שיגור (כמה תלול אתה זורק): <span id="proj-angle-val">45</span>°</label><br>
           <input type="range" id="proj-angle" min="10" max="80" value="45" oninput="document.getElementById('proj-angle-val').textContent=this.value;drawProjectileIdle()"></div>
-          <div><label>מהירות: <span id="proj-speed-val">60</span>%</label><br>
+          <div><label>💪 מהירות שיגור: <span id="proj-speed-val">60</span>%</label><br>
           <input type="range" id="proj-speed" min="20" max="100" value="60" oninput="document.getElementById('proj-speed-val').textContent=this.value;drawProjectileIdle()"></div>
         </div>
         <button class="btn" style="background:var(--gravity)" onclick="launchProjectile()">🚀 שגר!</button>
         <button class="btn btn-dim" onclick="resetProjectile()">אפס</button>
         <canvas id="canvas-proj" width="520" height="200" style="display:block;margin:10px 0;border-radius:8px;background:#0a1628;max-width:100%">סימולציית תנועת קליע</canvas>
         <div id="proj-status" style="color:var(--gravity);font-size:14px;min-height:20px"></div>
+        <p style="font-size:14px;color:var(--text-dim);margin-top:8px">💡 נסה 10°, אחר כך 45°, ואז 80°. שים לב ש-45° נותנת את המרחק הגדול ביותר!</p>
       </div>
-      <div class="experiment-card">
+      <div class="card">
         <h3>🪐 ניסוי: כבידה בעולמות שונים</h3>
-        <p>אותה זריקה, כבידה שונה! ראה כיצד אותו כדור נוסע הרבה יותר רחוק על הירח מאשר על צדק!</p>
+        <p>אותה זריקה בארבעה עולמות שונים! צפה בכל ארבעת הכדורים עפים בו-זמנית. על הירח (כבידה חלשה) הכדור נוסע הרבה יותר רחוק. על צדק (כבידה חזקה מאוד) הוא נופל כמעט מיד!</p>
         <button class="btn" style="background:var(--gravity)" onclick="launchWorlds()">🚀 שגר בכל העולמות!</button>
         <button class="btn btn-dim" onclick="resetWorlds()">אפס</button>
         <canvas id="canvas-worlds" width="520" height="200" style="display:block;margin:10px 0;border-radius:8px;background:#0a1628;max-width:100%">השוואת כבידה בין עולמות</canvas>
         <div style="display:flex;gap:15px;flex-wrap:wrap;font-size:13px;margin-top:5px">
-          <span style="color:#C0C0C0">⚪ ירח: 1.6 מ׳/שנ²</span>
-          <span style="color:#FF6B35">🔴 מאדים: 3.7 מ׳/שנ²</span>
-          <span style="color:#00C9FF">🔵 כדור הארץ: 9.8 מ׳/שנ²</span>
-          <span style="color:#FFB347">🟠 צדק: 24.8 מ׳/שנ²</span>
+          <span style="color:#C0C0C0">⚪ ירח: 1.6 מ'/שנ²</span>
+          <span style="color:#FF6B35">🔴 מאדים: 3.7 מ'/שנ²</span>
+          <span style="color:#00C9FF">🔵 כדור הארץ: 9.8 מ'/שנ²</span>
+          <span style="color:#FFB347">🟠 צדק: 24.8 מ'/שנ²</span>
         </div>
       </div>
-      <div class="info-box" style="border-color:var(--gravity)">
+      <div class="card" style="border-right:5px solid var(--gravity)">
         <h4>🤔 האם ידעת?</h4>
         <p>🌙 כבידת הירח = רק 1/6 מכדור הארץ! | 🏛️ גלילאו הפיל כדורים ממגדל פיזה הנטוי | 👨‍🚀 אסטרונאוטי אפולו יכלו לקפץ פי 6 יותר גבוה על הירח!</p>
+
+        <div class="lesson-quiz">
+          <h3>🧠 בחן את עצמך — כבידה וקליעים</h3>
+          <div id="lq-gravity"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -1359,12 +1408,12 @@ function toggleAtmosphere() {
   var label  = document.getElementById('atmos-label');
   var status = document.getElementById('space-atmos-status');
   if (spaceState.atmosphere) {
-    label.textContent  = 'אטמוספרה: פועל';
+    label.textContent  = '🌍 עם אטמוספרה (האוויר מאט אותך)';
     label.style.color  = '#4CAF50';
     status.textContent = 'פועל';
     status.style.color = '#4CAF50';
   } else {
-    label.textContent  = 'אטמוספרה: כבוי';
+    label.textContent  = '🌌 מצב חלל (ללא התנגדות אוויר)';
     label.style.color  = '#888';
     status.textContent = 'כבוי';
     status.style.color = '#888';
@@ -2588,6 +2637,47 @@ function checkGravityCompletion() {
 }
 
 // ================================================================
+//  INLINE LESSON QUIZ
+// ================================================================
+var lqScores = {};
+function initLessonQuiz(quizId, questions) {
+  var container = document.getElementById(quizId);
+  if (!container) return;
+  container.innerHTML = '';
+  questions.forEach(function(q, qi) {
+    var optsHtml = q.opts.map(function(o, oi) {
+      return '<button class="lq-opt" onclick="answerLQ(\'' + quizId + '\',' + qi + ',' + oi + ',' + q.correct + ',\'' + encodeURIComponent(q.exp) + '\')">' + o + '</button>';
+    }).join('');
+    container.innerHTML += '<div class="lq-question"><div class="lq-text">' + (qi+1) + '. ' + q.q + '</div><div class="lq-opts" id="' + quizId + '-opts-' + qi + '">' + optsHtml + '</div><div class="lq-feedback" id="' + quizId + '-fb-' + qi + '"></div></div>';
+  });
+  container.innerHTML += '<div class="lesson-quiz-score" id="' + quizId + '-score"></div>';
+}
+function answerLQ(quizId, qi, oi, correct, expEnc) {
+  var exp = decodeURIComponent(expEnc);
+  var opts = document.querySelectorAll('#' + quizId + '-opts-' + qi + ' .lq-opt');
+  opts.forEach(function(b, i) {
+    b.disabled = true;
+    if (i === correct) b.classList.add('correct');
+    else if (i === oi && oi !== correct) b.classList.add('wrong');
+  });
+  var fb = document.getElementById(quizId + '-fb-' + qi);
+  var isOk = (oi === correct);
+  fb.textContent = (isOk ? '✅ נכון! ' : '❌ לא ממש. ') + exp;
+  fb.className = 'lq-feedback show ' + (isOk ? 'ok' : 'bad');
+  if (!lqScores[quizId]) lqScores[quizId] = { correct: 0, total: 0 };
+  lqScores[quizId].total++;
+  if (isOk) lqScores[quizId].correct++;
+  var allQ = document.querySelectorAll('#' + quizId + ' .lq-question');
+  var answered = document.querySelectorAll('#' + quizId + ' .lq-feedback.show').length;
+  if (answered === allQ.length) {
+    var sc = document.getElementById(quizId + '-score');
+    var pct = lqScores[quizId].correct;
+    sc.textContent = 'ענית נכון על ' + pct + ' מתוך ' + allQ.length + (pct === allQ.length ? ' 🌟 מושלם!' : pct >= allQ.length - 1 ? ' 👍 כל הכבוד!' : ' 💪 כדאי לתרגל עוד!');
+    sc.style.display = 'block';
+  }
+}
+
+// ================================================================
 //  INIT
 // ================================================================
 buildQuiz();
@@ -2601,6 +2691,66 @@ window.addEventListener('load', function() {
   drawFMACanvas();
   drawBalloonCanvas();
   drawRocketCanvas();
+
+  initLessonQuiz('lq-law1', [
+    { q: 'כדור מתגלגל על משטח שטוח. מה יקרה אם לא יפעל עליו שום כוח?',
+      opts: ['הוא יאט ויעצור', 'הוא ימשיך להתגלגל לנצח באותה מהירות', 'הוא יאיץ', 'הוא יקפוץ'],
+      correct: 1, exp: 'חוק ניוטון הראשון! ללא שום כוח (כמו חיכוך או קיר), עצם נע ממשיך לנוע לנצח באותה מהירות ואותו כיוון.' },
+    { q: 'למה אתה נזרק קדימה כשהאוטובוס בולם בפתאומיות?',
+      opts: ['האוטובוס דוחף אותך קדימה', 'לגופך יש אינרציה — הוא רוצה להמשיך לנוע קדימה', 'הכבידה מושכת אותך קדימה', 'הרצפה דוחפת אותך'],
+      correct: 1, exp: 'גופך נע באותה מהירות כמו האוטובוס. כשהאוטובוס עוצר, גופך ממשיך לנוע קדימה — זאת אינרציה בפעולה!' },
+    { q: 'למה דיסק הוקי מחליק הרבה יותר רחוק על קרח מאשר על דשא?',
+      opts: ['הדיסק קל יותר על קרח', 'לקרח יש פחות חיכוך, אז פחות כוח מאט את הדיסק', 'הדיסק מהיר יותר על דשא', 'הכבידה קטנה יותר על קרח'],
+      correct: 1, exp: 'לקרח יש חיכוך נמוך מאוד — כמעט אין כוח שפועל נגד תנועת הדיסק — ולכן האינרציה שומרת עליו בתנועה הרבה יותר זמן!' }
+  ]);
+
+  initLessonQuiz('lq-law2', [
+    { q: 'דחפת כדור של 2 ק"ג עם כוח של 10 N. מה התאוצה? (תאוצה = כוח ÷ מסה)',
+      opts: ['20 מ\'/שנ²', '5 מ\'/שנ²', '0.2 מ\'/שנ²', '12 מ\'/שנ²'],
+      correct: 1, exp: 'תאוצה = כוח ÷ מסה = 10 ÷ 2 = 5 מ\'/שנ². פשוט מאוד — מחלקים כוח במסה!' },
+    { q: 'בעטת בכדור כדורגל קל ובכדורת כבדה עם אותו כוח. מי מאיץ יותר?',
+      opts: ['הכדורת', 'כדור הכדורגל', 'שניהם מאיצים אותו הדבר', 'אף אחד לא זז'],
+      correct: 1, exp: 'כדור הכדורגל! יש לו פחות מסה, אז אותו כוח נותן לו תאוצה הרבה יותר גדולה. תאוצה = כוח ÷ מסה — מסה קטנה יותר = תאוצה גדולה יותר!' },
+    { q: 'אתה רוצה לתת לסלע כבד אותה תאוצה כמו לאבן קטנה. מה אתה צריך?',
+      opts: ['פחות כוח', 'אותו כוח', 'הרבה יותר כוח', 'אין צורך בכוח'],
+      correct: 2, exp: 'הרבה יותר כוח! כוח = מסה × תאוצה. אם המסה גדולה הרבה יותר ואתה רוצה אותה תאוצה, אתה חייב להפעיל כוח הרבה יותר גדול.' }
+  ]);
+
+  initLessonQuiz('lq-law3', [
+    { q: 'כשרקטה פולטת גזים למטה, מה קורה לרקטה?',
+      opts: ['היא יורדת גם כן', 'היא עולה למעלה — תגובה שווה ומנוגדת', 'היא מסתובבת', 'היא נשארת במקום'],
+      correct: 1, exp: 'חוק שלישי! הרקטה דוחפת גזים למטה (פעולה). הגזים דוחפים את הרקטה למעלה (תגובה) עם אותו כוח בכיוון ההפוך. כך עובדת כל רקטה שהושקה אי פעם!' },
+    { q: 'אתה דוחף קיר. הקיר דוחף אותך חזרה ב...',
+      opts: ['פחות כוח (קירות חזקים)', 'אותו כוח בכיוון ההפוך', 'יותר כוח (קירות כבדים יותר)', 'אין כוח — קירות לא יכולים לדחוף'],
+      correct: 1, exp: 'שווה ומנוגד! הקיר דוחף אותך חזרה בדיוק עם אותו כוח שהפעלת. לכן אתה לא עובר דרכו — הכוחות מאוזנים.' },
+    { q: 'שחיין דוחף מים אחורה עם הידיים. מה המים עושים?',
+      opts: ['דוחפים את השחיין אחורה גם כן', 'דוחפים את השחיין קדימה', 'לא עושים כלום', 'מאטים את השחיין מיד'],
+      correct: 1, exp: 'פעולה-תגובה! השחיין דוחף מים אחורה (פעולה). המים דוחפים את השחיין קדימה (תגובה). כך כל תנועות השחייה מניעות אותך דרך המים!' }
+  ]);
+
+  initLessonQuiz('lq-energy', [
+    { q: 'כדור עומד בשקט בראש מדרון. איזה סוג אנרגיה יש לו?',
+      opts: ['אנרגיה קינטית (הוא נע)', 'אנרגיה פוטנציאלית (הוא גבוה, אנרגיה צבורה)', 'אין לו אנרגיה כלל', 'אנרגיה חשמלית'],
+      correct: 1, exp: 'אנרגיה פוטנציאלית! הכדור גבוה ולא נע, ולכן כל האנרגיה שלו צבורה כאנרגיה פוטנציאלית כבידתית. ברגע שמשחררים אותו, היא מתחילה להפוך לקינטית.' },
+    { q: 'כשהכדור מתגלגל במורד המדרון, מה קורה לאנרגיה שלו?',
+      opts: ['שתיהן גדלות', 'שתיהן קטנות', 'הפוטנציאלית קטנה, הקינטית גדלה', 'הפוטנציאלית גדלה, הקינטית קטנה'],
+      correct: 2, exp: 'בזמן הגלגול למטה הגובה יורד (פחות פוטנציאלית) והמהירות עולה (יותר קינטית). האנרגיה מומרת מסוג לסוג — אבל הסכום נשאר זהה!' },
+    { q: 'למה כדור קופץ קצת נמוך יותר בכל קפיצה?',
+      opts: ['הכבידה מתחזקת', 'כמות קטנה של אנרגיה הופכת לחום וקול בכל קפיצה', 'הכדור נעשה כבד יותר', 'האוויר דוחף אותו למטה'],
+      correct: 1, exp: 'בכל קפיצה, קצת מהאנרגיה הקינטית הופכת לחום (הכדור מתחמם מעט) ולקול (ה"בום"). נשארת פחות אנרגיה לקפיצה הבאה — ולכן היא קצת נמוכה יותר.' }
+  ]);
+
+  initLessonQuiz('lq-gravity', [
+    { q: 'זרקת כדור הצידה. למה הוא עוקב אחר נתיב מעוקל ולא ישר?',
+      opts: ['הרוח דוחפת אותו', 'הכבידה מושכת אותו כלפי מטה בזמן שהוא נע הצידה', 'הכדור מסתובב', 'האוויר סמיך מדי'],
+      correct: 1, exp: 'לכדור יש שתי תנועות בו-זמנית: הצידה (מהזריקה) ולמטה (מהכבידה). השילוב של שתיהן יוצר את צורת הפרבולה המעוקלת!' },
+    { q: 'באיזו זווית שיגור כדור נוסע הכי רחוק?',
+      opts: ['90° (ישר למעלה)', '10° (כמעט שטוח)', '45° (באמצע)', '0° (אופקי לגמרי)'],
+      correct: 2, exp: '45° היא הנקודה המושלמת! היא מאזנת בין נסיעה רחוקה לצד לבין עלייה גבוהה. כל זווית אחרת (שטוחה מדי או תלולה מדי) תיתן טווח קצר יותר עם אותו כוח זריקה.' },
+    { q: 'כבידת הירח חלשה פי 6 מכדור הארץ. אם תזרוק כדור על הירח, הוא...',
+      opts: ['יפול הרבה יותר מהר ויגיע לאדמה מהר יותר', 'יטוס הרבה יותר רחוק לפני שיגיע לאדמה', 'יטוס אותו מרחק', 'יעלה למעלה לנצח'],
+      correct: 1, exp: 'כבידה חלשה יותר = משיכה כלפי מטה איטית יותר = הכדור נשאר באוויר הרבה יותר זמן = נוסע הרבה יותר רחוק! על הירח תוכל לזרוק כדור כ-6 פעמים יותר רחוק מאשר על כדור הארץ.' }
+  ]);
 });
 </script>
 </body>

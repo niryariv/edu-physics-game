@@ -461,6 +461,22 @@
   }
 .lang-switch { color: var(--gold); border: 1px solid var(--gold); border-radius: 20px; padding: 4px 12px; font-size: 14px; text-decoration: none; white-space: nowrap; transition: background 0.2s; }
 .lang-switch:hover { background: rgba(255,215,0,0.15); }
+
+  /* INLINE LESSON QUIZ */
+  .lesson-quiz { background: rgba(255,215,0,0.07); border: 2px solid var(--gold); border-radius: 14px; padding: 20px 22px; margin-top: 28px; }
+  .lesson-quiz h3 { color: var(--gold); margin-bottom: 14px; font-size: 1.15em; }
+  .lq-question { margin-bottom: 18px; }
+  .lq-question .lq-text { font-weight: 600; margin-bottom: 10px; font-size: 1em; line-height: 1.5; }
+  .lq-opts { display: flex; flex-direction: column; gap: 7px; }
+  .lq-opt { background: var(--card); border: 2px solid #444; border-radius: 8px; padding: 9px 14px; cursor: pointer; text-align: left; font-size: 0.95em; transition: border-color 0.2s, background 0.2s; }
+  .lq-opt:hover:not(:disabled) { border-color: var(--gold); background: rgba(255,215,0,0.1); }
+  .lq-opt.correct { border-color: var(--success) !important; background: rgba(76,175,80,0.18) !important; color: #fff; }
+  .lq-opt.wrong   { border-color: var(--danger)  !important; background: rgba(244,67,54,0.18)  !important; color: #fff; }
+  .lq-feedback { margin-top: 8px; font-size: 0.9em; line-height: 1.5; padding: 8px 12px; border-radius: 6px; display: none; }
+  .lq-feedback.show { display: block; }
+  .lq-feedback.ok  { background: rgba(76,175,80,0.15); color: #86efac; }
+  .lq-feedback.bad { background: rgba(244,67,54,0.15); color: #fca5a5; }
+  .lesson-quiz-score { text-align: center; margin-top: 16px; font-size: 1.1em; font-weight: 700; color: var(--gold); display: none; }
 </style>
 </head>
 <body>
@@ -570,26 +586,26 @@
     <div class="card card-law1">
       <h1>&#128309; Newton's First Law — Inertia</h1>
       <div class="highlight-box hl-law1">
-        "An object at rest stays at rest, and a moving object keeps moving at the same speed — UNLESS a force acts on it! &#127944;"
+        "If something is NOT moving, it will stay still. If something IS moving, it will keep moving at the same speed in the same direction — FOREVER — unless something pushes or pulls it. That resistance to change is called INERTIA! 🏒"
       </div>
-      <p>This is called <strong>inertia</strong> — the tendency of objects to resist changes in their motion.</p>
+      <p>Think of it this way: objects are LAZY! They don't want to start moving, and once they are moving, they don't want to stop. Inertia is just a fancy word for that laziness.</p>
       <ul class="examples-list">
-        <li><strong>Car seatbelts:</strong> When a car stops suddenly, YOUR body keeps moving forward. The seatbelt is the force that stops you!</li>
-        <li><strong>Hockey puck on ice:</strong> On smooth ice, a puck slides a very long way because there's almost no friction to slow it down.</li>
-        <li><strong>Spaceship drifting in space:</strong> With no air friction in space, a spaceship thrown forward drifts forever unless thrusters fire!</li>
+        <li>🚗 <strong>Seatbelts:</strong> When a car brakes hard, your body keeps flying forward because of inertia. The seatbelt grabs you and applies the stopping force.</li>
+        <li>🏒 <strong>Hockey puck on ice:</strong> Ice is very slippery (low friction), so there's almost nothing to slow the puck — it keeps sliding and sliding!</li>
+        <li>🚀 <strong>Spaceship in space:</strong> There's no air in space, so nothing slows a moving spaceship. It glides on FOREVER until a force acts on it.</li>
       </ul>
     </div>
 
     <!-- Game 1A: Surface Slide -->
     <div class="card card-law1">
       <h2>&#127918; Experiment 1A — Surface Slide</h2>
-      <p>Kick a puck across different surfaces. Notice how friction changes how far it travels!</p>
+      <p>Choose a surface, then click Kick! to launch the puck. Watch how far it travels — and notice how friction decides when it stops. 👉 Try all 4 surfaces and compare!</p>
 
       <div class="btn-row" id="surface-btns">
-        <button class="surface-btn selected" data-surface="ice"   onclick="selectSurface('ice',this)">&#10052; Ice (&#956;=0.005)</button>
-        <button class="surface-btn"          data-surface="wood"  onclick="selectSurface('wood',this)">&#129717; Wood (&#956;=0.04)</button>
-        <button class="surface-btn"          data-surface="grass" onclick="selectSurface('grass',this)">&#127807; Grass (&#956;=0.09)</button>
-        <button class="surface-btn"          data-surface="sand"  onclick="selectSurface('sand',this)">&#127958; Sand (&#956;=0.15)</button>
+        <button class="surface-btn selected" data-surface="ice"   onclick="selectSurface('ice',this)">❄️ Ice (very slippery)</button>
+        <button class="surface-btn"          data-surface="wood"  onclick="selectSurface('wood',this)">🪵 Wood (a bit rough)</button>
+        <button class="surface-btn"          data-surface="grass" onclick="selectSurface('grass',this)">🌱 Grass (rough)</button>
+        <button class="surface-btn"          data-surface="sand"  onclick="selectSurface('sand',this)">🏖️ Sand (very rough)</button>
       </div>
 
       <div class="canvas-wrap">
@@ -620,19 +636,20 @@
         <button class="btn btn-gray btn-sm" onclick="resetSlide()">Reset</button>
         <span id="slide-pts-msg" style="color:var(--success);font-weight:700;font-size:16px;display:none">+100 pts!</span>
       </div>
+      <p style="font-size:14px;color:var(--text-dim);margin-top:10px">💡 Tip: On ice the puck barely slows down — just like Newton said! On sand it stops quickly because friction is a big force.</p>
     </div>
 
     <!-- Game 1B: Space Drift -->
     <div class="card card-law1">
       <h2>&#127918; Experiment 1B — Space Drift</h2>
-      <p>Fire a rocket thruster. Toggle atmosphere on/off. In space, nothing slows you down!</p>
+      <p>Fire the thruster ONCE, then watch what happens. Try it with Atmosphere OFF (pure space!) and then toggle it ON to see the difference.</p>
 
       <div class="toggle-wrap">
         <label class="toggle-switch">
           <input type="checkbox" id="atmos-toggle" onchange="toggleAtmosphere()">
           <span class="toggle-slider"></span>
         </label>
-        <span class="atmosphere-status" id="atmos-label" style="color:#888">Atmosphere: OFF</span>
+        <span class="atmosphere-status" id="atmos-label" style="color:#888">🌌 Space Mode (no air resistance)</span>
       </div>
 
       <div class="canvas-wrap">
@@ -661,7 +678,12 @@
         <button class="btn btn-gray btn-sm" onclick="resetSpace()">Reset</button>
         <span id="space-pts-msg" style="color:var(--success);font-weight:700;font-size:16px;display:none">+100 pts!</span>
       </div>
-      <p style="font-size:14px;color:var(--text-dim)">Tip: Fire the thruster, then stop. With atmosphere OFF, the rocket drifts forever!</p>
+      <p style="font-size:14px;color:var(--text-dim)">💡 Tip: With atmosphere OFF you can see inertia at work — the ship just keeps going! That's exactly what Newton's First Law describes.</p>
+
+      <div class="lesson-quiz">
+        <h3>🧠 Quick Check — Law 1: Inertia</h3>
+        <div id="lq-law1"></div>
+      </div>
     </div>
   </div>
 
@@ -670,19 +692,19 @@
     <div class="card card-law2">
       <h1>&#128992; Newton's Second Law — F = ma</h1>
       <div class="highlight-box hl-law2">
-        "The harder you push, the faster something accelerates! But heavier things need MORE force to speed up. The formula is: <strong>a = F &divide; m &#128640;</strong>"
+        "Push something HARDER and it speeds up FASTER. Push something HEAVIER and it speeds up SLOWER. This is the formula: Force = Mass &times; Acceleration (or: a = F &divide; m) 🚀"
       </div>
-      <p>This means: if you push a shopping cart and a car with the same force, the cart accelerates WAY more because it's so much lighter.</p>
+      <p>Imagine pushing a shopping trolley. An empty trolley is easy to push fast. A trolley full of heavy shopping needs a much bigger push to get moving. That's this law in action! The same force gives a lighter object MORE acceleration.</p>
       <ul class="examples-list">
-        <li><strong>Shopping cart vs car:</strong> Same push, completely different results! The car barely moves.</li>
-        <li><strong>Soccer ball vs bowling ball:</strong> Kick them with the same force. The soccer ball flies — the bowling ball crawls.</li>
-        <li><strong>Rocket engines:</strong> To lift a massive rocket, you need enormous force from burning fuel!</li>
+        <li>⚽ <strong>Same kick, different balls:</strong> Kick a light football and a heavy bowling ball with the same force. The football flies far; the bowling ball barely moves.</li>
+        <li>🏎️ <strong>Race cars have huge engines:</strong> Racing cars need enormous force to accelerate their mass from 0 to 200 km/h in just a few seconds.</li>
+        <li>🛒 <strong>Shopping trolley:</strong> An empty trolley is easy to push fast. Fill it with shopping and the same push gives much less acceleration.</li>
       </ul>
     </div>
 
     <div class="card card-law2">
       <h2>&#127918; Experiment — Force &amp; Mass Lab</h2>
-      <p>Adjust force and mass to see how acceleration changes. Try the preset objects!</p>
+      <p>Drag the Force slider to set how hard you push. Drag the Mass slider to set how heavy the object is. Watch the Acceleration change — and then click Launch to see it move!</p>
 
       <div class="slider-row">
         <span class="slider-label">Force:</span>
@@ -736,8 +758,15 @@
         <button class="btn btn-gray btn-sm" onclick="resetFMA()">Reset</button>
       </div>
       <p style="font-size:14px;color:var(--text-dim)">Race Mode launches soccer ball, box, and boulder simultaneously with the same force!</p>
+      <p style="font-size:14px;color:var(--text-dim);margin-top:6px">👉 Try: Set Force to maximum (100 N) and Mass to minimum (1 kg). Then try maximum Mass (20 kg) with the same force. See the difference?</p>
+      <p style="font-size:14px;color:var(--text-dim);margin-top:4px">💡 The acceleration arrow on the canvas gets longer when acceleration is bigger!</p>
       <div style="margin-top:8px">
         <span id="fma-pts-msg" style="color:var(--success);font-weight:700;font-size:16px;display:none">Points earned!</span>
+      </div>
+
+      <div class="lesson-quiz">
+        <h3>🧠 Quick Check — Law 2: F = ma</h3>
+        <div id="lq-law2"></div>
       </div>
     </div>
   </div>
@@ -747,23 +776,24 @@
     <div class="card card-law3">
       <h1>&#128995; Newton's Third Law — Action &amp; Reaction</h1>
       <div class="highlight-box hl-law3">
-        "For every push or pull (action), there's always an equal push or pull in the OPPOSITE direction (reaction)! That's how rockets fly! &#128640;"
+        "Every push has an equal push back! If you push something, it pushes YOU back with the exact same strength — but in the OPPOSITE direction! 🚀"
       </div>
-      <p>The key word is <strong>EQUAL and OPPOSITE</strong>. The forces are the same strength, but in opposite directions!</p>
+      <p>Try pushing against a wall. You push the wall forward; the wall pushes YOU backward. You don't fall through the wall because the forces are equal and opposite. This is why rockets work — they push gas backwards, and the gas pushes the rocket forwards!</p>
       <ul class="examples-list">
-        <li><strong>Rocket exhaust:</strong> Engines push hot gas DOWN — gas pushes rocket UP!</li>
-        <li><strong>Balloon releasing air:</strong> Balloon pushes air BACKWARD — air pushes balloon FORWARD!</li>
-        <li><strong>Swimmer pushing water:</strong> Hands push water BACKWARD — water pushes swimmer FORWARD!</li>
+        <li>🚀 <strong>Rocket engines:</strong> Hot gas blasts downward (action). The gas pushes the rocket upward (reaction). Equal force, opposite direction!</li>
+        <li>🎈 <strong>Balloon:</strong> Let go of an inflated balloon and air shoots out one end (action) — the balloon flies the other way (reaction)!</li>
+        <li>🏊 <strong>Swimming:</strong> You push water backward with your hands (action). The water pushes you forward (reaction).</li>
+        <li>🚣 <strong>Rowing a boat:</strong> You push the water back with the oar (action). The water pushes the boat forward (reaction).</li>
       </ul>
     </div>
 
     <!-- Game 3A: Balloon Rocket -->
     <div class="card card-law3">
       <h2>&#127918; Experiment 3A — Balloon Rocket</h2>
-      <p>Inflate the balloon more for a bigger reaction force!</p>
+      <p>Slide to choose how much air is in the balloon, then click Release! The air shoots BACKWARDS (that's the action force) and the balloon shoots FORWARDS (that's the reaction force). More air = more force = farther distance!</p>
 
       <div class="slider-row">
-        <span class="slider-label">Inflation:</span>
+        <span class="slider-label">💨 Air in balloon:</span>
         <input type="range" class="slider-law3" id="balloon-slider" min="10" max="100" value="60" oninput="updateBalloon()">
         <span class="slider-val" id="balloon-val" style="color:var(--law3)">60%</span>
       </div>
@@ -792,16 +822,16 @@
         <button class="btn btn-gray btn-sm" onclick="resetBalloon()">Reset</button>
         <span id="bal-pts-msg" style="color:var(--success);font-weight:700;font-size:16px;display:none">+100 pts!</span>
       </div>
-      <p style="font-size:14px;color:var(--text-dim)">Watch the action (air going left) and reaction (balloon going right) arrows!</p>
+      <p style="font-size:14px;color:var(--text-dim)">💡 Watch the arrows: the left arrow shows air going backward (action) and the right arrow shows the balloon going forward (reaction).</p>
     </div>
 
     <!-- Game 3B: Rocket Launch -->
     <div class="card card-law3">
       <h2>&#127918; Experiment 3B — Rocket Launch</h2>
-      <p>Adjust thrust power and launch your rocket! Exhaust goes down, rocket goes UP!</p>
+      <p>Set the engine thrust, then click Launch Rocket! The rocket pushes burning gas DOWN (action) and the gas pushes the rocket UP (reaction). More thrust = higher the rocket flies!</p>
 
       <div class="slider-row">
-        <span class="slider-label">Thrust:</span>
+        <span class="slider-label">🔥 Engine thrust:</span>
         <input type="range" class="slider-law3" id="thrust-slider" min="20" max="100" value="60" oninput="updateThrust()">
         <span class="slider-val" id="thrust-val" style="color:var(--law3)">60%</span>
       </div>
@@ -841,6 +871,12 @@
         <button class="btn btn-gray btn-sm" onclick="resetRocket()">Reset</button>
         <span id="rocket-pts-msg" style="color:var(--success);font-weight:700;font-size:16px;display:none">+100 pts!</span>
       </div>
+      <p style="font-size:14px;color:var(--text-dim);margin-top:10px">💡 Watch the flame at the bottom — that's the action force. The rocket shooting up is the reaction force!</p>
+
+      <div class="lesson-quiz">
+        <h3>🧠 Quick Check — Law 3: Action &amp; Reaction</h3>
+        <div id="lq-law3"></div>
+      </div>
     </div>
   </div>
 
@@ -852,7 +888,9 @@
     </div>
     <div class="section-body">
       <div class="law-explanation card">
-        <p>Energy can <strong>never be created or destroyed</strong> — it only changes form! ⚡ When a roller coaster goes down a hill, <strong>potential energy</strong> (stored height) converts to <strong>kinetic energy</strong> (movement speed). The total energy always stays the same!</p>
+        <p>Energy is like a currency that <strong>never disappears</strong> — it only gets <em>exchanged</em> for a different type! ⚡</p>
+        <p><strong>Potential energy</strong> is energy that's stored and waiting — like a ball at the top of a hill, a stretched rubber band, or a battery. <strong>Kinetic energy</strong> is energy that's moving — like a rolling ball, a flying plane, or a running cheetah.</p>
+        <p>When the ball rolls <em>down</em> the hill, every bit of potential energy turns into kinetic energy. At the very bottom, it's ALL kinetic. At the very top, it's ALL potential. In between, it's a mix — but the TOTAL always stays the same. That's conservation of energy!</p>
       </div>
       <div class="card" style="border-left:5px solid var(--energy)">
         <h4>🌍 Real-World Examples:</h4>
@@ -860,7 +898,7 @@
       </div>
       <div class="card">
         <h3>🎢 Experiment: Roller Coaster Energy</h3>
-        <p>Set the height and launch the cart. Watch potential energy (blue) convert to kinetic energy (orange) as the cart rolls down!</p>
+        <p>Use the slider to set how HIGH the cart starts. Higher start = more stored (potential) energy = faster speed at the bottom! Click Launch and watch the BLUE bar (potential energy) shrink while the ORANGE bar (kinetic energy) grows.</p>
         <div style="margin:10px 0">
           <label>Starting Height: <span id="rc-height-val">70</span>%</label>
           <input type="range" id="rc-height" min="20" max="100" value="70" oninput="document.getElementById('rc-height-val').textContent=this.value">
@@ -869,10 +907,11 @@
         <button class="btn btn-gray" onclick="resetRollerCoaster()">Reset</button>
         <canvas id="canvas-rc" width="500" height="180" style="display:block;margin:10px 0;border-radius:8px;background:#0a1628;max-width:100%">Roller coaster simulation</canvas>
         <div id="rc-status" style="color:var(--energy);font-size:14px;min-height:20px"></div>
+        <p style="font-size:14px;color:var(--text-dim);margin-top:8px">👀 Watch both bars: when the cart is at the top, the blue bar is FULL. At the bottom, the orange bar is FULL. The total height of the two bars never changes — that's conservation of energy!</p>
       </div>
       <div class="card">
         <h3>🏀 Experiment: Bouncing Ball</h3>
-        <p>Drop a ball from different heights and watch potential energy convert to kinetic energy and back. Each bounce loses a little energy to heat!</p>
+        <p>Set how high to drop the ball, then click Drop! At the TOP of each bounce the ball is almost still — nearly all potential energy. Falling DOWN it's all kinetic. Each bounce is a little lower because a tiny bit of energy becomes heat and sound.</p>
         <div style="margin:10px 0">
           <label>Drop Height: <span id="bb-height-val">80</span>%</label>
           <input type="range" id="bb-height" min="20" max="100" value="80" oninput="document.getElementById('bb-height-val').textContent=this.value">
@@ -884,6 +923,11 @@
       <div class="card" style="border-left:5px solid var(--energy)">
         <h4>⚡ Types of Energy:</h4>
         <p>🏃 <strong>Kinetic</strong> — Energy of movement | 🏔️ <strong>Potential</strong> — Stored height energy | 🔥 <strong>Thermal</strong> — Heat energy | 🍎 <strong>Chemical</strong> — Food &amp; fuel | ⚡ <strong>Electrical</strong> — Flowing electrons</p>
+
+        <div class="lesson-quiz">
+          <h3>🧠 Quick Check — Energy</h3>
+          <div id="lq-energy"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -896,7 +940,9 @@
     </div>
     <div class="section-body">
       <div class="law-explanation card">
-        <p>Gravity pulls everything toward Earth's center at <strong>9.8 m/s²</strong>! 🌍 When you throw a ball, it moves <strong>forward</strong> (from the throw) AND <strong>falls down</strong> (from gravity) simultaneously — creating a curved arc called a <strong>parabola</strong>!</p>
+        <p>Gravity is a force that <strong>pulls every object toward Earth's centre</strong>. It gives everything an acceleration of <strong>9.8 m/s²</strong> — that means every second you fall, you're going 9.8 metres per second <em>faster</em>! 🌍</p>
+        <p>When you throw a ball, TWO things happen at once: it moves <strong>sideways</strong> because you threw it, AND it moves <strong>downward</strong> because gravity is always pulling. The combination of these two movements creates the curved path called a <strong>parabola</strong> — that's every throw, kick, or shot you've ever seen!</p>
+        <p>The angle you throw at matters a lot. Throw too flat and it hits the ground before going far. Throw too steep and it goes mostly up. The <strong>sweet spot is 45°</strong> — perfectly balanced between height and distance.</p>
       </div>
       <div class="card" style="border-left:5px solid var(--gravity)">
         <h4>🌍 Real-World Examples:</h4>
@@ -904,21 +950,22 @@
       </div>
       <div class="card">
         <h3>🏀 Experiment: Projectile Launcher</h3>
-        <p>Adjust the angle and speed, then launch! Try different angles to find which one sends the ball the farthest (hint: it's 45°!)</p>
+        <p>Set the ANGLE and SPEED with the sliders, then click Launch! The dotted trail shows the curved path (parabola). 👉 Try different angles: which one sends the ball the farthest? (Hint: try 45°!)</p>
         <div style="margin:10px 0;display:flex;gap:20px;flex-wrap:wrap">
-          <div><label>Angle: <span id="proj-angle-val">45</span>°</label><br>
+          <div><label>🎯 Launch angle (how steeply you throw): <span id="proj-angle-val">45</span>°</label><br>
           <input type="range" id="proj-angle" min="10" max="80" value="45" oninput="document.getElementById('proj-angle-val').textContent=this.value;drawProjectileIdle()"></div>
-          <div><label>Speed: <span id="proj-speed-val">60</span>%</label><br>
+          <div><label>💪 Launch speed: <span id="proj-speed-val">60</span>%</label><br>
           <input type="range" id="proj-speed" min="20" max="100" value="60" oninput="document.getElementById('proj-speed-val').textContent=this.value;drawProjectileIdle()"></div>
         </div>
         <button class="btn" style="background:var(--gravity)" onclick="launchProjectile()">🚀 Launch!</button>
         <button class="btn btn-gray" onclick="resetProjectile()">Reset</button>
         <canvas id="canvas-proj" width="520" height="200" style="display:block;margin:10px 0;border-radius:8px;background:#0a1628;max-width:100%">Projectile motion simulation</canvas>
         <div id="proj-status" style="color:var(--gravity);font-size:14px;min-height:20px"></div>
+        <p style="font-size:14px;color:var(--text-dim);margin-top:8px">💡 Try 10°, then 45°, then 80°. Notice that 45° gives the biggest distance!</p>
       </div>
       <div class="card">
         <h3>🪐 Experiment: Gravity on Different Worlds</h3>
-        <p>Same throw, different gravity! See how the same ball travels much farther on the Moon than on Jupiter!</p>
+        <p>Same throw on four different worlds! Watch all four balls fly at once. On the Moon (weak gravity) the ball goes MUCH farther. On Jupiter (super-strong gravity) it crashes down almost immediately!</p>
         <button class="btn" style="background:var(--gravity)" onclick="launchWorlds()">🚀 Launch on All Worlds!</button>
         <button class="btn btn-gray" onclick="resetWorlds()">Reset</button>
         <canvas id="canvas-worlds" width="520" height="200" style="display:block;margin:10px 0;border-radius:8px;background:#0a1628;max-width:100%">Multi-world gravity comparison</canvas>
@@ -932,6 +979,11 @@
       <div class="card" style="border-left:5px solid var(--gravity)">
         <h4>🤔 Did You Know?</h4>
         <p>🌙 Moon's gravity = just 1/6 of Earth's! | 🏛️ Galileo dropped balls from the Leaning Tower of Pisa to test gravity | 👨‍🚀 Apollo astronauts could jump 6x higher on the Moon!</p>
+
+        <div class="lesson-quiz">
+          <h3>🧠 Quick Check — Gravity &amp; Projectiles</h3>
+          <div id="lq-gravity"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -1332,12 +1384,12 @@ function toggleAtmosphere() {
   var label  = document.getElementById('atmos-label');
   var status = document.getElementById('space-atmos-status');
   if (spaceState.atmosphere) {
-    label.textContent  = 'Atmosphere: ON';
+    label.textContent  = '🌍 With Atmosphere (air slows you down)';
     label.style.color  = '#4CAF50';
     status.textContent = 'ON';
     status.style.color = '#4CAF50';
   } else {
-    label.textContent  = 'Atmosphere: OFF';
+    label.textContent  = '🌌 Space Mode (no air resistance)';
     label.style.color  = '#888';
     status.textContent = 'OFF';
     status.style.color = '#888';
@@ -2580,6 +2632,110 @@ window.addEventListener('load', function() {
   drawBalloonCanvas();
   drawRocketCanvas();
 });
+
+// ================================================================
+//  INLINE LESSON QUIZ ENGINE
+// ================================================================
+var lqScores = {};
+function initLessonQuiz(quizId, questions) {
+  var container = document.getElementById(quizId);
+  if (!container) return;
+  container.innerHTML = '';
+  questions.forEach(function(q, qi) {
+    var optsHtml = q.opts.map(function(o, oi) {
+      return '<button class="lq-opt" onclick="answerLQ(\'' + quizId + '\',' + qi + ',' + oi + ',' + q.correct + ',\'' + encodeURIComponent(q.exp) + '\')">' + o + '</button>';
+    }).join('');
+    container.innerHTML += '<div class="lq-question"><div class="lq-text">' + (qi+1) + '. ' + q.q + '</div><div class="lq-opts" id="' + quizId + '-opts-' + qi + '">' + optsHtml + '</div><div class="lq-feedback" id="' + quizId + '-fb-' + qi + '"></div></div>';
+  });
+  container.innerHTML += '<div class="lesson-quiz-score" id="' + quizId + '-score"></div>';
+}
+function answerLQ(quizId, qi, oi, correct, expEnc) {
+  var exp = decodeURIComponent(expEnc);
+  var opts = document.querySelectorAll('#' + quizId + '-opts-' + qi + ' .lq-opt');
+  opts.forEach(function(b, i) {
+    b.disabled = true;
+    if (i === correct) b.classList.add('correct');
+    else if (i === oi && oi !== correct) b.classList.add('wrong');
+  });
+  var fb = document.getElementById(quizId + '-fb-' + qi);
+  var isOk = (oi === correct);
+  fb.textContent = (isOk ? '✅ Correct! ' : '❌ Not quite. ') + exp;
+  fb.className = 'lq-feedback show ' + (isOk ? 'ok' : 'bad');
+  if (!lqScores[quizId]) lqScores[quizId] = { correct: 0, total: 0 };
+  lqScores[quizId].total++;
+  if (isOk) lqScores[quizId].correct++;
+  var allQ = document.querySelectorAll('#' + quizId + ' .lq-question');
+  var answered = document.querySelectorAll('#' + quizId + ' .lq-feedback.show').length;
+  if (answered === allQ.length) {
+    var sc = document.getElementById(quizId + '-score');
+    var pct = lqScores[quizId].correct;
+    sc.textContent = 'You got ' + pct + ' / ' + allQ.length + (pct === allQ.length ? ' 🌟 Perfect!' : pct >= allQ.length - 1 ? ' 👍 Great job!' : ' 💪 Keep practising!');
+    sc.style.display = 'block';
+  }
+}
+
+// ================================================================
+//  INIT LESSON QUIZZES
+// ================================================================
+initLessonQuiz('lq-law1', [
+  { q: 'A ball is rolling on a flat surface. What will happen if NO force acts on it?',
+    opts: ['It will slow down and stop', 'It will keep rolling forever at the same speed', 'It will speed up', 'It will bounce'],
+    correct: 1, exp: "Newton's First Law! Without any force (like friction or a wall), a moving object keeps moving forever at the same speed and direction." },
+  { q: 'Why do you jerk forward when a bus brakes suddenly?',
+    opts: ['The bus pushes you forward', 'Your body has inertia — it wants to keep moving forward', 'Gravity pulls you forward', 'The floor pushes you'],
+    correct: 1, exp: "Your body was moving at the same speed as the bus. When the bus stops, YOUR body keeps going forward — that's inertia at work!" },
+  { q: 'Why does a hockey puck slide much farther on ice than on grass?',
+    opts: ['The puck is lighter on ice', 'Ice has less friction, so less force slows the puck', 'The puck is faster on grass', 'Gravity is lower on ice'],
+    correct: 1, exp: "Ice has very low friction — almost no force acting against the puck's motion — so inertia keeps it going much longer!" }
+]);
+
+initLessonQuiz('lq-law2', [
+  { q: 'You push a 2 kg ball with 10 N of force. What is its acceleration? (a = F \u00F7 m)',
+    opts: ['20 m/s\u00B2', '5 m/s\u00B2', '0.2 m/s\u00B2', '12 m/s\u00B2'],
+    correct: 1, exp: 'a = F \u00F7 m = 10 \u00F7 2 = 5 m/s\u00B2. The formula is straightforward — divide force by mass!' },
+  { q: 'A small football and a heavy bowling ball are kicked with the SAME force. Which accelerates more?',
+    opts: ['The bowling ball', 'The football', 'They accelerate the same', 'Neither moves'],
+    correct: 1, exp: 'The football! It has less mass, so the same force gives it much greater acceleration. a = F \u00F7 m — smaller m means bigger a!' },
+  { q: 'You want to give a heavy boulder the SAME acceleration as a small pebble. What do you need?',
+    opts: ['Less force', 'The same force', 'Much more force', 'No force at all'],
+    correct: 2, exp: 'More force! F = m \u00D7 a. If mass is much bigger and you want the same acceleration, you must apply a much larger force.' }
+]);
+
+initLessonQuiz('lq-law3', [
+  { q: 'When a rocket blasts gas downward, what happens to the rocket?',
+    opts: ['It goes down too', 'It goes up — equal and opposite reaction', 'It spins', 'It stays still'],
+    correct: 1, exp: "Third Law! The rocket pushes gas DOWN (action). The gas pushes the rocket UP (reaction) with equal force in the opposite direction. That's how every rocket ever launched has worked!" },
+  { q: 'You push against a wall. The wall pushes back on you with...',
+    opts: ['Less force (walls are strong)', 'The same force in the opposite direction', 'More force (walls are heavier)', 'No force — walls can\'t push'],
+    correct: 1, exp: "Equal and opposite! The wall pushes back on you with exactly the same force you applied. That's why you don't go through it — the forces balance." },
+  { q: 'A swimmer pushes water BACKWARD with their hands. What does the water do?',
+    opts: ['Pushes the swimmer backward too', 'Pushes the swimmer forward', 'Does nothing', 'Slows the swimmer down immediately'],
+    correct: 1, exp: 'Action-reaction! The swimmer pushes water back (action). The water pushes the swimmer forward (reaction). That\'s how all swimming strokes propel you through the water!' }
+]);
+
+initLessonQuiz('lq-energy', [
+  { q: 'A ball is held still at the top of a ramp. What type of energy does it have?',
+    opts: ['Kinetic energy (it\'s moving)', 'Potential energy (it\'s high up, stored energy)', 'No energy at all', 'Electrical energy'],
+    correct: 1, exp: "Potential energy! The ball is high up and not moving, so all its energy is stored as gravitational potential energy. The moment you let it go, it starts converting to kinetic energy." },
+  { q: 'As the ball rolls DOWN the ramp, what happens to its potential and kinetic energy?',
+    opts: ['Both increase', 'Both decrease', 'Potential decreases, kinetic increases', 'Potential increases, kinetic decreases'],
+    correct: 2, exp: 'As it rolls down, height decreases (less potential) and speed increases (more kinetic). Energy is converted from one type to the other — but the total stays the same!' },
+  { q: 'Why does a bouncing ball bounce a little lower each time?',
+    opts: ['Gravity gets stronger', 'A tiny bit of energy turns into heat and sound on each bounce', 'The ball gets heavier', 'Air pushes it down'],
+    correct: 1, exp: "Each bounce converts a little kinetic energy into heat (the ball warms up slightly) and sound (the bounce noise). Less energy remains for the next bounce — so it's a little lower each time." }
+]);
+
+initLessonQuiz('lq-gravity', [
+  { q: 'You throw a ball sideways. Why does it follow a curved path instead of going straight?',
+    opts: ['Wind pushes it', 'Gravity continuously pulls it downward while it moves sideways', 'The ball is spinning', 'The air is too thick'],
+    correct: 1, exp: 'The ball has two motions at once: sideways (from your throw) and downward (from gravity). The combination of these two creates the curved parabola shape!' },
+  { q: 'At what launch angle does a ball travel the FARTHEST horizontal distance?',
+    opts: ['90\u00B0 (straight up)', '10\u00B0 (almost flat)', '45\u00B0 (in between)', '0\u00B0 (completely horizontal)'],
+    correct: 2, exp: '45\u00B0 is the sweet spot! It perfectly balances going far sideways vs going high up. Any other angle (too flat or too steep) gives a shorter range with the same throwing force.' },
+  { q: "The Moon's gravity is about 6\u00D7 weaker than Earth's. If you throw a ball on the Moon, it will...",
+    opts: ['Fall much faster and land sooner', 'Travel much farther before landing', 'Travel the same distance', 'Go straight up forever'],
+    correct: 1, exp: "Weaker gravity = slower downward pull = the ball stays airborne much longer = travels much farther! On the Moon you could throw a ball about 6\u00D7 farther than on Earth." }
+]);
 </script>
 </body>
 </html>
