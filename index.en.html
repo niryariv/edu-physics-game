@@ -13,6 +13,8 @@
     --law1: #00C9FF;
     --law2: #FF6B35;
     --law3: #7B2FBE;
+    --energy: #22c55e;
+    --gravity: #e11d48;
     --gold: #FFD700;
     --success: #4CAF50;
     --danger: #F44336;
@@ -140,6 +142,8 @@
   .tab-btn[data-tab="law2"].active  { background: linear-gradient(135deg, #a03000, var(--law2)); }
   .tab-btn[data-tab="law3"].active  { background: linear-gradient(135deg, #4a0a7e, var(--law3)); }
   .tab-btn[data-tab="quiz"].active  { background: linear-gradient(135deg, #a08000, var(--gold)); color: #1A1A2E; }
+  .tab-btn[data-tab="energy"].active { background: linear-gradient(135deg, #166534, var(--energy)); }
+  .tab-btn[data-tab="gravity"].active { background: linear-gradient(135deg, #881337, var(--gravity)); }
 
   /* MAIN */
   #main {
@@ -466,11 +470,13 @@
   <div id="header-title">Newton's Laws Adventure!</div>
   <div id="score-display">
     <div id="stars-display">&#9734;&#9734;&#9734;&#9734;&#9734;</div>
-    <div id="score-text">Score: 0 / 800</div>
+    <div id="score-text">Score: 0 / 1200</div>
     <div id="progress-dots">
       <div class="dot" id="dot-law1" title="Law 1: Inertia"></div>
       <div class="dot" id="dot-law2" title="Law 2: F=ma"></div>
       <div class="dot" id="dot-law3" title="Law 3: Action/Reaction"></div>
+      <div class="dot" id="dot-energy" title="Energy"></div>
+      <div class="dot" id="dot-gravity" title="Gravity &amp; Projectile Motion"></div>
       <div class="dot" id="dot-quiz" title="Quiz"></div>
     </div>
   </div>
@@ -484,6 +490,8 @@
   <button class="tab-btn" data-tab="law1">&#128309; Law 1</button>
   <button class="tab-btn" data-tab="law2">&#128992; Law 2</button>
   <button class="tab-btn" data-tab="law3">&#128995; Law 3</button>
+  <button class="tab-btn" data-tab="energy">⚡ Energy</button>
+  <button class="tab-btn" data-tab="gravity">🌍 Gravity</button>
   <button class="tab-btn" data-tab="quiz">&#10067; Quiz</button>
 </div>
 
@@ -516,6 +524,16 @@
         <p>Every action has an equal and opposite reaction!</p>
         <div id="home-done-3" style="display:none"><span class="done-badge">&#10003; Completed!</span></div>
       </div>
+      <div class="home-law-card" style="border-color:var(--energy);background:linear-gradient(135deg,rgba(34,197,94,0.15),rgba(34,197,94,0.05))" onclick="switchTab('energy')">
+        <div style="font-size:2em">⚡</div>
+        <h3 style="color:var(--energy)">Conservation of Energy</h3>
+        <p>Energy cannot be created or destroyed — only transformed!</p>
+      </div>
+      <div class="home-law-card" style="border-color:var(--gravity);background:linear-gradient(135deg,rgba(225,29,72,0.15),rgba(225,29,72,0.05))" onclick="switchTab('gravity')">
+        <div style="font-size:2em">🌍</div>
+        <h3 style="color:var(--gravity)">Gravity &amp; Projectiles</h3>
+        <p>Gravity curves every thrown object into a parabola!</p>
+      </div>
       <div class="home-law-card home-card-quiz" onclick="switchTab('quiz')">
         <h3>&#10067; Quiz</h3>
         <h3>Test Your Knowledge!</h3>
@@ -527,7 +545,7 @@
     <div class="card" id="completion-screen" style="display:none">
       <div class="trophy-heading">&#127942; Physics Champion! &#127942;</div>
       <div class="stars-big" id="final-stars">&#11088;&#11088;&#11088;&#11088;&#11088;</div>
-      <div class="final-score" id="final-score-display">0 / 800</div>
+      <div class="final-score" id="final-score-display">0 / 1200</div>
       <p style="font-size:18px; color:#ccc; margin-bottom:20px;">You mastered Newton's Three Laws of Motion!</p>
       <div class="law-summaries">
         <div class="law-summary-card hl-law1">
@@ -826,6 +844,98 @@
     </div>
   </div>
 
+  <!-- ======== ENERGY ======== -->
+  <div class="section" id="sec-energy">
+    <div class="section-header" style="background:linear-gradient(135deg,#166534,var(--energy));border-radius:16px;padding:22px;margin-bottom:20px">
+      <h2>⚡ Conservation of Energy</h2>
+      <p class="section-tagline" style="margin:0;opacity:0.9">Energy cannot be created or destroyed — only transformed!</p>
+    </div>
+    <div class="section-body">
+      <div class="law-explanation card">
+        <p>Energy can <strong>never be created or destroyed</strong> — it only changes form! ⚡ When a roller coaster goes down a hill, <strong>potential energy</strong> (stored height) converts to <strong>kinetic energy</strong> (movement speed). The total energy always stays the same!</p>
+      </div>
+      <div class="card" style="border-left:5px solid var(--energy)">
+        <h4>🌍 Real-World Examples:</h4>
+        <ul><li>🎢 Roller coasters converting height to speed</li><li>🏀 Bouncing ball (KE→PE→KE)</li><li>💧 Hydroelectric dams (PE→Electrical)</li><li>🕰️ Pendulum clocks swinging back and forth</li><li>📱 Phone battery (Chemical→Electrical)</li></ul>
+      </div>
+      <div class="card">
+        <h3>🎢 Experiment: Roller Coaster Energy</h3>
+        <p>Set the height and launch the cart. Watch potential energy (blue) convert to kinetic energy (orange) as the cart rolls down!</p>
+        <div style="margin:10px 0">
+          <label>Starting Height: <span id="rc-height-val">70</span>%</label>
+          <input type="range" id="rc-height" min="20" max="100" value="70" oninput="document.getElementById('rc-height-val').textContent=this.value">
+        </div>
+        <button class="btn" style="background:var(--energy)" onclick="launchRollerCoaster()">🚀 Launch!</button>
+        <button class="btn btn-gray" onclick="resetRollerCoaster()">Reset</button>
+        <canvas id="canvas-rc" width="500" height="180" style="display:block;margin:10px 0;border-radius:8px;background:#0a1628;max-width:100%">Roller coaster simulation</canvas>
+        <div id="rc-status" style="color:var(--energy);font-size:14px;min-height:20px"></div>
+      </div>
+      <div class="card">
+        <h3>🏀 Experiment: Bouncing Ball</h3>
+        <p>Drop a ball from different heights and watch potential energy convert to kinetic energy and back. Each bounce loses a little energy to heat!</p>
+        <div style="margin:10px 0">
+          <label>Drop Height: <span id="bb-height-val">80</span>%</label>
+          <input type="range" id="bb-height" min="20" max="100" value="80" oninput="document.getElementById('bb-height-val').textContent=this.value">
+        </div>
+        <button class="btn" style="background:var(--energy)" onclick="launchBounceBall()">🏀 Drop!</button>
+        <button class="btn btn-gray" onclick="resetBounceBall()">Reset</button>
+        <canvas id="canvas-bb" width="300" height="220" style="display:block;margin:10px 0;border-radius:8px;background:#0a1628;max-width:100%">Bouncing ball simulation</canvas>
+      </div>
+      <div class="card" style="border-left:5px solid var(--energy)">
+        <h4>⚡ Types of Energy:</h4>
+        <p>🏃 <strong>Kinetic</strong> — Energy of movement | 🏔️ <strong>Potential</strong> — Stored height energy | 🔥 <strong>Thermal</strong> — Heat energy | 🍎 <strong>Chemical</strong> — Food &amp; fuel | ⚡ <strong>Electrical</strong> — Flowing electrons</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======== GRAVITY ======== -->
+  <div class="section" id="sec-gravity">
+    <div class="section-header" style="background:linear-gradient(135deg,#881337,var(--gravity));border-radius:16px;padding:22px;margin-bottom:20px">
+      <h2>🌍 Gravity &amp; Projectile Motion</h2>
+      <p class="section-tagline" style="margin:0;opacity:0.9">Every thrown object follows a perfect parabola!</p>
+    </div>
+    <div class="section-body">
+      <div class="law-explanation card">
+        <p>Gravity pulls everything toward Earth's center at <strong>9.8 m/s²</strong>! 🌍 When you throw a ball, it moves <strong>forward</strong> (from the throw) AND <strong>falls down</strong> (from gravity) simultaneously — creating a curved arc called a <strong>parabola</strong>!</p>
+      </div>
+      <div class="card" style="border-left:5px solid var(--gravity)">
+        <h4>🌍 Real-World Examples:</h4>
+        <ul><li>🏀 Basketball shots arcing into the hoop</li><li>🏈 Football passes</li><li>⚽ Soccer free kicks bending around walls</li><li>🌊 Water fountain arcs</li><li>🚀 Spacecraft trajectories</li></ul>
+      </div>
+      <div class="card">
+        <h3>🏀 Experiment: Projectile Launcher</h3>
+        <p>Adjust the angle and speed, then launch! Try different angles to find which one sends the ball the farthest (hint: it's 45°!)</p>
+        <div style="margin:10px 0;display:flex;gap:20px;flex-wrap:wrap">
+          <div><label>Angle: <span id="proj-angle-val">45</span>°</label><br>
+          <input type="range" id="proj-angle" min="10" max="80" value="45" oninput="document.getElementById('proj-angle-val').textContent=this.value;drawProjectileIdle()"></div>
+          <div><label>Speed: <span id="proj-speed-val">60</span>%</label><br>
+          <input type="range" id="proj-speed" min="20" max="100" value="60" oninput="document.getElementById('proj-speed-val').textContent=this.value;drawProjectileIdle()"></div>
+        </div>
+        <button class="btn" style="background:var(--gravity)" onclick="launchProjectile()">🚀 Launch!</button>
+        <button class="btn btn-gray" onclick="resetProjectile()">Reset</button>
+        <canvas id="canvas-proj" width="520" height="200" style="display:block;margin:10px 0;border-radius:8px;background:#0a1628;max-width:100%">Projectile motion simulation</canvas>
+        <div id="proj-status" style="color:var(--gravity);font-size:14px;min-height:20px"></div>
+      </div>
+      <div class="card">
+        <h3>🪐 Experiment: Gravity on Different Worlds</h3>
+        <p>Same throw, different gravity! See how the same ball travels much farther on the Moon than on Jupiter!</p>
+        <button class="btn" style="background:var(--gravity)" onclick="launchWorlds()">🚀 Launch on All Worlds!</button>
+        <button class="btn btn-gray" onclick="resetWorlds()">Reset</button>
+        <canvas id="canvas-worlds" width="520" height="200" style="display:block;margin:10px 0;border-radius:8px;background:#0a1628;max-width:100%">Multi-world gravity comparison</canvas>
+        <div style="display:flex;gap:15px;flex-wrap:wrap;font-size:13px;margin-top:5px">
+          <span style="color:#C0C0C0">⚪ Moon: 1.6 m/s²</span>
+          <span style="color:#FF6B35">🔴 Mars: 3.7 m/s²</span>
+          <span style="color:#00C9FF">🔵 Earth: 9.8 m/s²</span>
+          <span style="color:#FFB347">🟠 Jupiter: 24.8 m/s²</span>
+        </div>
+      </div>
+      <div class="card" style="border-left:5px solid var(--gravity)">
+        <h4>🤔 Did You Know?</h4>
+        <p>🌙 Moon's gravity = just 1/6 of Earth's! | 🏛️ Galileo dropped balls from the Leaning Tower of Pisa to test gravity | 👨‍🚀 Apollo astronauts could jump 6x higher on the Moon!</p>
+      </div>
+    </div>
+  </div>
+
   <!-- ======== QUIZ ======== -->
   <div class="section" id="sec-quiz">
     <div class="card card-quiz">
@@ -870,24 +980,30 @@ var state = {
   fmaTotalPts: 0,
   bal3aDone: false,
   rocket3bDone: false,
-  quizSubmitted: false
+  quizSubmitted: false,
+  energyDone: false,
+  gravityDone: false,
+  rcDone: false,
+  bbDone: false,
+  projDone: false,
+  worldsDone: false
 };
 
 // ================================================================
 //  SCORE & UI
 // ================================================================
 function addScore(pts) {
-  state.score = Math.min(800, state.score + pts);
+  state.score = Math.min(1200, state.score + pts);
   updateScoreDisplay();
   showNotif('+' + pts + ' pts!');
   checkCompletion();
 }
 
 function updateScoreDisplay() {
-  document.getElementById('score-text').textContent = 'Score: ' + state.score + ' / 800';
-  var pct = (state.score / 800) * 100;
+  document.getElementById('score-text').textContent = 'Score: ' + state.score + ' / 1200';
+  var pct = (state.score / 1200) * 100;
   document.getElementById('progress-bar').style.width = pct + '%';
-  var thresholds = [100, 250, 450, 600, 750];
+  var thresholds = [200, 400, 600, 800, 1000];
   var stars = 0;
   for (var i = 0; i < thresholds.length; i++) {
     if (state.score >= thresholds[i]) stars++;
@@ -910,6 +1026,8 @@ function updateDot(id, done) {
   if (done) dot.classList.add('done');
   else dot.classList.remove('done');
 }
+
+function markDot(id, done) { updateDot(id, done); }
 
 function checkLaw1Done() {
   if (state.slide1aKicked && state.space1bFired && !state.law1done) {
@@ -942,13 +1060,13 @@ function checkLaw3Done() {
 }
 
 function checkCompletion() {
-  if (state.law1done && state.law2done && state.law3done && state.quizDone) {
+  if (state.law1done && state.law2done && state.law3done && state.energyDone && state.gravityDone && state.quizDone) {
     setTimeout(function() {
       switchTab('home');
       document.getElementById('completion-screen').style.display = 'block';
       var s = document.getElementById('stars-display').textContent;
       document.getElementById('final-stars').textContent = s;
-      document.getElementById('final-score-display').textContent = state.score + ' / 800';
+      document.getElementById('final-score-display').textContent = state.score + ' / 1200';
     }, 600);
   }
 }
@@ -966,8 +1084,14 @@ function resetGame() {
   state.bal3aDone = false;
   state.rocket3bDone = false;
   state.quizSubmitted = false;
+  state.energyDone = false;
+  state.gravityDone = false;
+  state.rcDone = false;
+  state.bbDone = false;
+  state.projDone = false;
+  state.worldsDone = false;
   updateScoreDisplay();
-  ['law1','law2','law3','quiz'].forEach(function(k) { updateDot(k, false); });
+  ['law1','law2','law3','energy','gravity','quiz'].forEach(function(k) { updateDot(k, false); });
   ['home-done-1','home-done-2','home-done-3','home-done-quiz'].forEach(function(id) {
     document.getElementById(id).style.display = 'none';
   });
@@ -1003,6 +1127,14 @@ function stopAllAnimations() {
   cancelAnimationFrame(fmaState.raf);     fmaState.running    = false;
   cancelAnimationFrame(balloonState.raf); balloonState.running = false;
   cancelAnimationFrame(rocketState.raf);  rocketState.running  = false;
+  if (typeof rcRaf !== 'undefined' && rcRaf) { cancelAnimationFrame(rcRaf); rcRaf = null; }
+  if (typeof bbRaf !== 'undefined' && bbRaf) { cancelAnimationFrame(bbRaf); bbRaf = null; }
+  if (typeof projRaf !== 'undefined' && projRaf) { cancelAnimationFrame(projRaf); projRaf = null; }
+  if (typeof worldsRaf !== 'undefined' && worldsRaf) { cancelAnimationFrame(worldsRaf); worldsRaf = null; }
+  if (typeof rcState !== 'undefined') rcState.running = false;
+  if (typeof bbState !== 'undefined') bbState.running = false;
+  if (typeof projState !== 'undefined') projState.running = false;
+  if (typeof worldsState !== 'undefined') worldsState.running = false;
 }
 
 // ================================================================
@@ -1015,12 +1147,14 @@ function switchTab(tab) {
   document.querySelectorAll('.tab-btn').forEach(function(b) {
     b.classList.toggle('active', b.dataset.tab === tab);
   });
-  var secMap = { home:'sec-home', law1:'sec-law1', law2:'sec-law2', law3:'sec-law3', quiz:'sec-quiz' };
+  var secMap = { home:'sec-home', law1:'sec-law1', law2:'sec-law2', law3:'sec-law3', energy:'sec-energy', gravity:'sec-gravity', quiz:'sec-quiz' };
   document.getElementById(secMap[tab]).classList.add('active');
   window.scrollTo(0, 0);
   if (tab === 'law1') { setTimeout(function(){ drawSlideCanvas(); drawSpaceCanvas(); }, 50); }
   if (tab === 'law2') { setTimeout(function(){ drawFMACanvas(); }, 50); }
   if (tab === 'law3') { setTimeout(function(){ drawBalloonCanvas(); drawRocketCanvas(); }, 50); }
+  if (tab === 'energy') { setTimeout(function(){ initRCCanvas(); }, 50); }
+  if (tab === 'gravity') { setTimeout(function(){ drawProjectileIdle(); }, 50); }
 }
 
 document.querySelectorAll('.tab-btn').forEach(function(btn) {
@@ -1969,6 +2103,18 @@ var QUIZ_DATA = [
     opts: ["It gets cut in half", "It doubles", "It stays the same", "It triples"],
     correct: 0,
     exp: "a = F / m. If mass doubles and force stays the same: a = F / (2m) = half the original acceleration!"
+  },
+  {
+    q: "A ball at the top of a hill has what kind of energy?",
+    opts: ["Potential energy (stored height)", "Kinetic energy (movement)", "Electrical energy", "No energy at all"],
+    correct: 0,
+    exp: "At the top of a hill the ball has Potential Energy — stored energy due to its height above the ground. When it rolls down, that PE converts to Kinetic Energy (motion)!"
+  },
+  {
+    q: "At what launch angle does a projectile travel the FARTHEST horizontal distance?",
+    opts: ["45 degrees", "90 degrees (straight up)", "10 degrees (nearly flat)", "0 degrees (horizontal)"],
+    correct: 0,
+    exp: "45° gives the perfect balance between vertical height and horizontal travel, producing maximum range for any projectile with the same launch speed!"
   }
 ];
 
@@ -2013,7 +2159,7 @@ function selectAnswer(qi, oi) {
 
 function submitQuiz() {
   if (Object.keys(quizAnswered).length < QUIZ_DATA.length) {
-    showNotif('Answer all 5 questions first!');
+    showNotif('Answer all 7 questions first!');
     return;
   }
   state.quizSubmitted = true;
@@ -2042,8 +2188,8 @@ function submitQuiz() {
   });
 
   var pts = correct * 40;
-  document.getElementById('quiz-result-heading').textContent = 'Quiz Results: ' + correct + '/5 Correct!';
-  document.getElementById('quiz-result-msg').textContent = 'You scored ' + pts + ' out of 200 points!';
+  document.getElementById('quiz-result-heading').textContent = 'Quiz Results: ' + correct + '/' + QUIZ_DATA.length + ' Correct!';
+  document.getElementById('quiz-result-msg').textContent = 'You scored ' + pts + ' out of ' + (QUIZ_DATA.length * 40) + ' points!';
   document.getElementById('quiz-result').style.display   = 'block';
   document.getElementById('quiz-submit-area').style.display = 'none';
 
@@ -2060,6 +2206,363 @@ function retakeQuiz() {
   state.quizSubmitted = false;
   quizAnswered = {};
   buildQuiz();
+}
+
+// ================================================================
+// ENERGY LESSON — Roller Coaster
+// ================================================================
+var rcRaf = null;
+var rcState = { running: false, cartX: 0, cartY: 0, launched: false, t: 0 };
+
+function getRCProfile(cvs) {
+  var pts = [];
+  var w = cvs.width, h = cvs.height;
+  var groundY = h - 30;
+  for (var i = 0; i <= 100; i++) {
+    var x = (i / 100) * w;
+    var nx = i / 100;
+    var heightPct = parseFloat(document.getElementById('rc-height').value) / 100;
+    var hillH = (h - 60) * heightPct;
+    var y = groundY - hillH * Math.pow(1 - nx, 1.5);
+    pts.push({ x: x, y: y });
+  }
+  return pts;
+}
+
+function drawRCCanvas() {
+  var cvs = document.getElementById('canvas-rc');
+  if (!cvs) return;
+  var ctx = cvs.getContext('2d');
+  var w = cvs.width, h = cvs.height;
+  ctx.clearRect(0, 0, w, h);
+  var groundY = h - 30;
+  var heightPct = parseFloat(document.getElementById('rc-height').value) / 100;
+  var hillH = (h - 60) * heightPct;
+
+  var pts = getRCProfile(cvs);
+  ctx.beginPath();
+  ctx.moveTo(0, groundY);
+  pts.forEach(function(p) { ctx.lineTo(p.x, p.y); });
+  ctx.lineTo(w, groundY);
+  ctx.closePath();
+  ctx.fillStyle = '#1e4d2b';
+  ctx.fill();
+  ctx.strokeStyle = '#22c55e';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  pts.forEach(function(p, i) { i === 0 ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y); });
+  ctx.stroke();
+
+  var cx = rcState.cartX, cy = rcState.cartY;
+  ctx.fillStyle = '#FFD700';
+  ctx.fillRect(cx - 12, cy - 10, 24, 14);
+  ctx.beginPath(); ctx.arc(cx - 7, cy + 4, 5, 0, Math.PI * 2); ctx.fillStyle = '#aaa'; ctx.fill();
+  ctx.beginPath(); ctx.arc(cx + 7, cy + 4, 5, 0, Math.PI * 2); ctx.fill();
+
+  var maxH = 30;
+  var totalE = hillH;
+  var pe = totalE * Math.pow(Math.max(0, 1 - rcState.t), 1.5);
+  var ke = totalE - pe;
+  var peH = (pe / (totalE || 1)) * maxH;
+  var keH = (ke / (totalE || 1)) * maxH;
+  var bx = 10;
+  ctx.fillStyle = '#1e40af'; ctx.fillRect(bx, groundY - peH, 30, peH);
+  ctx.fillStyle = '#ea580c'; ctx.fillRect(bx + 35, groundY - keH, 30, keH);
+  ctx.fillStyle = '#aaa'; ctx.font = '10px Arial';
+  ctx.fillText('PE', bx + 5, groundY + 12);
+  ctx.fillText('KE', bx + 40, groundY + 12);
+}
+
+function launchRollerCoaster() {
+  if (rcState.running) return;
+  rcState.running = true;
+  rcState.launched = true;
+  rcState.t = 0;
+  if (rcRaf) cancelAnimationFrame(rcRaf);
+  animateRC();
+}
+
+function animateRC() {
+  if (!rcState.running) return;
+  rcState.t = Math.min(1, rcState.t + 0.012);
+  var cvs = document.getElementById('canvas-rc');
+  if (!cvs) { rcState.running = false; return; }
+  var pts = getRCProfile(cvs);
+  var idx = Math.floor(rcState.t * (pts.length - 1));
+  idx = Math.min(idx, pts.length - 1);
+  rcState.cartX = pts[idx].x;
+  rcState.cartY = pts[idx].y;
+  drawRCCanvas();
+  if (rcState.t < 1) {
+    rcRaf = requestAnimationFrame(animateRC);
+  } else {
+    rcState.running = false;
+    document.getElementById('rc-status').textContent = '🎉 The cart reached the bottom! All potential energy converted to kinetic energy!';
+    if (!state.rcDone) {
+      state.rcDone = true;
+      addScore(100);
+      checkEnergyCompletion();
+    }
+  }
+}
+
+function resetRollerCoaster() {
+  rcState.running = false; rcState.t = 0; rcState.launched = false;
+  if (rcRaf) cancelAnimationFrame(rcRaf);
+  var cvs = document.getElementById('canvas-rc');
+  if (!cvs) return;
+  var pts = getRCProfile(cvs);
+  rcState.cartX = pts[0].x; rcState.cartY = pts[0].y;
+  drawRCCanvas();
+  document.getElementById('rc-status').textContent = '';
+}
+
+function initRCCanvas() {
+  var cvs = document.getElementById('canvas-rc');
+  if (!cvs) return;
+  var pts = getRCProfile(cvs);
+  rcState.cartX = pts[0].x; rcState.cartY = pts[0].y;
+  drawRCCanvas();
+}
+
+// ================================================================
+// ENERGY LESSON — Bouncing Ball
+// ================================================================
+var bbRaf = null;
+var bbState = { running: false, y: 0, vy: 0, bounces: 0, maxY: 0 };
+
+function launchBounceBall() {
+  if (bbState.running) return;
+  var cvs = document.getElementById('canvas-bb');
+  if (!cvs) return;
+  var h = cvs.height;
+  var heightPct = parseFloat(document.getElementById('bb-height').value) / 100;
+  bbState.running = true;
+  bbState.y = (h - 40) * (1 - heightPct) + 10;
+  bbState.vy = 0;
+  bbState.maxY = h - 25;
+  bbState.bounces = 0;
+  if (bbRaf) cancelAnimationFrame(bbRaf);
+  animateBB();
+}
+
+function animateBB() {
+  if (!bbState.running) return;
+  var cvs = document.getElementById('canvas-bb');
+  if (!cvs) { bbState.running = false; return; }
+  var ctx = cvs.getContext('2d');
+  var w = cvs.width, h = cvs.height;
+  bbState.vy += 0.5;
+  bbState.y += bbState.vy;
+  if (bbState.y >= bbState.maxY) {
+    bbState.y = bbState.maxY;
+    bbState.vy *= -0.72;
+    bbState.bounces++;
+    if (!state.bbDone) { state.bbDone = true; addScore(100); checkEnergyCompletion(); }
+    if (Math.abs(bbState.vy) < 1.5) { bbState.running = false; }
+  }
+  ctx.clearRect(0, 0, w, h);
+  ctx.fillStyle = '#374151'; ctx.fillRect(0, bbState.maxY + 2, w, 4);
+  var grad = ctx.createRadialGradient(w/2, bbState.y - 4, 2, w/2, bbState.y, 14);
+  grad.addColorStop(0, '#f97316'); grad.addColorStop(1, '#7c2d12');
+  ctx.beginPath(); ctx.arc(w/2, bbState.y, 14, 0, Math.PI * 2);
+  ctx.fillStyle = grad; ctx.fill();
+  var startY = (h - 40) * (1 - parseFloat(document.getElementById('bb-height').value)/100) + 10;
+  var totalH = bbState.maxY - startY;
+  var peRatio = Math.max(0, (bbState.maxY - bbState.y) / (totalH || 1));
+  var keRatio = 1 - peRatio;
+  ctx.font = 'bold 11px Arial'; ctx.textAlign = 'left';
+  ctx.fillStyle = '#60a5fa'; ctx.fillText('PE: ' + Math.round(peRatio * 100) + '%', 8, bbState.y + 5);
+  ctx.fillStyle = '#f97316'; ctx.fillText('KE: ' + Math.round(keRatio * 100) + '%', 8, bbState.y + 18);
+  ctx.textAlign = 'start';
+  if (bbState.running) bbRaf = requestAnimationFrame(animateBB);
+}
+
+function resetBounceBall() {
+  bbState.running = false;
+  if (bbRaf) cancelAnimationFrame(bbRaf);
+  var cvs = document.getElementById('canvas-bb');
+  if (!cvs) return;
+  var ctx = cvs.getContext('2d');
+  ctx.clearRect(0, 0, cvs.width, cvs.height);
+}
+
+function checkEnergyCompletion() {
+  if (state.rcDone && state.bbDone && !state.energyDone) {
+    state.energyDone = true;
+    markDot('energy', true);
+  }
+}
+
+// ================================================================
+// GRAVITY LESSON — Projectile Launcher
+// ================================================================
+var projRaf = null;
+var projState = { running: false, x: 0, y: 0, vx: 0, vy: 0, trail: [], launched: false };
+
+function drawProjectileIdle() {
+  var cvs = document.getElementById('canvas-proj');
+  if (!cvs) return;
+  var ctx = cvs.getContext('2d');
+  var w = cvs.width, h = cvs.height;
+  var groundY = h - 20;
+  ctx.clearRect(0, 0, w, h);
+  ctx.fillStyle = '#374151'; ctx.fillRect(0, groundY, w, 4);
+  var angle = parseFloat(document.getElementById('proj-angle').value);
+  var rad = angle * Math.PI / 180;
+  var len = 40;
+  var ox = 30, oy = groundY;
+  ctx.strokeStyle = '#FFD700'; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.moveTo(ox, oy); ctx.lineTo(ox + Math.cos(rad)*len, oy - Math.sin(rad)*len); ctx.stroke();
+  ctx.fillStyle = '#FFD700'; ctx.font = '12px Arial';
+  ctx.fillText(angle + '°', ox + Math.cos(rad)*len + 5, oy - Math.sin(rad)*len);
+  ctx.beginPath(); ctx.arc(ox, oy - 8, 8, 0, Math.PI * 2);
+  ctx.fillStyle = '#e11d48'; ctx.fill();
+}
+
+function launchProjectile() {
+  if (projState.running) return;
+  var cvs = document.getElementById('canvas-proj');
+  if (!cvs) return;
+  var w = cvs.width, h = cvs.height;
+  var groundY = h - 20;
+  var angle = parseFloat(document.getElementById('proj-angle').value) * Math.PI / 180;
+  var speed = parseFloat(document.getElementById('proj-speed').value) * 0.08;
+  projState.running = true;
+  projState.x = 30; projState.y = groundY - 8;
+  projState.vx = Math.cos(angle) * speed;
+  projState.vy = -Math.sin(angle) * speed;
+  projState.trail = [];
+  if (projRaf) cancelAnimationFrame(projRaf);
+  animateProjectile();
+}
+
+function animateProjectile() {
+  if (!projState.running) return;
+  var cvs = document.getElementById('canvas-proj');
+  if (!cvs) { projState.running = false; return; }
+  var ctx = cvs.getContext('2d');
+  var w = cvs.width, h = cvs.height;
+  var groundY = h - 20;
+  var g = 0.025;
+  projState.vy += g;
+  projState.x += projState.vx;
+  projState.y += projState.vy;
+  projState.trail.push({ x: projState.x, y: projState.y });
+  ctx.clearRect(0, 0, w, h);
+  ctx.fillStyle = '#374151'; ctx.fillRect(0, groundY, w, 4);
+  projState.trail.forEach(function(p, i) {
+    ctx.beginPath(); ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(225,29,72,' + (i / projState.trail.length) + ')'; ctx.fill();
+  });
+  ctx.beginPath(); ctx.arc(projState.x, projState.y, 8, 0, Math.PI * 2);
+  ctx.fillStyle = '#e11d48'; ctx.fill();
+  if (projState.y >= groundY - 8 && projState.trail.length > 5) {
+    projState.running = false;
+    var dist = Math.round(projState.x - 30);
+    document.getElementById('proj-status').textContent = '📏 Distance: ' + dist + ' px! Try 45° for maximum range!';
+    if (!state.projDone) { state.projDone = true; addScore(100); checkGravityCompletion(); }
+    return;
+  }
+  if (projState.x > w) {
+    projState.running = false;
+    document.getElementById('proj-status').textContent = '🚀 Off screen! Great distance!';
+    if (!state.projDone) { state.projDone = true; addScore(100); checkGravityCompletion(); }
+    return;
+  }
+  projRaf = requestAnimationFrame(animateProjectile);
+}
+
+function resetProjectile() {
+  projState.running = false;
+  if (projRaf) cancelAnimationFrame(projRaf);
+  document.getElementById('proj-status').textContent = '';
+  drawProjectileIdle();
+}
+
+// ================================================================
+// GRAVITY LESSON — Worlds Comparison
+// ================================================================
+var worldsRaf = null;
+var worldsState = { running: false, balls: [] };
+var WORLDS = [
+  { name: 'Moon',    g: 0.004, color: '#C0C0C0' },
+  { name: 'Mars',    g: 0.009, color: '#FF6B35' },
+  { name: 'Earth',   g: 0.025, color: '#00C9FF' },
+  { name: 'Jupiter', g: 0.062, color: '#FFB347' }
+];
+
+function launchWorlds() {
+  if (worldsState.running) return;
+  var cvs = document.getElementById('canvas-worlds');
+  if (!cvs) return;
+  var h = cvs.height, groundY = h - 20;
+  var angle = 45 * Math.PI / 180;
+  var speed = 0.065;
+  worldsState.running = true;
+  worldsState.balls = WORLDS.map(function(wld) {
+    return { x: 30, y: groundY - 6, vx: Math.cos(angle)*speed, vy: -Math.sin(angle)*speed, g: wld.g, color: wld.color, name: wld.name, landed: false, trail: [] };
+  });
+  if (worldsRaf) cancelAnimationFrame(worldsRaf);
+  animateWorlds();
+}
+
+function animateWorlds() {
+  if (!worldsState.running) return;
+  var cvs = document.getElementById('canvas-worlds');
+  if (!cvs) { worldsState.running = false; return; }
+  var ctx = cvs.getContext('2d');
+  var w = cvs.width, h = cvs.height, groundY = h - 20;
+  ctx.clearRect(0, 0, w, h);
+  ctx.fillStyle = '#374151'; ctx.fillRect(0, groundY, w, 4);
+  var allDone = true;
+  worldsState.balls.forEach(function(ball) {
+    if (!ball.landed) {
+      ball.vy += ball.g;
+      ball.x += ball.vx;
+      ball.y += ball.vy;
+      ball.trail.push({ x: ball.x, y: ball.y });
+      if (ball.y >= groundY - 6 && ball.trail.length > 3) {
+        ball.landed = true;
+        ball.y = groundY - 6;
+      }
+    }
+    if (!ball.landed) allDone = false;
+    ball.trail.forEach(function(p, i) {
+      ctx.beginPath(); ctx.arc(p.x, p.y, 1.5, 0, Math.PI * 2);
+      ctx.globalAlpha = i / ball.trail.length * 0.5;
+      ctx.fillStyle = ball.color; ctx.fill(); ctx.globalAlpha = 1;
+    });
+    ctx.beginPath(); ctx.arc(ball.x, ball.y, 7, 0, Math.PI * 2);
+    ctx.fillStyle = ball.color; ctx.fill();
+    if (ball.landed) {
+      ctx.fillStyle = ball.color; ctx.font = 'bold 10px Arial'; ctx.textAlign = 'center';
+      ctx.fillText(ball.name, ball.x, groundY + 14);
+    }
+  });
+  ctx.textAlign = 'start';
+  if (allDone) {
+    worldsState.running = false;
+    if (!state.worldsDone) { state.worldsDone = true; addScore(100); checkGravityCompletion(); }
+    return;
+  }
+  worldsRaf = requestAnimationFrame(animateWorlds);
+}
+
+function resetWorlds() {
+  worldsState.running = false;
+  if (worldsRaf) cancelAnimationFrame(worldsRaf);
+  var cvs = document.getElementById('canvas-worlds');
+  if (!cvs) return;
+  var ctx = cvs.getContext('2d');
+  ctx.clearRect(0, 0, cvs.width, cvs.height);
+}
+
+function checkGravityCompletion() {
+  if ((state.projDone || state.worldsDone) && !state.gravityDone) {
+    state.gravityDone = true;
+    markDot('gravity', true);
+  }
 }
 
 // ================================================================
