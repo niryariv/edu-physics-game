@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="he" dir="rtl">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>חוקי ניוטון - הרפתקת פיזיקה!</title>
+<title>Newton's Laws of Motion - Physics Adventure!</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -23,12 +23,10 @@
   body {
     background: var(--bg);
     color: var(--text);
-    font-family: Arial, Tahoma, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 17px;
     min-height: 100vh;
     overflow-x: hidden;
-    direction: rtl;
-    text-align: right;
   }
 
   /* HEADER */
@@ -44,7 +42,6 @@
     top: 0;
     z-index: 100;
     box-shadow: 0 2px 12px rgba(0,0,0,0.4);
-    direction: rtl;
   }
 
   #header-title {
@@ -116,7 +113,6 @@
     gap: 6px;
     overflow-x: auto;
     scrollbar-width: none;
-    direction: rtl;
   }
   #nav-tabs::-webkit-scrollbar { display: none; }
 
@@ -131,7 +127,6 @@
     transition: all 0.2s;
     background: var(--card);
     color: var(--text-dim);
-    font-family: Arial, Tahoma, sans-serif;
   }
 
   .tab-btn:hover {
@@ -165,11 +160,11 @@
     box-shadow: 0 4px 16px rgba(0,0,0,0.3);
   }
 
-  .card-law1  { border-right: 5px solid var(--law1); border-left: none; }
-  .card-law2  { border-right: 5px solid var(--law2); border-left: none; }
-  .card-law3  { border-right: 5px solid var(--law3); border-left: none; }
-  .card-quiz  { border-right: 5px solid var(--gold); border-left: none; }
-  .card-home  { border-right: 5px solid var(--success); border-left: none; }
+  .card-law1  { border-left: 5px solid var(--law1); }
+  .card-law2  { border-left: 5px solid var(--law2); }
+  .card-law3  { border-left: 5px solid var(--law3); }
+  .card-quiz  { border-left: 5px solid var(--gold); }
+  .card-home  { border-left: 5px solid var(--success); }
 
   h1 { font-size: 28px; margin-bottom: 12px; }
   h2 { font-size: 22px; margin-bottom: 10px; }
@@ -192,12 +187,12 @@
 
   .examples-list { list-style: none; padding: 0; margin: 10px 0; }
   .examples-list li {
-    padding: 8px 32px 8px 12px;
+    padding: 8px 12px 8px 32px;
     position: relative;
     font-size: 16px;
     line-height: 1.5;
   }
-  .examples-list li::before { content: '\25C0'; position: absolute; right: 8px; opacity: 0.7; }
+  .examples-list li::before { content: '▶'; position: absolute; left: 8px; opacity: 0.7; }
 
   /* BUTTONS */
   .btn {
@@ -211,7 +206,6 @@
     transition: all 0.2s;
     text-align: center;
     line-height: 1.2;
-    font-family: Arial, Tahoma, sans-serif;
   }
   .btn:hover   { filter: brightness(1.15); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
   .btn:active  { transform: translateY(0); }
@@ -254,9 +248,8 @@
     gap: 12px;
     margin: 10px 0;
     flex-wrap: wrap;
-    flex-direction: row-reverse;
   }
-  .slider-label { min-width: 120px; font-size: 15px; font-weight: 600; text-align: right; }
+  .slider-label { min-width: 120px; font-size: 15px; font-weight: 600; }
 
   input[type=range] {
     flex: 1;
@@ -282,7 +275,7 @@
   .slider-law3 { accent-color: var(--law3); }
   .slider-law3::-webkit-slider-thumb { background: var(--law3); }
 
-  .slider-val { min-width: 64px; font-size: 16px; font-weight: 700; text-align: left; }
+  .slider-val { min-width: 64px; font-size: 16px; font-weight: 700; text-align: right; }
 
   /* STATS */
   .stat-grid {
@@ -306,7 +299,6 @@
     font-size: 14px;
     font-weight: 600;
     transition: all 0.2s;
-    font-family: Arial, Tahoma, sans-serif;
   }
   .surface-btn:hover { filter: brightness(1.3); }
   .surface-btn.selected { border-color: var(--law1); background: rgba(0,201,255,0.2); color: #fff; }
@@ -332,10 +324,9 @@
     cursor: pointer;
     font-size: 15px;
     font-weight: 600;
-    text-align: right;
+    text-align: left;
     transition: all 0.2s;
     line-height: 1.4;
-    font-family: Arial, Tahoma, sans-serif;
   }
   .q-opt:hover    { border-color: var(--gold); color: #fff; background: rgba(255,215,0,0.1); }
   .q-opt.correct  { background: rgba(76,175,80,0.25);  border-color: var(--success); color: #a0ffb0; }
@@ -358,7 +349,7 @@
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 14px;
     margin: 24px 0;
-    text-align: right;
+    text-align: left;
   }
   .law-summary-card { border-radius: 12px; padding: 16px; font-size: 15px; line-height: 1.5; }
 
@@ -416,7 +407,7 @@
   }
 
   /* TOGGLE */
-  .toggle-wrap { display: flex; align-items: center; gap: 10px; margin: 10px 0; flex-direction: row-reverse; justify-content: flex-end; }
+  .toggle-wrap { display: flex; align-items: center; gap: 10px; margin: 10px 0; }
   .toggle-switch { position: relative; width: 52px; height: 28px; display: inline-block; }
   .toggle-switch input { display: none; }
   .toggle-slider {
@@ -472,28 +463,28 @@
 
 <!-- HEADER -->
 <div id="header">
-  <div id="header-title">חוקי ניוטון: הרפתקת פיזיקה! 🚀</div>
+  <div id="header-title">Newton's Laws Adventure!</div>
   <div id="score-display">
     <div id="stars-display">&#9734;&#9734;&#9734;&#9734;&#9734;</div>
-    <div id="score-text">ניקוד: 0 / 800</div>
+    <div id="score-text">Score: 0 / 800</div>
     <div id="progress-dots">
-      <div class="dot" id="dot-law1" title="חוק 1: אינרציה"></div>
-      <div class="dot" id="dot-law2" title="חוק 2: כוח=מסה×תאוצה"></div>
-      <div class="dot" id="dot-law3" title="חוק 3: פעולה/תגובה"></div>
-      <div class="dot" id="dot-quiz" title="חידון"></div>
+      <div class="dot" id="dot-law1" title="Law 1: Inertia"></div>
+      <div class="dot" id="dot-law2" title="Law 2: F=ma"></div>
+      <div class="dot" id="dot-law3" title="Law 3: Action/Reaction"></div>
+      <div class="dot" id="dot-quiz" title="Quiz"></div>
     </div>
   </div>
   <div id="progress-bar-wrap" style="flex-basis:100%"><div id="progress-bar"></div></div>
-  <a href="index.html" class="lang-switch">🇺🇸 English</a>
+  <a href="index.html" class="lang-switch">🇮🇱 עברית</a>
 </div>
 
 <!-- NAV TABS -->
 <div id="nav-tabs">
-  <button class="tab-btn active" data-tab="home">&#127968; בית</button>
-  <button class="tab-btn" data-tab="law1">&#128309; חוק 1</button>
-  <button class="tab-btn" data-tab="law2">&#128992; חוק 2</button>
-  <button class="tab-btn" data-tab="law3">&#128995; חוק 3</button>
-  <button class="tab-btn" data-tab="quiz">&#10067; חידון</button>
+  <button class="tab-btn active" data-tab="home">&#127968; Home</button>
+  <button class="tab-btn" data-tab="law1">&#128309; Law 1</button>
+  <button class="tab-btn" data-tab="law2">&#128992; Law 2</button>
+  <button class="tab-btn" data-tab="law3">&#128995; Law 3</button>
+  <button class="tab-btn" data-tab="quiz">&#10067; Quiz</button>
 </div>
 
 <div id="main">
@@ -501,239 +492,234 @@
   <!-- ======== HOME ======== -->
   <div class="section active" id="sec-home">
     <div class="card card-home">
-      <h1>ברוכים הבאים לעולם הפיזיקה! 🎉</h1>
-      <p>גלו את חוקי ניוטון - שלושה חוקים שמסבירים כיצד הכל נע ביקום!</p>
-      <p>יצחק ניוטון גילה שלושה כללים מדהימים שמסבירים כיצד הכל ביקום נע — מדיסקי הוקי ועד רקטות ועד חגורות בטיחות. החוקים האלה נמצאים בכל מקום!</p>
-      <p>חקרו כל חוק, בצעו ניסויים, והוכיחו שאתם אלופי פיזיקה על ידי פתרון החידון!</p>
+      <h1>Welcome to Newton's Laws Adventure! &#128640;</h1>
+      <p>Isaac Newton discovered three amazing rules that explain how everything in the universe moves — from hockey pucks to rockets to seatbelts. These laws are everywhere!</p>
+      <p>Explore each law, run experiments, and prove you're a Physics Champion by taking the quiz!</p>
     </div>
 
     <div class="home-grid">
       <div class="home-law-card home-card-1" onclick="switchTab('law1')">
-        <h3>&#128309; חוק 1</h3>
-        <h3>אינרציה</h3>
-        <p>גוף שנע ממשיך לנוע. גוף במנוחה נשאר במנוחה!</p>
-        <div id="home-done-1" style="display:none"><span class="done-badge">&#10003; הושלם!</span></div>
+        <h3>&#128309; Law 1</h3>
+        <h3>Inertia</h3>
+        <p>Objects in motion stay in motion. Objects at rest stay at rest!</p>
+        <div id="home-done-1" style="display:none"><span class="done-badge">&#10003; Completed!</span></div>
       </div>
       <div class="home-law-card home-card-2" onclick="switchTab('law2')">
-        <h3>&#128992; חוק 2</h3>
-        <h3>כוח = מסה &times; תאוצה</h3>
-        <p>דחיפה חזקה יותר = תאוצה גדולה יותר. כבד יותר = צריך יותר כוח!</p>
-        <div id="home-done-2" style="display:none"><span class="done-badge">&#10003; הושלם!</span></div>
+        <h3>&#128992; Law 2</h3>
+        <h3>Force = mass &times; acceleration</h3>
+        <p>Bigger push = faster acceleration. Heavier = needs more force!</p>
+        <div id="home-done-2" style="display:none"><span class="done-badge">&#10003; Completed!</span></div>
       </div>
       <div class="home-law-card home-card-3" onclick="switchTab('law3')">
-        <h3>&#128995; חוק 3</h3>
-        <h3>פעולה &amp; תגובה</h3>
-        <p>לכל פעולה יש תגובה שווה ומנוגדת!</p>
-        <div id="home-done-3" style="display:none"><span class="done-badge">&#10003; הושלם!</span></div>
+        <h3>&#128995; Law 3</h3>
+        <h3>Action &amp; Reaction</h3>
+        <p>Every action has an equal and opposite reaction!</p>
+        <div id="home-done-3" style="display:none"><span class="done-badge">&#10003; Completed!</span></div>
       </div>
       <div class="home-law-card home-card-quiz" onclick="switchTab('quiz')">
-        <h3>&#10067; חידון</h3>
-        <h3>בחן את עצמך!</h3>
-        <p>5 שאלות. עד 200 נקודות. מוכנים?</p>
-        <div id="home-done-quiz" style="display:none"><span class="done-badge">&#10003; הושלם!</span></div>
+        <h3>&#10067; Quiz</h3>
+        <h3>Test Your Knowledge!</h3>
+        <p>5 questions. Earn up to 200 points. Think you are ready?</p>
+        <div id="home-done-quiz" style="display:none"><span class="done-badge">&#10003; Completed!</span></div>
       </div>
     </div>
 
     <div class="card" id="completion-screen" style="display:none">
-      <div class="trophy-heading">&#127942; אלוף הפיזיקה! &#127942;</div>
+      <div class="trophy-heading">&#127942; Physics Champion! &#127942;</div>
       <div class="stars-big" id="final-stars">&#11088;&#11088;&#11088;&#11088;&#11088;</div>
       <div class="final-score" id="final-score-display">0 / 800</div>
-      <p style="font-size:18px; color:#ccc; margin-bottom:20px;">סיימת את כל הניסויים ועברת את החידון!</p>
-      <p style="font-size:16px; color:var(--gold); margin-bottom:10px;">הניקוד הסופי שלך: <span id="final-score-display-2"></span> מתוך 800</p>
-      <p style="font-size:18px; color:#ccc; margin-bottom:20px;">תעודת אלוף פיזיקה — שלטת בשלושת חוקי ניוטון!</p>
+      <p style="font-size:18px; color:#ccc; margin-bottom:20px;">You mastered Newton's Three Laws of Motion!</p>
       <div class="law-summaries">
         <div class="law-summary-card hl-law1">
-          <strong>&#128309; חוק 1 — אינרציה:</strong><br>
-          גוף ממשיך לעשות מה שהוא עושה אלא אם כן כוח פועל עליו. לכן חגורות הבטיחות מצילות חיים!
+          <strong>&#128309; Law 1 — Inertia:</strong><br>
+          An object keeps doing what it's doing unless a force acts on it. That's why seatbelts save lives!
         </div>
         <div class="law-summary-card hl-law2">
-          <strong>&#128992; חוק 2 — כוח=מסה&times;תאוצה:</strong><br>
-          כוח שווה מסה כפול תאוצה. דחפו חזק יותר או הפחיתו מסה כדי להאיץ מהר יותר!
+          <strong>&#128992; Law 2 — F=ma:</strong><br>
+          Force equals mass times acceleration. Push harder or reduce mass to accelerate faster!
         </div>
         <div class="law-summary-card hl-law3">
-          <strong>&#128995; חוק 3 — פעולה/תגובה:</strong><br>
-          לכל דחיפה יש דחיפה חזרה שווה בכיוון הנגדי. כך רקטות עפות!
+          <strong>&#128995; Law 3 — Action/Reaction:</strong><br>
+          Every push has an equal push back in the opposite direction. That's how rockets fly!
         </div>
       </div>
-      <button class="btn btn-gold btn-lg" onclick="resetGame()">שחק שוב! &#128260;</button>
+      <button class="btn btn-gold btn-lg" onclick="resetGame()">Play Again &#128260;</button>
     </div>
   </div>
 
   <!-- ======== LAW 1 ======== -->
   <div class="section" id="sec-law1">
     <div class="card card-law1">
-      <h1>&#128309; חוק 1: חוק האינרציה</h1>
+      <h1>&#128309; Newton's First Law — Inertia</h1>
       <div class="highlight-box hl-law1">
-        "גוף שנמצא במנוחה ישאר במנוחה, וגוף שנע ימשיך לנוע באותה מהירות — אלא אם כן כוח כלשהו פועל עליו! &#127944;"
+        "An object at rest stays at rest, and a moving object keeps moving at the same speed — UNLESS a force acts on it! &#127944;"
       </div>
-      <p>זה נקרא <strong>אינרציה</strong> — הנטייה של גופים להתנגד לשינויים בתנועתם.</p>
-      <p>דוגמאות מהחיים:</p>
+      <p>This is called <strong>inertia</strong> — the tendency of objects to resist changes in their motion.</p>
       <ul class="examples-list">
-        <li><strong>חגורת בטיחות ברכב:</strong> כשרכב עוצר פתאום, הגוף שלך ממשיך לנוע קדימה. חגורת הבטיחות היא הכוח שעוצר אותך!</li>
-        <li><strong>דיסק הוקי על קרח:</strong> על קרח חלק, הדיסק מחליק מרחק רב מאוד כי כמעט אין חיכוך שמאט אותו.</li>
-        <li><strong>חללית שדואה בחלל:</strong> ללא חיכוך אוויר בחלל, חללית שנזרקת קדימה דואה לנצח אלא אם מנועים נדלקים!</li>
-        <li><strong>טריק מפת השולחן:</strong> משיכת מפה מהירה מותירה את הכלים במקום בגלל האינרציה שלהם!</li>
+        <li><strong>Car seatbelts:</strong> When a car stops suddenly, YOUR body keeps moving forward. The seatbelt is the force that stops you!</li>
+        <li><strong>Hockey puck on ice:</strong> On smooth ice, a puck slides a very long way because there's almost no friction to slow it down.</li>
+        <li><strong>Spaceship drifting in space:</strong> With no air friction in space, a spaceship thrown forward drifts forever unless thrusters fire!</li>
       </ul>
     </div>
 
     <!-- Game 1A: Surface Slide -->
     <div class="card card-law1">
-      <h2>&#127918; ניסוי: החלקה על משטחים שונים</h2>
-      <p>בעטו בדיסק על משטחים שונים. שימו לב כיצד החיכוך משנה את המרחק שהוא עובר!</p>
+      <h2>&#127918; Experiment 1A — Surface Slide</h2>
+      <p>Kick a puck across different surfaces. Notice how friction changes how far it travels!</p>
 
       <div class="btn-row" id="surface-btns">
-        <button class="surface-btn selected" data-surface="ice"   onclick="selectSurface('ice',this)">קרח ❄️ (&#956;=0.005)</button>
-        <button class="surface-btn"          data-surface="wood"  onclick="selectSurface('wood',this)">עץ 🪵 (&#956;=0.04)</button>
-        <button class="surface-btn"          data-surface="grass" onclick="selectSurface('grass',this)">דשא 🌱 (&#956;=0.09)</button>
-        <button class="surface-btn"          data-surface="sand"  onclick="selectSurface('sand',this)">חול 🏖️ (&#956;=0.15)</button>
+        <button class="surface-btn selected" data-surface="ice"   onclick="selectSurface('ice',this)">&#10052; Ice (&#956;=0.005)</button>
+        <button class="surface-btn"          data-surface="wood"  onclick="selectSurface('wood',this)">&#129717; Wood (&#956;=0.04)</button>
+        <button class="surface-btn"          data-surface="grass" onclick="selectSurface('grass',this)">&#127807; Grass (&#956;=0.09)</button>
+        <button class="surface-btn"          data-surface="sand"  onclick="selectSurface('sand',this)">&#127958; Sand (&#956;=0.15)</button>
       </div>
 
       <div class="canvas-wrap">
-        <canvas id="canvas-slide" width="780" height="180">הדפדפן שלך אינו תומך בקנבס. אנא השתמשו בדפדפן מודרני לצפייה בהנפשה.</canvas>
+        <canvas id="canvas-slide" width="780" height="180">Your browser does not support canvas. Please use a modern browser to see the animation.</canvas>
       </div>
 
       <div class="stat-grid">
         <div class="stat-box">
-          <div class="stat-label">משטח:</div>
-          <div class="stat-value" id="slide-surface-name" style="color:var(--law1);font-size:16px">קרח</div>
+          <div class="stat-label">Surface</div>
+          <div class="stat-value" id="slide-surface-name" style="color:var(--law1);font-size:16px">Ice</div>
         </div>
         <div class="stat-box">
-          <div class="stat-label">חיכוך (&#956;)</div>
+          <div class="stat-label">Friction (&#956;)</div>
           <div class="stat-value" id="slide-friction-val" style="color:var(--law1)">0.005</div>
         </div>
         <div class="stat-box">
-          <div class="stat-label">מרחק:</div>
-          <div class="stat-value" id="slide-distance" style="color:var(--law1)">-- מ'</div>
+          <div class="stat-label">Distance</div>
+          <div class="stat-value" id="slide-distance" style="color:var(--law1)">-- m</div>
         </div>
         <div class="stat-box">
-          <div class="stat-label">מהירות:</div>
-          <div class="stat-value" id="slide-speed" style="color:var(--law1)">0 מ'/ש'</div>
+          <div class="stat-label">Speed</div>
+          <div class="stat-value" id="slide-speed" style="color:var(--law1)">0 m/s</div>
         </div>
       </div>
 
       <div class="btn-row">
-        <button class="btn btn-law1 btn-lg" onclick="kickPuck()">בעיטה! 🦵</button>
-        <button class="btn btn-gray btn-sm" onclick="resetSlide()">אפס</button>
-        <span id="slide-pts-msg" style="color:var(--success);font-weight:700;font-size:16px;display:none">+100 נקודות!</span>
+        <button class="btn btn-law1 btn-lg" onclick="kickPuck()">&#127944; Kick!</button>
+        <button class="btn btn-gray btn-sm" onclick="resetSlide()">Reset</button>
+        <span id="slide-pts-msg" style="color:var(--success);font-weight:700;font-size:16px;display:none">+100 pts!</span>
       </div>
     </div>
 
     <!-- Game 1B: Space Drift -->
     <div class="card card-law1">
-      <h2>&#127918; ניסוי: שייט בחלל</h2>
-      <p>הפעילו מנוע רקטה. הפעילו/כבו אטמוספרה. בחלל, שום דבר לא מאט אתכם!</p>
+      <h2>&#127918; Experiment 1B — Space Drift</h2>
+      <p>Fire a rocket thruster. Toggle atmosphere on/off. In space, nothing slows you down!</p>
 
       <div class="toggle-wrap">
         <label class="toggle-switch">
           <input type="checkbox" id="atmos-toggle" onchange="toggleAtmosphere()">
           <span class="toggle-slider"></span>
         </label>
-        <span class="atmosphere-status" id="atmos-label" style="color:#888">אטמוספרה: כבוי</span>
+        <span class="atmosphere-status" id="atmos-label" style="color:#888">Atmosphere: OFF</span>
       </div>
 
       <div class="canvas-wrap">
-        <canvas id="canvas-space" width="780" height="200">הדפדפן שלך אינו תומך בקנבס. אנא השתמשו בדפדפן מודרני לצפייה בהנפשה.</canvas>
+        <canvas id="canvas-space" width="780" height="200">Your browser does not support canvas. Please use a modern browser to see the animation.</canvas>
       </div>
 
       <div class="stat-grid">
         <div class="stat-box">
-          <div class="stat-label">אטמוספרה:</div>
-          <div class="stat-value" id="space-atmos-status" style="color:#888;font-size:15px">כבוי</div>
+          <div class="stat-label">Atmosphere</div>
+          <div class="stat-value" id="space-atmos-status" style="color:#888;font-size:15px">OFF</div>
         </div>
         <div class="stat-box">
-          <div class="stat-label">מהירות:</div>
-          <div class="stat-value" id="space-speed" style="color:var(--law1)">0 מ'/ש'</div>
+          <div class="stat-label">Speed</div>
+          <div class="stat-value" id="space-speed" style="color:var(--law1)">0 m/s</div>
         </div>
         <div class="stat-box">
-          <div class="stat-label">מרחק:</div>
-          <div class="stat-value" id="space-distance" style="color:var(--law1)">0 מ'</div>
+          <div class="stat-label">Distance</div>
+          <div class="stat-value" id="space-distance" style="color:var(--law1)">0 m</div>
         </div>
       </div>
 
       <div class="btn-row">
         <button class="btn btn-law1 btn-lg"
           onmousedown="startThrust()" onmouseup="stopThrust()"
-          ontouchstart="startThrust()" ontouchend="stopThrust()">הפעל מנוע 🚀</button>
-        <button class="btn btn-gray btn-sm" onclick="resetSpace()">אפס</button>
-        <span id="space-pts-msg" style="color:var(--success);font-weight:700;font-size:16px;display:none">+100 נקודות!</span>
+          ontouchstart="startThrust()" ontouchend="stopThrust()">&#128640; Hold to Thrust!</button>
+        <button class="btn btn-gray btn-sm" onclick="resetSpace()">Reset</button>
+        <span id="space-pts-msg" style="color:var(--success);font-weight:700;font-size:16px;display:none">+100 pts!</span>
       </div>
-      <p style="font-size:14px;color:var(--text-dim)">טיפ: הפעילו מנוע, ואז עצרו. כשהאטמוספרה כבויה, הרקטה דואה לנצח!</p>
+      <p style="font-size:14px;color:var(--text-dim)">Tip: Fire the thruster, then stop. With atmosphere OFF, the rocket drifts forever!</p>
     </div>
   </div>
 
   <!-- ======== LAW 2 ======== -->
   <div class="section" id="sec-law2">
     <div class="card card-law2">
-      <h1>&#128992; חוק 2: כוח = מסה &times; תאוצה</h1>
+      <h1>&#128992; Newton's Second Law — F = ma</h1>
       <div class="highlight-box hl-law2">
-        "ככל שדוחפים חזק יותר, כך הגוף מאיץ מהר יותר! אבל גופים כבדים צריכים יותר כוח כדי לזוז. הנוסחה: תאוצה = כוח &divide; מסה &#128640;"
+        "The harder you push, the faster something accelerates! But heavier things need MORE force to speed up. The formula is: <strong>a = F &divide; m &#128640;</strong>"
       </div>
-      <p>משמעות הדבר: אם תדחפו עגלת קניות ורכב עם אותו כוח, העגלה תאיץ הרבה יותר כי היא קלה בהרבה.</p>
+      <p>This means: if you push a shopping cart and a car with the same force, the cart accelerates WAY more because it's so much lighter.</p>
       <ul class="examples-list">
-        <li><strong>כדור כדורגל לעומת כדור כדורת עם אותו כוח:</strong> בעטו בשניהם עם אותו כוח. הכדור הקל יעוף — הכדור הכבד יתגלגל לאט.</li>
-        <li><strong>עגלת קניות ריקה לעומת מלאה:</strong> אותה דחיפה, תוצאות שונות לחלוטין! הרכב כמעט לא יזוז.</li>
-        <li><strong>משאית ריקה לעומת טעונה:</strong> כדי להרים רקטה כבדה, צריך כוח עצום משריפת דלק!</li>
+        <li><strong>Shopping cart vs car:</strong> Same push, completely different results! The car barely moves.</li>
+        <li><strong>Soccer ball vs bowling ball:</strong> Kick them with the same force. The soccer ball flies — the bowling ball crawls.</li>
+        <li><strong>Rocket engines:</strong> To lift a massive rocket, you need enormous force from burning fuel!</li>
       </ul>
     </div>
 
     <div class="card card-law2">
-      <h2>&#127918; ניסוי: מעבדת כוח ומסה</h2>
-      <p>שנו את הכוח והמסה וראו כיצד התאוצה משתנה. נסו את האובייקטים המוגדרים מראש!</p>
+      <h2>&#127918; Experiment — Force &amp; Mass Lab</h2>
+      <p>Adjust force and mass to see how acceleration changes. Try the preset objects!</p>
 
       <div class="slider-row">
-        <span class="slider-label">כוח (ניוטון):</span>
+        <span class="slider-label">Force:</span>
         <input type="range" class="slider-law2" id="force-slider" min="10" max="100" value="50" oninput="updateFMA()">
         <span class="slider-val" id="force-val" style="color:var(--law2)">50 N</span>
       </div>
 
       <div class="slider-row">
-        <span class="slider-label">מסה (ק"ג):</span>
+        <span class="slider-label">Mass:</span>
         <input type="range" class="slider-law2" id="mass-slider" min="1" max="20" value="5" oninput="updateFMA()">
-        <span class="slider-val" id="mass-val" style="color:var(--law2)">5 ק"ג</span>
+        <span class="slider-val" id="mass-val" style="color:var(--law2)">5 kg</span>
       </div>
 
       <div class="highlight-box hl-law2" style="text-align:center;font-size:20px;margin:14px 0;">
-        תאוצה = כוח &divide; מסה = <span id="fma-calc" style="color:var(--gold);font-size:24px;font-weight:900">10.0 מ'/ש'&sup2;</span>
+        a = F &divide; m = <span id="fma-calc" style="color:var(--gold);font-size:24px;font-weight:900">10.0 m/s&sup2;</span>
       </div>
 
       <div class="btn-row">
-        <span style="font-size:14px;color:var(--text-dim);margin-right:4px">בחירה מהירה:</span>
-        <button class="btn btn-gray btn-sm" onclick="setPreset(0.45,'כדור כדורגל')">כדור כדורגל ⚽ (0.45 ק"ג)</button>
-        <button class="btn btn-gray btn-sm" onclick="setPreset(5,'קופסה')">קופסה 📦 (5 ק"ג)</button>
-        <button class="btn btn-gray btn-sm" onclick="setPreset(20,'סלע')">סלע 🪨 (20 ק"ג)</button>
+        <span style="font-size:14px;color:var(--text-dim);margin-right:4px">Quick presets:</span>
+        <button class="btn btn-gray btn-sm" onclick="setPreset(0.45,'Soccer Ball')">Soccer Ball (0.45 kg)</button>
+        <button class="btn btn-gray btn-sm" onclick="setPreset(5,'Box')">Box (5 kg)</button>
+        <button class="btn btn-gray btn-sm" onclick="setPreset(20,'Boulder')">Boulder (20 kg)</button>
       </div>
 
       <div class="canvas-wrap">
-        <canvas id="canvas-fma" width="780" height="180">הדפדפן שלך אינו תומך בקנבס. אנא השתמשו בדפדפן מודרני לצפייה בהנפשה.</canvas>
+        <canvas id="canvas-fma" width="780" height="180">Your browser does not support canvas. Please use a modern browser to see the animation.</canvas>
       </div>
 
       <div class="stat-grid">
         <div class="stat-box">
-          <div class="stat-label">כוח</div>
+          <div class="stat-label">Force</div>
           <div class="stat-value" id="fma-f" style="color:var(--law2)">50 N</div>
         </div>
         <div class="stat-box">
-          <div class="stat-label">מסה</div>
-          <div class="stat-value" id="fma-m" style="color:var(--law2)">5 ק"ג</div>
+          <div class="stat-label">Mass</div>
+          <div class="stat-value" id="fma-m" style="color:var(--law2)">5 kg</div>
         </div>
         <div class="stat-box">
-          <div class="stat-label">תאוצה</div>
-          <div class="stat-value" id="fma-a" style="color:var(--gold)">10.0 מ'/ש'&sup2;</div>
+          <div class="stat-label">Acceleration</div>
+          <div class="stat-value" id="fma-a" style="color:var(--gold)">10.0 m/s&sup2;</div>
         </div>
         <div class="stat-box">
-          <div class="stat-label">עצם</div>
-          <div class="stat-value" id="fma-obj" style="color:var(--law2);font-size:14px">מותאם אישית</div>
+          <div class="stat-label">Object</div>
+          <div class="stat-value" id="fma-obj" style="color:var(--law2);font-size:14px">Custom</div>
         </div>
       </div>
 
       <div class="btn-row">
-        <button class="btn btn-law2 btn-lg" onclick="launchFMA()">שגר! &#128640;</button>
-        <button class="btn btn-success btn-lg" onclick="raceMode()">מרוץ! &#127937;</button>
-        <button class="btn btn-gray btn-sm" onclick="resetFMA()">אפס</button>
+        <button class="btn btn-law2 btn-lg" onclick="launchFMA()">&#128640; Launch!</button>
+        <button class="btn btn-success btn-lg" onclick="raceMode()">&#127937; Race Mode!</button>
+        <button class="btn btn-gray btn-sm" onclick="resetFMA()">Reset</button>
       </div>
-      <p style="font-size:14px;color:var(--text-dim)">מצב מרוץ משגר כדור כדורגל, קופסה וסלע בו-זמנית עם אותו כוח!</p>
+      <p style="font-size:14px;color:var(--text-dim)">Race Mode launches soccer ball, box, and boulder simultaneously with the same force!</p>
       <div style="margin-top:8px">
-        <span id="fma-pts-msg" style="color:var(--success);font-weight:700;font-size:16px;display:none">ניקוד!</span>
+        <span id="fma-pts-msg" style="color:var(--success);font-weight:700;font-size:16px;display:none">Points earned!</span>
       </div>
     </div>
   </div>
@@ -741,102 +727,101 @@
   <!-- ======== LAW 3 ======== -->
   <div class="section" id="sec-law3">
     <div class="card card-law3">
-      <h1>&#128995; חוק 3: פעולה ותגובה</h1>
+      <h1>&#128995; Newton's Third Law — Action &amp; Reaction</h1>
       <div class="highlight-box hl-law3">
-        "לכל פעולה יש תגובה שווה בגודלה ומנוגדת בכיוונה! כך טילים מתרוממים לאוויר! &#128640;"
+        "For every push or pull (action), there's always an equal push or pull in the OPPOSITE direction (reaction)! That's how rockets fly! &#128640;"
       </div>
-      <p>המילה המפתח היא <strong>שווה ומנוגד</strong>. הכוחות שווים בעוצמה, אך בכיוונים הפוכים!</p>
+      <p>The key word is <strong>EQUAL and OPPOSITE</strong>. The forces are the same strength, but in opposite directions!</p>
       <ul class="examples-list">
-        <li><strong>מנוע סילון:</strong> המנועים דוחפים גזים חמים למטה — הגזים דוחפים את הרקטה למעלה!</li>
-        <li><strong>בלון שמשחרר אוויר:</strong> הבלון דוחף אוויר אחורה — האוויר דוחף את הבלון קדימה!</li>
-        <li><strong>שחיין שדוחף את הקיר:</strong> הידיים דוחפות מים אחורה — המים דוחפים את השחיין קדימה!</li>
-        <li><strong>קפיצה מסירה:</strong> אתם דוחפים את הסירה כשאתם קופצים — הסירה מתרחקת בכיוון ההפוך!</li>
+        <li><strong>Rocket exhaust:</strong> Engines push hot gas DOWN — gas pushes rocket UP!</li>
+        <li><strong>Balloon releasing air:</strong> Balloon pushes air BACKWARD — air pushes balloon FORWARD!</li>
+        <li><strong>Swimmer pushing water:</strong> Hands push water BACKWARD — water pushes swimmer FORWARD!</li>
       </ul>
     </div>
 
     <!-- Game 3A: Balloon Rocket -->
     <div class="card card-law3">
-      <h2>&#127918; ניסוי: רקטת בלון</h2>
-      <p>נפחו את הבלון יותר לכוח תגובה גדול יותר!</p>
+      <h2>&#127918; Experiment 3A — Balloon Rocket</h2>
+      <p>Inflate the balloon more for a bigger reaction force!</p>
 
       <div class="slider-row">
-        <span class="slider-label">ניפוח:</span>
+        <span class="slider-label">Inflation:</span>
         <input type="range" class="slider-law3" id="balloon-slider" min="10" max="100" value="60" oninput="updateBalloon()">
         <span class="slider-val" id="balloon-val" style="color:var(--law3)">60%</span>
       </div>
 
       <div class="canvas-wrap">
-        <canvas id="canvas-balloon" width="780" height="190">הדפדפן שלך אינו תומך בקנבס. אנא השתמשו בדפדפן מודרני לצפייה בהנפשה.</canvas>
+        <canvas id="canvas-balloon" width="780" height="190">Your browser does not support canvas. Please use a modern browser to see the animation.</canvas>
       </div>
 
       <div class="stat-grid">
         <div class="stat-box">
-          <div class="stat-label">ניפוח</div>
+          <div class="stat-label">Inflation</div>
           <div class="stat-value" id="bal-inflation" style="color:var(--law3)">60%</div>
         </div>
         <div class="stat-box">
-          <div class="stat-label">כוח האוויר</div>
+          <div class="stat-label">Air Force</div>
           <div class="stat-value" id="bal-force" style="color:var(--law3)">60 N</div>
         </div>
         <div class="stat-box">
-          <div class="stat-label">מרחק:</div>
-          <div class="stat-value" id="bal-distance" style="color:var(--law3)">-- מ'</div>
+          <div class="stat-label">Distance</div>
+          <div class="stat-value" id="bal-distance" style="color:var(--law3)">-- m</div>
         </div>
       </div>
 
       <div class="btn-row">
-        <button class="btn btn-law3 btn-lg" onclick="releaseBalloon()">שחרר! &#128168;</button>
-        <button class="btn btn-gray btn-sm" onclick="resetBalloon()">אפס</button>
-        <span id="bal-pts-msg" style="color:var(--success);font-weight:700;font-size:16px;display:none">+100 נקודות!</span>
+        <button class="btn btn-law3 btn-lg" onclick="releaseBalloon()">&#128168; Release!</button>
+        <button class="btn btn-gray btn-sm" onclick="resetBalloon()">Reset</button>
+        <span id="bal-pts-msg" style="color:var(--success);font-weight:700;font-size:16px;display:none">+100 pts!</span>
       </div>
-      <p style="font-size:14px;color:var(--text-dim)">צפו בחצי הפעולה (אוויר ילך שמאלה) ותגובה (הבלון ילך ימינה)!</p>
+      <p style="font-size:14px;color:var(--text-dim)">Watch the action (air going left) and reaction (balloon going right) arrows!</p>
     </div>
 
     <!-- Game 3B: Rocket Launch -->
     <div class="card card-law3">
-      <h2>&#127918; ניסוי: שיגור רקטה</h2>
-      <p>שנו את עוצמת הדחף ושגרו את הרקטה! גזי הפליטה יורדים — הרקטה עולה!</p>
+      <h2>&#127918; Experiment 3B — Rocket Launch</h2>
+      <p>Adjust thrust power and launch your rocket! Exhaust goes down, rocket goes UP!</p>
 
       <div class="slider-row">
-        <span class="slider-label">כוח דחף:</span>
+        <span class="slider-label">Thrust:</span>
         <input type="range" class="slider-law3" id="thrust-slider" min="20" max="100" value="60" oninput="updateThrust()">
         <span class="slider-val" id="thrust-val" style="color:var(--law3)">60%</span>
       </div>
 
       <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:flex-start">
         <div class="canvas-wrap" style="flex:1;min-width:240px">
-          <canvas id="canvas-rocket" width="380" height="300">הדפדפן שלך אינו תומך בקנבס. אנא השתמשו בדפדפן מודרני לצפייה בהנפשה.</canvas>
+          <canvas id="canvas-rocket" width="380" height="300">Your browser does not support canvas. Please use a modern browser to see the animation.</canvas>
         </div>
         <div style="flex:0 0 auto;padding-top:4px">
-          <div style="margin-bottom:8px;font-size:14px;color:var(--text-dim)">גובה</div>
+          <div style="margin-bottom:8px;font-size:14px;color:var(--text-dim)">Altitude</div>
           <div class="altitude-wrap">
             <div class="altitude-bar-outer">
               <div class="altitude-bar-inner" id="altitude-bar" style="height:0%"></div>
             </div>
           </div>
-          <div style="margin-top:6px;font-size:18px;font-weight:700;color:var(--law3)" id="altitude-text">0 מ'</div>
+          <div style="margin-top:6px;font-size:18px;font-weight:700;color:var(--law3)" id="altitude-text">0 m</div>
         </div>
       </div>
 
       <div class="stat-grid">
         <div class="stat-box">
-          <div class="stat-label">כוח דחף</div>
+          <div class="stat-label">Thrust</div>
           <div class="stat-value" id="rocket-thrust" style="color:var(--law3)">60%</div>
         </div>
         <div class="stat-box">
-          <div class="stat-label">גובה:</div>
-          <div class="stat-value" id="rocket-altitude" style="color:var(--law3)">0 מ'</div>
+          <div class="stat-label">Altitude</div>
+          <div class="stat-value" id="rocket-altitude" style="color:var(--law3)">0 m</div>
         </div>
         <div class="stat-box">
-          <div class="stat-label">מהירות:</div>
-          <div class="stat-value" id="rocket-speed" style="color:var(--law3)">0 מ'/ש'</div>
+          <div class="stat-label">Speed</div>
+          <div class="stat-value" id="rocket-speed" style="color:var(--law3)">0 m/s</div>
         </div>
       </div>
 
       <div class="btn-row">
-        <button class="btn btn-law3 btn-lg" onclick="launchRocket()">שגר! &#128640;</button>
-        <button class="btn btn-gray btn-sm" onclick="resetRocket()">אפס</button>
-        <span id="rocket-pts-msg" style="color:var(--success);font-weight:700;font-size:16px;display:none">+100 נקודות!</span>
+        <button class="btn btn-law3 btn-lg" onclick="launchRocket()">&#128640; Launch Rocket!</button>
+        <button class="btn btn-gray btn-sm" onclick="resetRocket()">Reset</button>
+        <span id="rocket-pts-msg" style="color:var(--success);font-weight:700;font-size:16px;display:none">+100 pts!</span>
       </div>
     </div>
   </div>
@@ -844,29 +829,29 @@
   <!-- ======== QUIZ ======== -->
   <div class="section" id="sec-quiz">
     <div class="card card-quiz">
-      <h1>&#10067; חידון: בחן את עצמך!</h1>
-      <p>ענה על 5 שאלות וגלה עד כמה אתה מומחה פיזיקה! 5 שאלות, 40 נקודות כל אחת. בהצלחה!</p>
+      <h1>&#10067; Newton's Laws Quiz</h1>
+      <p>Test what you've learned! 5 questions, 40 points each. Good luck!</p>
     </div>
 
     <div id="quiz-questions"></div>
 
     <div id="quiz-submit-area" style="text-align:center;margin:20px 0;">
-      <button class="btn btn-gold btn-lg" onclick="submitQuiz()" id="quiz-submit-btn">שלח תשובות! &#10003;</button>
+      <button class="btn btn-gold btn-lg" onclick="submitQuiz()" id="quiz-submit-btn">Submit Answers &#127919;</button>
     </div>
 
     <div id="quiz-result" style="display:none" class="card card-quiz">
-      <h2 id="quiz-result-heading">תוצאות החידון</h2>
+      <h2 id="quiz-result-heading">Quiz Results</h2>
       <p id="quiz-result-msg"></p>
       <div class="btn-row" style="justify-content:center;margin-top:16px">
-        <button class="btn btn-gold"    onclick="retakeQuiz()">שחק שוב &#128260;</button>
-        <button class="btn btn-success" onclick="switchTab('home')">חזרה לבית &#127968;</button>
+        <button class="btn btn-gold"    onclick="retakeQuiz()">Retake Quiz &#128260;</button>
+        <button class="btn btn-success" onclick="switchTab('home')">Back to Home &#127968;</button>
       </div>
     </div>
   </div>
 
 </div><!-- end #main -->
 
-<div id="notif">+100 נקודות!</div>
+<div id="notif">+100 pts!</div>
 
 <script>
 // ================================================================
@@ -894,12 +879,12 @@ var state = {
 function addScore(pts) {
   state.score = Math.min(800, state.score + pts);
   updateScoreDisplay();
-  showNotif('+' + pts + ' נקודות!');
+  showNotif('+' + pts + ' pts!');
   checkCompletion();
 }
 
 function updateScoreDisplay() {
-  document.getElementById('score-text').textContent = 'ניקוד: ' + state.score + ' / 800';
+  document.getElementById('score-text').textContent = 'Score: ' + state.score + ' / 800';
   var pct = (state.score / 800) * 100;
   document.getElementById('progress-bar').style.width = pct + '%';
   var thresholds = [100, 250, 450, 600, 750];
@@ -931,7 +916,7 @@ function checkLaw1Done() {
     state.law1done = true;
     updateDot('law1', true);
     document.getElementById('home-done-1').style.display = 'block';
-    showNotif('חוק 1 הושלם! כל הכבוד!');
+    showNotif('Law 1 Complete! Great job!');
     checkCompletion();
   }
 }
@@ -941,7 +926,7 @@ function checkLaw2Done() {
     state.law2done = true;
     updateDot('law2', true);
     document.getElementById('home-done-2').style.display = 'block';
-    showNotif('חוק 2 הושלם!');
+    showNotif('Law 2 Complete!');
     checkCompletion();
   }
 }
@@ -951,7 +936,7 @@ function checkLaw3Done() {
     state.law3done = true;
     updateDot('law3', true);
     document.getElementById('home-done-3').style.display = 'block';
-    showNotif('חוק 3 הושלם!');
+    showNotif('Law 3 Complete!');
     checkCompletion();
   }
 }
@@ -964,8 +949,6 @@ function checkCompletion() {
       var s = document.getElementById('stars-display').textContent;
       document.getElementById('final-stars').textContent = s;
       document.getElementById('final-score-display').textContent = state.score + ' / 800';
-      var s2 = document.getElementById('final-score-display-2');
-      if (s2) s2.textContent = state.score;
     }, 600);
   }
 }
@@ -995,7 +978,7 @@ function resetGame() {
   currentSurface = 'ice';
   document.querySelectorAll('.surface-btn').forEach(function(b) { b.classList.remove('selected'); });
   document.querySelector('.surface-btn[data-surface="ice"]').classList.add('selected');
-  document.getElementById('slide-surface-name').textContent = 'קרח';
+  document.getElementById('slide-surface-name').textContent = 'Ice';
   document.getElementById('slide-friction-val').textContent = '0.005';
   resetSlide();
   document.getElementById('atmos-toggle').checked = false;
@@ -1048,10 +1031,10 @@ document.querySelectorAll('.tab-btn').forEach(function(btn) {
 //  LAW 1A — SURFACE SLIDE
 // ================================================================
 var SURFACES = {
-  ice:   { name:'קרח',  mu:0.005, color:'#a8e8ff', emoji:'קרח' },
-  wood:  { name:'עץ',   mu:0.04,  color:'#c8a060', emoji:'עץ' },
-  grass: { name:'דשא',  mu:0.09,  color:'#5ab040', emoji:'דשא' },
-  sand:  { name:'חול',  mu:0.15,  color:'#d4b870', emoji:'חול' }
+  ice:   { name:'Ice',   mu:0.005, color:'#a8e8ff', emoji:'Ice' },
+  wood:  { name:'Wood',  mu:0.04,  color:'#c8a060', emoji:'Wood' },
+  grass: { name:'Grass', mu:0.09,  color:'#5ab040', emoji:'Grass' },
+  sand:  { name:'Sand',  mu:0.15,  color:'#d4b870', emoji:'Sand' }
 };
 
 var currentSurface = 'ice';
@@ -1098,9 +1081,9 @@ function drawSlideCanvas() {
   ctx.fillStyle = 'rgba(0,0,0,0.55)';
   ctx.fillRect(W - 160, H * 0.56, 152, 28);
   ctx.fillStyle = '#fff';
-  ctx.font = 'bold 13px Arial, sans-serif';
+  ctx.font = 'bold 13px sans-serif';
   ctx.textAlign = 'right';
-  ctx.fillText('חיכוך: ' + s.mu + '  ' + s.name, W - 12, H * 0.56 + 19);
+  ctx.fillText(s.name + '  mu=' + s.mu, W - 12, H * 0.56 + 19);
   ctx.textAlign = 'left';
 
   // Puck
@@ -1148,8 +1131,8 @@ function kickPuck() {
   slideState.vx = 13;
   slideState.running = true;
   slideState.startX = 60;
-  document.getElementById('slide-distance').textContent = '-- מ\'';
-  document.getElementById('slide-speed').textContent = '0 מ\'/ש\'';
+  document.getElementById('slide-distance').textContent = '-- m';
+  document.getElementById('slide-speed').textContent = '0 m/s';
   animateSlide();
 }
 
@@ -1166,8 +1149,8 @@ function animateSlide() {
   var pixelsPerMeter = (W - 90) / 10;
   var distMeters = (slideState.x - slideState.startX) / pixelsPerMeter;
 
-  document.getElementById('slide-speed').textContent = (slideState.vx * 0.65).toFixed(1) + ' מ\'/ש\'';
-  document.getElementById('slide-distance').textContent = distMeters.toFixed(1) + ' מ\'';
+  document.getElementById('slide-speed').textContent = (slideState.vx * 0.65).toFixed(1) + ' m/s';
+  document.getElementById('slide-distance').textContent = distMeters.toFixed(1) + ' m';
 
   drawSlideCanvas();
 
@@ -1191,8 +1174,8 @@ function resetSlide() {
   slideState.x = 60;
   slideState.vx = 0;
   slideState.running = false;
-  document.getElementById('slide-speed').textContent = '0 מ\'/ש\'';
-  document.getElementById('slide-distance').textContent = '-- מ\'';
+  document.getElementById('slide-speed').textContent = '0 m/s';
+  document.getElementById('slide-distance').textContent = '-- m';
   drawSlideCanvas();
 }
 
@@ -1215,14 +1198,14 @@ function toggleAtmosphere() {
   var label  = document.getElementById('atmos-label');
   var status = document.getElementById('space-atmos-status');
   if (spaceState.atmosphere) {
-    label.textContent  = 'אטמוספרה: פועל';
+    label.textContent  = 'Atmosphere: ON';
     label.style.color  = '#4CAF50';
-    status.textContent = 'פועל';
+    status.textContent = 'ON';
     status.style.color = '#4CAF50';
   } else {
-    label.textContent  = 'אטמוספרה: כבוי';
+    label.textContent  = 'Atmosphere: OFF';
     label.style.color  = '#888';
-    status.textContent = 'כבוי';
+    status.textContent = 'OFF';
     status.style.color = '#888';
   }
   drawSpaceCanvas();
@@ -1274,15 +1257,15 @@ function drawSpaceCanvas() {
     ctx.fillStyle = 'rgba(0,160,255,0.07)';
     ctx.fillRect(0, 0, W, H);
     ctx.fillStyle = 'rgba(100,200,255,0.4)';
-    ctx.font = 'bold 13px Arial, sans-serif';
+    ctx.font = 'bold 13px sans-serif';
     ctx.textAlign = 'center';
-    ctx.fillText('התנגדות אוויר פעילה — הרקטה תאט', W/2, 20);
+    ctx.fillText('AIR RESISTANCE ACTIVE — rocket will slow down', W/2, 20);
     ctx.textAlign = 'left';
   } else {
     ctx.fillStyle = 'rgba(0,201,255,0.4)';
-    ctx.font = 'bold 13px Arial, sans-serif';
+    ctx.font = 'bold 13px sans-serif';
     ctx.textAlign = 'center';
-    ctx.fillText('ואקום חלל — אפס גרר! הרקטה דואה לנצח.', W/2, 20);
+    ctx.fillText('SPACE VACUUM — zero drag! Rocket drifts forever.', W/2, 20);
     ctx.textAlign = 'left';
   }
 
@@ -1387,8 +1370,8 @@ function animateSpace() {
     .filter(function(p) { return p.life > 0; })
     .map(function(p) { return { x:p.x+p.vx, y:p.y+p.vy, vx:p.vx, vy:p.vy, r:p.r, life:p.life-0.04, color:p.color }; });
 
-  document.getElementById('space-speed').textContent = (spaceState.vx * 0.6).toFixed(1) + ' מ\'/ש\'';
-  document.getElementById('space-distance').textContent = Math.round(spaceState.distance * 0.5) + ' מ\'';
+  document.getElementById('space-speed').textContent = (spaceState.vx * 0.6).toFixed(1) + ' m/s';
+  document.getElementById('space-distance').textContent = Math.round(spaceState.distance * 0.5) + ' m';
 
   drawSpaceCanvas();
 
@@ -1399,8 +1382,11 @@ function animateSpace() {
     checkLaw1Done();
   }
 
+  /* Auto-stop: with atmosphere, stop when speed is negligible.
+     Without atmosphere (space), stop after a generous cap to avoid indefinite CPU use.
+     This preserves the educational point: in space you drift much longer! */
   var shouldStop = (spaceState.atmosphere && !spaceState.thrusting && spaceState.vx < 0.05)
-                || (spaceState.frameCount > 3600);
+                || (spaceState.frameCount > 3600); /* max ~60 seconds at 60fps */
 
   if (spaceState.running && !shouldStop) {
     spaceState.raf = requestAnimationFrame(animateSpace);
@@ -1420,15 +1406,15 @@ function resetSpace() {
   spaceState.distance = 0;
   spaceState.particles = [];
   spaceState.frameCount = 0;
-  document.getElementById('space-speed').textContent = '0 מ\'/ש\'';
-  document.getElementById('space-distance').textContent = '0 מ\'';
+  document.getElementById('space-speed').textContent = '0 m/s';
+  document.getElementById('space-distance').textContent = '0 m';
   drawSpaceCanvas();
 }
 
 // ================================================================
 //  LAW 2 — F=ma
 // ================================================================
-var fmaState = { objects:[], running:false, raf:null, currentObjName:'מותאם אישית' };
+var fmaState = { objects:[], running:false, raf:null, currentObjName:'Custom' };
 var fmaForce = 50, fmaMass = 5;
 
 function updateFMA() {
@@ -1436,11 +1422,11 @@ function updateFMA() {
   fmaMass  = parseFloat(document.getElementById('mass-slider').value);
   var acc = (fmaForce / fmaMass).toFixed(1);
   document.getElementById('force-val').textContent  = fmaForce + ' N';
-  document.getElementById('mass-val').textContent   = fmaMass + ' ק"ג';
-  document.getElementById('fma-calc').textContent   = acc + ' מ\'/ש\'\u00B2';
+  document.getElementById('mass-val').textContent   = fmaMass + ' kg';
+  document.getElementById('fma-calc').textContent   = acc + ' m/s\u00B2';
   document.getElementById('fma-f').textContent      = fmaForce + ' N';
-  document.getElementById('fma-m').textContent      = fmaMass + ' ק"ג';
-  document.getElementById('fma-a').textContent      = acc + ' מ\'/ש\'\u00B2';
+  document.getElementById('fma-m').textContent      = fmaMass + ' kg';
+  document.getElementById('fma-a').textContent      = acc + ' m/s\u00B2';
 }
 
 function setPreset(mass, name) {
@@ -1471,9 +1457,9 @@ function drawFMACanvas() {
   ctx.beginPath(); ctx.moveTo(W-30, 0); ctx.lineTo(W-30, H-30); ctx.stroke();
   ctx.setLineDash([]);
   ctx.fillStyle = '#FFD700';
-  ctx.font = 'bold 13px Arial, sans-serif';
+  ctx.font = 'bold 13px sans-serif';
   ctx.textAlign = 'center';
-  ctx.fillText('קו סיום', W-30, 18);
+  ctx.fillText('FINISH', W-30, 18);
   ctx.textAlign = 'left';
 
   fmaState.objects.forEach(function(obj) {
@@ -1491,15 +1477,15 @@ function drawFMACanvas() {
     ctx.shadowBlur = 0;
     if (obj.label) {
       ctx.fillStyle = '#fff';
-      ctx.font = 'bold ' + Math.max(12, r*0.75) + 'px Arial, sans-serif';
+      ctx.font = 'bold ' + Math.max(12, r*0.75) + 'px sans-serif';
       ctx.textAlign = 'center';
       ctx.fillText(obj.label, obj.x, cy + r*0.35);
       ctx.textAlign = 'left';
     }
     ctx.fillStyle = obj.color;
-    ctx.font = '12px Arial, sans-serif';
+    ctx.font = '12px sans-serif';
     ctx.textAlign = 'center';
-    ctx.fillText((obj.vx*0.35).toFixed(1)+' מ\'/ש\'', obj.x, cy - r - 5);
+    ctx.fillText((obj.vx*0.35).toFixed(1)+' m/s', obj.x, cy - r - 5);
     ctx.textAlign = 'left';
   });
 }
@@ -1518,9 +1504,9 @@ function raceMode() {
   if (fmaState.running) return;
   var force = fmaForce;
   var presets = [
-    { mass:0.45, label:'כדור', color:'#00C9FF' },
-    { mass:5,    label:'קופסה', color:'#FF6B35' },
-    { mass:20,   label:'סלע', color:'#7B2FBE' }
+    { mass:0.45, label:'Ball', color:'#00C9FF' },
+    { mass:5,    label:'Box',  color:'#FF6B35' },
+    { mass:20,   label:'Rock', color:'#7B2FBE' }
   ];
   fmaState.objects = presets.map(function(p) {
     return { x:40, mass:p.mass, vx:0, acc:force/p.mass, color:p.color, label:p.label };
@@ -1560,7 +1546,7 @@ function animateFMA(isRace) {
       }
       var msg = document.getElementById('fma-pts-msg');
       msg.style.display = 'inline';
-      msg.textContent   = state.fmaLaunches >= 3 ? 'מעולה! 3+ ניסויים הושלמו!' : state.fmaLaunches + '/3 ניסויים';
+      msg.textContent   = state.fmaLaunches >= 3 ? 'Great! 3+ experiments done!' : state.fmaLaunches + '/3 experiments';
       checkLaw2Done();
     }
   }
@@ -1570,8 +1556,8 @@ function resetFMA() {
   cancelAnimationFrame(fmaState.raf);
   fmaState.objects = [];
   fmaState.running = false;
-  fmaState.currentObjName = 'מותאם אישית';
-  document.getElementById('fma-obj').textContent = 'מותאם אישית';
+  fmaState.currentObjName = 'Custom';
+  document.getElementById('fma-obj').textContent = 'Custom';
   drawFMACanvas();
 }
 
@@ -1653,15 +1639,15 @@ function drawBalloonCanvas() {
     ctx.fillStyle = '#ff4444';
     ctx.beginPath();
     ctx.moveTo(ax-alen-8, by-28); ctx.lineTo(ax-alen, by-34); ctx.lineTo(ax-alen, by-22); ctx.fill();
-    ctx.font = 'bold 12px Arial, sans-serif'; ctx.textAlign = 'center';
-    ctx.fillText('פעולה: אוויר נדחף לאחור', ax-alen/2, by-36);
+    ctx.font = 'bold 12px sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText('ACTION: air goes left', ax-alen/2, by-36);
     // Reaction arrow (balloon right)
     ctx.strokeStyle = '#44ff88'; ctx.lineWidth = 3;
     ctx.beginPath(); ctx.moveTo(bx, by+28); ctx.lineTo(bx+alen, by+28); ctx.stroke();
     ctx.fillStyle = '#44ff88';
     ctx.beginPath();
     ctx.moveTo(bx+alen+8, by+28); ctx.lineTo(bx+alen, by+22); ctx.lineTo(bx+alen, by+34); ctx.fill();
-    ctx.fillText('תגובה: הבלון נע קדימה', bx+alen/2, by+44);
+    ctx.fillText('REACTION: balloon goes right', bx+alen/2, by+44);
     ctx.textAlign = 'left';
   }
 }
@@ -1703,7 +1689,7 @@ function animateBalloon() {
 
   var pixPerM = (W - 80) / 5;
   var dist = (balloonState.x - 80) / pixPerM;
-  document.getElementById('bal-distance').textContent = dist.toFixed(1) + ' מ\'';
+  document.getElementById('bal-distance').textContent = dist.toFixed(1) + ' m';
 
   drawBalloonCanvas();
 
@@ -1726,7 +1712,7 @@ function resetBalloon() {
   balloonState.vx = 0;
   balloonState.running = false;
   balloonState.particles = [];
-  document.getElementById('bal-distance').textContent = '-- מ\'';
+  document.getElementById('bal-distance').textContent = '-- m';
   drawBalloonCanvas();
 }
 
@@ -1737,8 +1723,8 @@ var rocketState = {
   y: 262, vy: 0, thrust: 60,
   running: false, raf: null,
   exhaustParticles: [],
-  fuelFrames: 0,
-  maxFuel: 0
+  fuelFrames: 0,    /* frames of fuel remaining */
+  maxFuel: 0        /* total fuel frames for this launch */
 };
 
 function updateThrust() {
@@ -1781,8 +1767,8 @@ function drawRocketCanvas() {
   for (var h = 40; h <= H-20; h += 50) {
     ctx.beginPath(); ctx.moveTo(0, h); ctx.lineTo(W, h); ctx.stroke();
     ctx.fillStyle = 'rgba(255,255,255,0.25)';
-    ctx.font = '10px Arial, sans-serif';
-    ctx.fillText(Math.round(((H-20-h)/(H-20))*100)+'מ\'', 4, h-2);
+    ctx.font = '10px sans-serif';
+    ctx.fillText(Math.round(((H-20-h)/(H-20))*100)+'m', 4, h-2);
   }
   ctx.setLineDash([]);
 
@@ -1815,8 +1801,8 @@ function drawRocketCanvas() {
     ctx.closePath(); ctx.fill();
 
     ctx.fillStyle = 'rgba(255,100,70,0.85)';
-    ctx.font = 'bold 11px Arial, sans-serif'; ctx.textAlign = 'center';
-    ctx.fillText('פעולה: גזים לאחור', rx, ry+22+fLen+18);
+    ctx.font = 'bold 11px sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText('ACTION: exhaust DOWN', rx, ry+22+fLen+18);
   }
 
   // Rocket body
@@ -1847,17 +1833,17 @@ function drawRocketCanvas() {
     ctx.fillStyle = '#44ff88';
     ctx.beginPath();
     ctx.moveTo(rx+36, ry-54); ctx.lineTo(rx+30, ry-46); ctx.lineTo(rx+42, ry-46); ctx.fill();
-    ctx.font = 'bold 10px Arial, sans-serif'; ctx.textAlign = 'left';
-    ctx.fillText('תגובה:', rx+42, ry-36);
-    ctx.fillText('רקטה למעלה!', rx+42, ry-23);
+    ctx.font = 'bold 10px sans-serif'; ctx.textAlign = 'left';
+    ctx.fillText('REACTION', rx+42, ry-36);
+    ctx.fillText('rocket UP', rx+42, ry-23);
   }
 
   ctx.textAlign = 'left';
 
   // Altitude bar update
   document.getElementById('altitude-bar').style.height   = altPct + '%';
-  document.getElementById('altitude-text').textContent   = Math.round(altPct) + ' מ\'';
-  document.getElementById('rocket-altitude').textContent = Math.round(altPct) + ' מ\'';
+  document.getElementById('altitude-text').textContent   = Math.round(altPct) + ' m';
+  document.getElementById('rocket-altitude').textContent = Math.round(altPct) + ' m';
 }
 
 function launchRocket() {
@@ -1868,6 +1854,7 @@ function launchRocket() {
   rocketState.vy = 0;
   rocketState.running = true;
   rocketState.exhaustParticles = [];
+  /* Fuel lasts 80–140 frames depending on thrust (higher thrust = more dramatic arc) */
   rocketState.maxFuel  = Math.round(60 + rocketState.thrust * 0.8);
   rocketState.fuelFrames = rocketState.maxFuel;
   animateRocket();
@@ -1879,6 +1866,7 @@ function animateRocket() {
   var H = cvs.height;
   var groundY = H - 38;
 
+  /* Apply thrust only while fuel remains */
   var hasFuel = rocketState.fuelFrames > 0;
   if (hasFuel) rocketState.fuelFrames--;
 
@@ -1890,6 +1878,7 @@ function animateRocket() {
   rocketState.y  += rocketState.vy;
   if (rocketState.y < 18) { rocketState.y = 18; rocketState.vy = 0; }
 
+  /* Only generate exhaust particles while engine has fuel */
   if (hasFuel && rocketState.vy < 0) {
     for (var i = 0; i < 4; i++) {
       rocketState.exhaustParticles.push({
@@ -1908,7 +1897,7 @@ function animateRocket() {
     .filter(function(p) { return p.life > 0; })
     .map(function(p) { return { x:p.x+p.vx, y:p.y+p.vy, vx:p.vx, vy:p.vy, r:p.r, life:p.life-0.03, color:p.color }; });
 
-  document.getElementById('rocket-speed').textContent = Math.abs(rocketState.vy * 2).toFixed(1) + ' מ\'/ש\'';
+  document.getElementById('rocket-speed').textContent = Math.abs(rocketState.vy * 2).toFixed(1) + ' m/s';
 
   drawRocketCanvas();
 
@@ -1941,9 +1930,9 @@ function resetRocket() {
   rocketState.fuelFrames = 0;
   rocketState.maxFuel   = 0;
   document.getElementById('altitude-bar').style.height   = '0%';
-  document.getElementById('altitude-text').textContent   = '0 מ\'';
-  document.getElementById('rocket-altitude').textContent = '0 מ\'';
-  document.getElementById('rocket-speed').textContent    = '0 מ\'/ש\'';
+  document.getElementById('altitude-text').textContent   = '0 m';
+  document.getElementById('rocket-altitude').textContent = '0 m';
+  document.getElementById('rocket-speed').textContent    = '0 m/s';
   drawRocketCanvas();
 }
 
@@ -1952,34 +1941,34 @@ function resetRocket() {
 // ================================================================
 var QUIZ_DATA = [
   {
-    q: "דיסק הוקי מחליק הרבה יותר רחוק על קרח מאשר על דשא. זה בגלל חוק ניוטון ה...?",
-    opts: ["הראשון (אינרציה) ✓", "השני (כוח=מסה×תאוצה)", "השלישי (פעולה/תגובה)", "חוק הכבידה"],
+    q: "A hockey puck slides much farther on ice than on grass. This is because of Newton's...?",
+    opts: ["First Law (Inertia)", "Second Law (F=ma)", "Third Law (Action/Reaction)", "Law of Gravity"],
     correct: 0,
-    exp: "החוק הראשון אומר שגופים ממשיכים לנוע אלא אם כן כוח עוצר אותם. לקרח יש חיכוך נמוך מאוד, ולכן הדיסק מחליק הרבה יותר רחוק!"
+    exp: "The First Law says objects keep moving unless a force stops them. Ice has very low friction, so the puck slides much farther!"
   },
   {
-    q: "בעטת בכדור כדורגל ובכדור כדורת עם אותו כוח. מי יגיע רחוק יותר?",
-    opts: ["כדור הכדורגל ✓", "כדור הכדורת", "שניהם אותו דבר", "אף אחד לא זז"],
+    q: "You kick a soccer ball and a bowling ball with the SAME force. Which one goes faster?",
+    opts: ["Soccer ball", "Bowling ball", "They go the same speed", "Neither moves"],
     correct: 0,
-    exp: "חוק שני: תאוצה = כוח ÷ מסה. עם אותו כוח, כדור הכדורגל הקל מקבל תאוצה גדולה בהרבה מאשר כדור הכדורת הכבד!"
+    exp: "The Second Law: a = F / m. With the same force, the lighter soccer ball gets way more acceleration than the heavy bowling ball!"
   },
   {
-    q: "מנוע הרקטה דוחף גזים חמים כלפי מטה. מה קורה לרקטה?",
-    opts: ["היא עולה למעלה ✓", "היא יורדת למטה", "היא נשארת במקום", "היא מסתובבת"],
+    q: "A rocket engine pushes hot gas DOWNWARD. What happens to the rocket?",
+    opts: ["It goes upward", "It goes downward", "It stays still", "It spins"],
     correct: 0,
-    exp: "חוק שלישי! הרקטה דוחפת גזים למטה (פעולה), אז הגזים דוחפים את הרקטה למעלה (תגובה) — כוח שווה, כיוון הפוך!"
+    exp: "Third Law! The rocket pushes gas down (action), so the gas pushes the rocket UP (reaction) — equal force, opposite direction!"
   },
   {
-    q: "למה צריך חגורת בטיחות כשהרכב עוצר פתאום?",
-    opts: ["הגוף ממשיך לנוע קדימה בגלל אינרציה ✓", "הרכב מושך אתכם קדימה", "הבלמים דוחפים אתכם", "הכבידה מושכת אתכם"],
+    q: "Why do you need a seatbelt when a car stops suddenly?",
+    opts: ["Your body keeps moving forward due to inertia", "The car pulls you forward", "The brakes push you forward", "Gravity pulls you forward"],
     correct: 0,
-    exp: "חוק ראשון — אינרציה! הגוף שלך נע עם הרכב. כשהרכב עוצר, הגוף רוצה להמשיך לנוע. חגורת הבטיחות מפעילה את כוח העצירה!"
+    exp: "First Law — Inertia! Your body was moving with the car. When the car stops, your body wants to keep going. The seatbelt applies the stopping force!"
   },
   {
-    q: "אם מכפילים את מסת העצם ושומרים על אותו כוח, התאוצה תהיה...?",
-    opts: ["מחצית ✓", "כפולה", "אותו הדבר", "פי שלוש"],
+    q: "If you double the mass of an object and keep the force the same, what happens to acceleration?",
+    opts: ["It gets cut in half", "It doubles", "It stays the same", "It triples"],
     correct: 0,
-    exp: "תאוצה = כוח ÷ מסה. אם המסה מוכפלת והכוח נשאר זהה: תאוצה = כוח ÷ (2×מסה) = מחצית התאוצה המקורית!"
+    exp: "a = F / m. If mass doubles and force stays the same: a = F / (2m) = half the original acceleration!"
   }
 ];
 
@@ -2024,7 +2013,7 @@ function selectAnswer(qi, oi) {
 
 function submitQuiz() {
   if (Object.keys(quizAnswered).length < QUIZ_DATA.length) {
-    showNotif('ענה על כל 5 השאלות קודם!');
+    showNotif('Answer all 5 questions first!');
     return;
   }
   state.quizSubmitted = true;
@@ -2048,13 +2037,13 @@ function submitQuiz() {
     var expDiv = document.getElementById('exp-' + qi);
     expDiv.textContent = isCorrect
       ? '\u2705 ' + q.exp
-      : '\u274C תשובה נכונה: ' + q.opts[q.correct] + '. ' + q.exp;
+      : '\u274C Correct answer: ' + q.opts[q.correct] + '. ' + q.exp;
     expDiv.className = 'q-explanation show ' + (isCorrect ? 'correct-exp' : 'wrong-exp');
   });
 
   var pts = correct * 40;
-  document.getElementById('quiz-result-heading').textContent = 'תוצאות החידון: ' + correct + '/5 נכון!';
-  document.getElementById('quiz-result-msg').textContent = 'קיבלת ' + pts + ' נקודות מתוך 200!';
+  document.getElementById('quiz-result-heading').textContent = 'Quiz Results: ' + correct + '/5 Correct!';
+  document.getElementById('quiz-result-msg').textContent = 'You scored ' + pts + ' out of 200 points!';
   document.getElementById('quiz-result').style.display   = 'block';
   document.getElementById('quiz-submit-area').style.display = 'none';
 
