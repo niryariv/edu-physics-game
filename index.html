@@ -440,10 +440,10 @@
       <p>קבע את מהירות ההתחלה v&#8320; ובחר משטח (שקובע את מקדם החיכוך &#956;). הנוסחה מנבאת בדיוק כמה רחוק הדיסק יחליק. פגע בדגל המטרה ב-80 מ'!</p>
 
       <div class="formula-card">
-        <div class="formula-title">&#128200; נוסחה חיה — מרחק עצירה</div>
-        <div class="formula-main">d = v&#8320;&#178; &divide; (2 &times; &#956; &times; g)</div>
+        <div class="formula-title">עד כמה היא תחלוק?</div>
+        <div class="formula-main">מרחק = מהירות&sup2; &divide; (2 &times; חיכוך &times; 9.8)</div>
         <div class="formula-live">
-          d = <span class="fval" id="law1-v0-disp">20</span>&#178; &divide; (2 &times; <span class="fval" id="law1-mu-disp">0.050</span> &times; 9.8)
+          d = <span class="fval" id="law1-v0-disp">20</span>&sup2; &divide; (2 &times; <span class="fval" id="law1-mu-disp">0.050</span> &times; 9.8)
           = <span class="fval" id="law1-dist-pred">408.2</span> מ'
         </div>
       </div>
@@ -451,14 +451,14 @@
       <div class="goal-banner">&#127919; מטרה: פגע בדגל המטרה ב-80 מ' בדיוק!</div>
 
       <div class="slider-row">
-        <span class="slider-label">v&#8320; מהירות התחלתית:</span>
+        <span class="slider-label">מהירות התחלתית:</span>
         <input type="range" class="slider-law1" id="law1-v0-slider" min="5" max="40" step="1" value="20" oninput="syncLaw1('v0',this.value)">
         <input type="number" id="law1-v0-num" min="5" max="40" step="1" value="20" oninput="syncLaw1('v0',this.value)" style="width:70px">
         <span style="color:var(--text-dim);font-size:14px">m/s</span>
       </div>
 
       <div class="slider-row">
-        <span class="slider-label">&#956; חיכוך:</span>
+        <span class="slider-label">חיכוך משטח:</span>
         <input type="range" class="slider-law1" id="law1-mu-slider" min="0.005" max="0.6" step="0.005" value="0.05" oninput="syncLaw1('mu',this.value)">
         <input type="number" id="law1-mu-num" min="0.005" max="0.6" step="0.005" value="0.05" oninput="syncLaw1('mu',this.value)" style="width:80px">
       </div>
@@ -556,8 +556,8 @@
       <p>קבע את כוח התותח ומסת כדור התותח. הנוסחה מנבאת את התאוצה. ירה את כדור התותח — האם תוכל להפיל את המגדל ב-60 מ' בדיוק?</p>
 
       <div class="formula-card">
-        <div class="formula-title">&#128200; נוסחה חיה — F = ma</div>
-        <div class="formula-main">a = F &divide; m &nbsp;|&nbsp; x(t) = &frac12; &middot; a &middot; t&sup2;</div>
+        <div class="formula-title">החוק השני של ניוטון</div>
+        <div class="formula-main">תאוצה = כוח &divide; מסה</div>
         <div class="formula-live">
           a = <span class="fval" id="law2-f-disp">80</span> N &divide; <span class="fval" id="law2-m-disp">5</span> kg
           = <span class="fval" id="law2-a-disp">16.0</span> m/s&sup2;
@@ -567,13 +567,13 @@
       <div class="goal-banner">&#127919; מטרה: הפל את המגדל ב-60 מ' בדיוק!</div>
 
       <div class="slider-row">
-        <span class="slider-label">F כוח התותח:</span>
+        <span class="slider-label">כוח התותח:</span>
         <input type="range" class="slider-law2" id="force-slider" min="10" max="200" step="5" value="80" oninput="syncLaw2('f',this.value)">
         <input type="number" id="force-num" min="10" max="200" step="5" value="80" oninput="syncLaw2('f',this.value)" style="width:76px">
         <span style="color:var(--text-dim);font-size:14px">N</span>
       </div>
       <div class="slider-row">
-        <span class="slider-label">m מסת כדור התותח:</span>
+        <span class="slider-label">מסת כדור התותח:</span>
         <input type="range" class="slider-law2" id="mass-slider" min="1" max="20" step="0.5" value="5" oninput="syncLaw2('m',this.value)">
         <input type="number" id="mass-num" min="1" max="20" step="0.5" value="5" oninput="syncLaw2('m',this.value)" style="width:76px">
         <span style="color:var(--text-dim);font-size:14px">kg</span>
@@ -660,26 +660,26 @@
       <p>קבע את קצב שריפת הדלק ומהירות גז הפליטה. הנוסחה מחשבת את הדחף האמיתי. האם תגיע למסלול ב-500 מ' גובה?</p>
 
       <div class="formula-card">
-        <div class="formula-title">&#128200; נוסחה חיה — דחף רקטה</div>
-        <div class="formula-main">Thrust = (&#916;m/&#916;t) &times; v<sub>exhaust</sub></div>
+        <div class="formula-title">דחף הרקטה (החוק השלישי של ניוטון)</div>
+        <div class="formula-main">דחף = קצב שריפה &times; מהירות גז</div>
         <div class="formula-live">
-          Thrust = <span class="fval" id="law3-br-disp">8</span> kg/s &times; <span class="fval" id="law3-ex-disp">400</span> m/s
+          דחף = <span class="fval" id="law3-br-disp">8</span> kg/s &times; <span class="fval" id="law3-ex-disp">400</span> m/s
           = <span class="fval" id="law3-thrust-disp">3200</span> N
-          &nbsp;|&nbsp; משקל = <span class="fval" id="law3-weight-disp">~784</span> N
-          &nbsp;&#8594;&nbsp; נטו למעלה: <span class="fval" id="law3-net-disp">~2416</span> N
+          &nbsp;|&nbsp; משקל הרקטה = <span class="fval" id="law3-weight-disp">~784</span> N
+          &nbsp;&#8594;&nbsp; כוח נטו כלפי מעלה: <span class="fval" id="law3-net-disp">~2416</span> N
         </div>
       </div>
 
       <div class="goal-banner">&#127919; מטרה: הגע למסלול ב-500 מ' גובה!</div>
 
       <div class="slider-row">
-        <span class="slider-label">&#128293; קצב שריפת דלק:</span>
+        <span class="slider-label">קצב שריפת דלק:</span>
         <input type="range" class="slider-law3" id="burn-rate-slider" min="1" max="20" step="0.5" value="8" oninput="syncLaw3('br',this.value)">
         <input type="number" id="burn-rate-num" min="1" max="20" step="0.5" value="8" oninput="syncLaw3('br',this.value)" style="width:70px">
         <span style="color:var(--text-dim);font-size:14px">kg/s</span>
       </div>
       <div class="slider-row">
-        <span class="slider-label">&#128168; מהירות גז הפליטה:</span>
+        <span class="slider-label">מהירות גז הפליטה:</span>
         <input type="range" class="slider-law3" id="exhaust-speed-slider" min="100" max="1000" step="50" value="400" oninput="syncLaw3('ex',this.value)">
         <input type="number" id="exhaust-speed-num" min="100" max="1000" step="50" value="400" oninput="syncLaw3('ex',this.value)" style="width:80px">
         <span style="color:var(--text-dim);font-size:14px">m/s</span>
@@ -739,12 +739,12 @@
       <p>קבע גובה התחלתי ומסת העגלה. הנוסחה מראה כיצד הגובה הופך למהירות בתחתית. אתה צריך v&#8805;14 m/s להשלמת הלולאה!</p>
 
       <div class="formula-card">
-        <div class="formula-title">&#128200; נוסחה חיה — אנרגיה</div>
-        <div class="formula-main">E = &frac12;mv&sup2; + mgh &nbsp;|&nbsp; v<sub>תחתית</sub> = &radic;(2gh)</div>
+        <div class="formula-title">שימור אנרגיה</div>
+        <div class="formula-main">גובה &rarr; מהירות: &nbsp; מהירות בתחתית = &radic;(2 &times; 9.8 &times; גובה)</div>
         <div class="formula-live">
-          PE = <span class="fval" id="en-m-disp">3</span> &times; 9.8 &times; <span class="fval" id="en-h-disp">20</span>
+          אנרגיה צבורה (PE) = <span class="fval" id="en-m-disp">3</span> kg &times; 9.8 &times; <span class="fval" id="en-h-disp">20</span> m
           = <span class="fval" id="en-pe-disp">588</span> J &nbsp;|&nbsp;
-          v<sub>תחתית</sub> = <span class="fval" id="en-v-disp">19.8</span> m/s
+          מהירות בתחתית = <span class="fval" id="en-v-disp">19.8</span> m/s
           <span id="en-loop-ok" style="color:var(--success);margin-left:8px">&#10003; מספיק ללולאה!</span>
           <span id="en-loop-fail" style="color:var(--danger);margin-left:8px;display:none">&#10007; צריך גובה גדול יותר!</span>
         </div>
@@ -753,13 +753,13 @@
       <div class="goal-banner">&#127919; מטרה: השלם את הלולאה! הגע ל-v&#8805;14 m/s בתחתית.</div>
 
       <div class="slider-row">
-        <span class="slider-label">h גובה התחלתי:</span>
+        <span class="slider-label">גובה התחלתי:</span>
         <input type="range" class="slider-energy" id="rc-height-slider" min="5" max="30" step="1" value="20" oninput="syncEnergy('h',this.value)" style="accent-color:var(--energy)">
         <input type="number" id="rc-height-num" min="5" max="30" step="1" value="20" oninput="syncEnergy('h',this.value)" style="width:70px">
         <span style="color:var(--text-dim);font-size:14px">m</span>
       </div>
       <div class="slider-row">
-        <span class="slider-label">m מסת העגלה:</span>
+        <span class="slider-label">מסת העגלה:</span>
         <input type="range" class="slider-energy" id="rc-mass-slider" min="1" max="10" step="0.5" value="3" oninput="syncEnergy('m',this.value)" style="accent-color:var(--energy)">
         <input type="number" id="rc-mass-num" min="1" max="10" step="0.5" value="3" oninput="syncEnergy('m',this.value)" style="width:70px">
         <span style="color:var(--text-dim);font-size:14px">kg</span>
@@ -815,11 +815,10 @@
       <p>קבע מהירות שיגור, זווית וכבידת הכוכב. האם תוכל לנחות עם הגשש על הכרית ב-150 מ' בדיוק?</p>
 
       <div class="formula-card">
-        <div class="formula-title">&#128200; נוסחה חיה — תנועת קליע</div>
-        <div class="formula-main">x = v&#8320;cos&#952;&middot;t &nbsp;|&nbsp; y = v&#8320;sin&#952;&middot;t &minus; &frac12;gt&sup2;</div>
+        <div class="formula-title">תנועת קליע</div>
+        <div class="formula-main">טווח = מהירות&sup2; &times; sin(2 &times; זווית) &divide; כבידה</div>
         <div class="formula-live">
-          טווח = v&#8320;&sup2;&middot;sin(2&#952;)/g
-          = <span class="fval" id="grav-v0-disp">40</span>&sup2;&middot;sin(<span class="fval" id="grav-ang-disp">90</span>&deg;)/<span class="fval" id="grav-g-disp">9.8</span>
+          טווח = <span class="fval" id="grav-v0-disp">40</span>&sup2; &times; sin(2 &times; <span class="fval" id="grav-ang-disp">45</span>&deg;) &divide; <span class="fval" id="grav-g-disp">9.8</span>
           = <span class="fval" id="grav-range-disp">163.3</span> m
         </div>
       </div>
@@ -827,19 +826,19 @@
       <div class="goal-banner">&#127919; מטרה: נחת עם הגשש על הכרית ב-150 מ'!</div>
 
       <div class="slider-row">
-        <span class="slider-label">v&#8320; מהירות שיגור:</span>
+        <span class="slider-label">מהירות שיגור:</span>
         <input type="range" class="slider-gravity" id="proj-v0-slider" min="10" max="80" step="1" value="40" oninput="syncGravity('v0',this.value)" style="accent-color:var(--gravity)">
         <input type="number" id="proj-v0-num" min="10" max="80" step="1" value="40" oninput="syncGravity('v0',this.value)" style="width:70px">
         <span style="color:var(--text-dim);font-size:14px">m/s</span>
       </div>
       <div class="slider-row">
-        <span class="slider-label">&#952; זווית שיגור:</span>
+        <span class="slider-label">זווית שיגור:</span>
         <input type="range" class="slider-gravity" id="proj-angle-slider" min="10" max="80" step="1" value="45" oninput="syncGravity('ang',this.value)" style="accent-color:var(--gravity)">
         <input type="number" id="proj-angle-num" min="10" max="80" step="1" value="45" oninput="syncGravity('ang',this.value)" style="width:70px">
         <span style="color:var(--text-dim);font-size:14px">&#176;</span>
       </div>
       <div class="slider-row">
-        <span class="slider-label">g כבידת הכוכב:</span>
+        <span class="slider-label">כבידת הכוכב:</span>
         <input type="range" class="slider-gravity" id="proj-g-slider" min="1.6" max="24.8" step="0.1" value="9.8" oninput="syncGravity('g',this.value)" style="accent-color:var(--gravity)">
         <input type="number" id="proj-g-num" min="1.6" max="24.8" step="0.1" value="9.8" oninput="syncGravity('g',this.value)" style="width:70px">
         <span style="color:var(--text-dim);font-size:14px">m/s&sup2;</span>

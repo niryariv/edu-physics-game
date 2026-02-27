@@ -435,10 +435,10 @@
       <p>Set your starting speed v&#8320; and choose a surface (which sets the friction &#956;). The formula predicts exactly how far the puck will slide. Hit the target flag at 80 m!</p>
 
       <div class="formula-card">
-        <div class="formula-title">&#128200; Stopping Distance Formula</div>
-        <div class="formula-main">d = v&#8320;&#178; &divide; (2 &times; &#956; &times; g)</div>
+        <div class="formula-title">How Far Does It Slide?</div>
+        <div class="formula-main">distance = speed&sup2; &divide; (2 &times; friction &times; 9.8)</div>
         <div class="formula-live">
-          d = <span class="fval" id="law1-v0-disp">20</span>&#178; &divide; (2 &times; <span class="fval" id="law1-mu-disp">0.05</span> &times; 9.8)
+          d = <span class="fval" id="law1-v0-disp">20</span>&sup2; &divide; (2 &times; <span class="fval" id="law1-mu-disp">0.05</span> &times; 9.8)
           = <span class="fval" id="law1-dist-pred">408.2</span> m
         </div>
       </div>
@@ -446,14 +446,14 @@
       <div class="goal-banner">&#127919; Goal: Hit the target flag at 80 m!</div>
 
       <div class="slider-row">
-        <span class="slider-label">v&#8320; Starting speed:</span>
+        <span class="slider-label">Starting speed:</span>
         <input type="range" class="slider-law1" id="law1-v0-slider" min="5" max="40" step="1" value="20" oninput="syncLaw1('v0',this.value)">
         <input type="number" id="law1-v0-num" min="5" max="40" step="1" value="20" oninput="syncLaw1('v0',this.value)" style="width:70px">
         <span style="color:var(--text-dim);font-size:14px">m/s</span>
       </div>
 
       <div class="slider-row">
-        <span class="slider-label">&#956; Friction coeff:</span>
+        <span class="slider-label">Surface friction:</span>
         <input type="range" class="slider-law1" id="law1-mu-slider" min="0.005" max="0.6" step="0.005" value="0.05" oninput="syncLaw1('mu',this.value)">
         <input type="number" id="law1-mu-num" min="0.005" max="0.6" step="0.005" value="0.05" oninput="syncLaw1('mu',this.value)" style="width:80px">
       </div>
@@ -551,8 +551,8 @@
       <p>Set the Cannon Force and Cannonball Mass. The formula predicts acceleration. Fire the cannonball — can you knock the tower at exactly 60 m?</p>
 
       <div class="formula-card">
-        <div class="formula-title">&#128200; F = ma Formula</div>
-        <div class="formula-main">a = F &divide; m &nbsp;|&nbsp; x(t) = &frac12; &middot; a &middot; t&sup2;</div>
+        <div class="formula-title">Newton's 2nd Law</div>
+        <div class="formula-main">acceleration = Force &divide; mass</div>
         <div class="formula-live">
           a = <span class="fval" id="law2-f-disp">80</span> N &divide; <span class="fval" id="law2-m-disp">5</span> kg
           = <span class="fval" id="law2-a-disp">16.0</span> m/s&sup2;
@@ -562,13 +562,13 @@
       <div class="goal-banner">&#127919; Goal: Knock the tower at exactly 60 m!</div>
 
       <div class="slider-row">
-        <span class="slider-label">F Cannon force:</span>
+        <span class="slider-label">Cannon force:</span>
         <input type="range" class="slider-law2" id="force-slider" min="10" max="200" step="5" value="80" oninput="syncLaw2('f',this.value)">
         <input type="number" id="force-num" min="10" max="200" step="5" value="80" oninput="syncLaw2('f',this.value)" style="width:76px">
         <span style="color:var(--text-dim);font-size:14px">N</span>
       </div>
       <div class="slider-row">
-        <span class="slider-label">m Cannonball mass:</span>
+        <span class="slider-label">Cannonball mass:</span>
         <input type="range" class="slider-law2" id="mass-slider" min="1" max="20" step="0.5" value="5" oninput="syncLaw2('m',this.value)">
         <input type="number" id="mass-num" min="1" max="20" step="0.5" value="5" oninput="syncLaw2('m',this.value)" style="width:76px">
         <span style="color:var(--text-dim);font-size:14px">kg</span>
@@ -655,26 +655,26 @@
       <p>Set the burn rate and exhaust speed. The formula calculates real thrust. Can you reach orbit at 500 m altitude?</p>
 
       <div class="formula-card">
-        <div class="formula-title">&#128200; Rocket Thrust Formula</div>
-        <div class="formula-main">Thrust = (&#916;m/&#916;t) &times; v<sub>exhaust</sub></div>
+        <div class="formula-title">Rocket Thrust (Newton's 3rd Law)</div>
+        <div class="formula-main">Thrust = burn rate &times; exhaust speed</div>
         <div class="formula-live">
           Thrust = <span class="fval" id="law3-br-disp">8</span> kg/s &times; <span class="fval" id="law3-ex-disp">400</span> m/s
           = <span class="fval" id="law3-thrust-disp">3200</span> N
-          &nbsp;|&nbsp; Weight = <span class="fval" id="law3-weight-disp">~784</span> N
-          &nbsp;&#8594;&nbsp; Net up: <span class="fval" id="law3-net-disp">~2416</span> N
+          &nbsp;|&nbsp; Rocket weight = <span class="fval" id="law3-weight-disp">~784</span> N
+          &nbsp;&#8594;&nbsp; Net upward force: <span class="fval" id="law3-net-disp">~2416</span> N
         </div>
       </div>
 
       <div class="goal-banner">&#127919; Goal: Reach orbit at 500 m altitude!</div>
 
       <div class="slider-row">
-        <span class="slider-label">&#128293; Burn rate:</span>
+        <span class="slider-label">Burn rate:</span>
         <input type="range" class="slider-law3" id="burn-rate-slider" min="1" max="20" step="0.5" value="8" oninput="syncLaw3('br',this.value)">
         <input type="number" id="burn-rate-num" min="1" max="20" step="0.5" value="8" oninput="syncLaw3('br',this.value)" style="width:70px">
         <span style="color:var(--text-dim);font-size:14px">kg/s</span>
       </div>
       <div class="slider-row">
-        <span class="slider-label">&#128168; Exhaust speed:</span>
+        <span class="slider-label">Exhaust speed:</span>
         <input type="range" class="slider-law3" id="exhaust-speed-slider" min="100" max="1000" step="50" value="400" oninput="syncLaw3('ex',this.value)">
         <input type="number" id="exhaust-speed-num" min="100" max="1000" step="50" value="400" oninput="syncLaw3('ex',this.value)" style="width:80px">
         <span style="color:var(--text-dim);font-size:14px">m/s</span>
@@ -734,12 +734,12 @@
       <p>Set start height and cart mass. The formula shows how height converts to speed at the bottom. You need v&#8805;14 m/s to complete the loop!</p>
 
       <div class="formula-card">
-        <div class="formula-title">&#128200; Energy Formula</div>
-        <div class="formula-main">E = &frac12;mv&sup2; + mgh &nbsp;|&nbsp; v<sub>bottom</sub> = &radic;(2gh)</div>
+        <div class="formula-title">Conservation of Energy</div>
+        <div class="formula-main">height &rarr; speed: &nbsp; speed at bottom = &radic;(2 &times; 9.8 &times; height)</div>
         <div class="formula-live">
-          PE = <span class="fval" id="en-m-disp">3</span> &times; 9.8 &times; <span class="fval" id="en-h-disp">20</span>
+          Stored energy (PE) = <span class="fval" id="en-m-disp">3</span> kg &times; 9.8 &times; <span class="fval" id="en-h-disp">20</span> m
           = <span class="fval" id="en-pe-disp">588</span> J &nbsp;|&nbsp;
-          v<sub>bottom</sub> = <span class="fval" id="en-v-disp">19.8</span> m/s
+          Speed at bottom = <span class="fval" id="en-v-disp">19.8</span> m/s
           <span id="en-loop-ok" style="color:var(--success);margin-left:8px">&#10003; Enough for loop!</span>
           <span id="en-loop-fail" style="color:var(--danger);margin-left:8px;display:none">&#10007; Need more height!</span>
         </div>
@@ -748,13 +748,13 @@
       <div class="goal-banner">&#127919; Goal: Complete the loop! Start high enough to reach 14 m/s at the bottom.</div>
 
       <div class="slider-row">
-        <span class="slider-label">h Start height:</span>
+        <span class="slider-label">Start height:</span>
         <input type="range" class="slider-energy" id="rc-height-slider" min="5" max="30" step="1" value="20" oninput="syncEnergy('h',this.value)" style="accent-color:var(--energy)">
         <input type="number" id="rc-height-num" min="5" max="30" step="1" value="20" oninput="syncEnergy('h',this.value)" style="width:70px">
         <span style="color:var(--text-dim);font-size:14px">m</span>
       </div>
       <div class="slider-row">
-        <span class="slider-label">m Cart mass:</span>
+        <span class="slider-label">Cart mass:</span>
         <input type="range" class="slider-energy" id="rc-mass-slider" min="1" max="10" step="0.5" value="3" oninput="syncEnergy('m',this.value)" style="accent-color:var(--energy)">
         <input type="number" id="rc-mass-num" min="1" max="10" step="0.5" value="3" oninput="syncEnergy('m',this.value)" style="width:70px">
         <span style="color:var(--text-dim);font-size:14px">kg</span>
@@ -810,11 +810,10 @@
       <p>Set the launch speed, angle, and planet gravity. Can you land the probe on the pad at exactly 150 m?</p>
 
       <div class="formula-card">
-        <div class="formula-title">&#128200; Projectile Motion Formulas</div>
-        <div class="formula-main">x = v&#8320;cos&#952;&middot;t &nbsp;|&nbsp; y = v&#8320;sin&#952;&middot;t &minus; &frac12;gt&sup2;</div>
+        <div class="formula-title">Projectile Motion</div>
+        <div class="formula-main">Range = speed&sup2; &times; sin(2 &times; angle) &divide; gravity</div>
         <div class="formula-live">
-          Range = v&#8320;&sup2;&middot;sin(2&#952;)/g
-          = <span class="fval" id="grav-v0-disp">40</span>&sup2;&middot;sin(<span class="fval" id="grav-ang-disp">90</span>&deg;)/<span class="fval" id="grav-g-disp">9.8</span>
+          Range = <span class="fval" id="grav-v0-disp">40</span>&sup2; &times; sin(2 &times; <span class="fval" id="grav-ang-disp">45</span>&deg;) &divide; <span class="fval" id="grav-g-disp">9.8</span>
           = <span class="fval" id="grav-range-disp">163.3</span> m
         </div>
       </div>
@@ -822,19 +821,19 @@
       <div class="goal-banner">&#127919; Goal: Land the probe on the pad at 150 m!</div>
 
       <div class="slider-row">
-        <span class="slider-label">v&#8320; Launch speed:</span>
+        <span class="slider-label">Launch speed:</span>
         <input type="range" class="slider-gravity" id="proj-v0-slider" min="10" max="80" step="1" value="40" oninput="syncGravity('v0',this.value)" style="accent-color:var(--gravity)">
         <input type="number" id="proj-v0-num" min="10" max="80" step="1" value="40" oninput="syncGravity('v0',this.value)" style="width:70px">
         <span style="color:var(--text-dim);font-size:14px">m/s</span>
       </div>
       <div class="slider-row">
-        <span class="slider-label">&#952; Launch angle:</span>
+        <span class="slider-label">Launch angle:</span>
         <input type="range" class="slider-gravity" id="proj-angle-slider" min="10" max="80" step="1" value="45" oninput="syncGravity('ang',this.value)" style="accent-color:var(--gravity)">
         <input type="number" id="proj-angle-num" min="10" max="80" step="1" value="45" oninput="syncGravity('ang',this.value)" style="width:70px">
         <span style="color:var(--text-dim);font-size:14px">degrees</span>
       </div>
       <div class="slider-row">
-        <span class="slider-label">g Planet gravity:</span>
+        <span class="slider-label">Planet gravity:</span>
         <input type="range" class="slider-gravity" id="proj-g-slider" min="1.6" max="24.8" step="0.1" value="9.8" oninput="syncGravity('g',this.value)" style="accent-color:var(--gravity)">
         <input type="number" id="proj-g-num" min="1.6" max="24.8" step="0.1" value="9.8" oninput="syncGravity('g',this.value)" style="width:70px">
         <span style="color:var(--text-dim);font-size:14px">m/s&sup2;</span>
