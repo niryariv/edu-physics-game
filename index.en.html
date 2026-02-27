@@ -439,7 +439,6 @@
         <div class="formula-main">distance = speed&sup2; &divide; (2 &times; friction &times; 9.8)</div>
         <div class="formula-live">
           d = <span class="fval" id="law1-v0-disp">20</span>&sup2; &divide; (2 &times; <span class="fval" id="law1-mu-disp">0.05</span> &times; 9.8)
-          = <span class="fval" id="law1-dist-pred">408.2</span> m
         </div>
       </div>
 
@@ -474,10 +473,6 @@
       <div id="law1-result" class="result-banner"></div>
 
       <div class="stat-grid">
-        <div class="stat-box">
-          <div class="stat-label">Predicted Stop</div>
-          <div class="stat-value" id="slide-pred-dist" style="color:var(--gold)">408 m</div>
-        </div>
         <div class="stat-box">
           <div class="stat-label">Actual Distance</div>
           <div class="stat-value" id="slide-distance" style="color:var(--law1)">-- m</div>
@@ -1126,11 +1121,8 @@ function syncLaw1(param, val) {
 }
 
 function updateLaw1Formula() {
-  var d = (law1V0 * law1V0) / (2 * law1Mu * 9.8);
   document.getElementById('law1-v0-disp').textContent = law1V0;
   document.getElementById('law1-mu-disp').textContent = law1Mu.toFixed(3);
-  document.getElementById('law1-dist-pred').textContent = d.toFixed(1);
-  document.getElementById('slide-pred-dist').textContent = d.toFixed(0) + ' m';
 }
 
 function selectSurface(surf, btn) {
@@ -1226,16 +1218,6 @@ function drawSlideCanvas() {
   }
 
   // Predicted stop marker (dotted)
-  var predD = (law1V0 * law1V0) / (2 * law1Mu * 9.8);
-  var predX = originX + predD * pixPerM;
-  if (predX < W - 10) {
-    ctx.strokeStyle = 'rgba(255,215,0,0.5)'; ctx.lineWidth = 1.5; ctx.setLineDash([4,4]);
-    ctx.beginPath(); ctx.moveTo(predX, H*0.55-4); ctx.lineTo(predX, H*0.3); ctx.stroke();
-    ctx.setLineDash([]);
-    ctx.fillStyle = 'rgba(255,215,0,0.7)'; ctx.font = '11px sans-serif'; ctx.textAlign = 'center';
-    ctx.fillText('pred ' + predD.toFixed(0)+'m', predX, H*0.3-2); ctx.textAlign = 'left';
-  }
-
   // Mu info
   ctx.fillStyle = 'rgba(0,0,0,0.55)'; ctx.fillRect(W-170, H*0.56, 162, 24);
   ctx.fillStyle = '#fff'; ctx.font = 'bold 12px sans-serif'; ctx.textAlign = 'right';
