@@ -1205,7 +1205,7 @@ function drawSlideCanvas() {
   ctx.fillText('80m', flagX, H*0.55-44); ctx.textAlign = 'left';
 
   // Puck
-  var px = originX + slideState.x;
+  var px = originX + slideState.x * pixPerM;
   var py = Math.floor(H * 0.55) - slideState.puckR;
   px = Math.min(px, W - slideState.puckR - 4);
 
