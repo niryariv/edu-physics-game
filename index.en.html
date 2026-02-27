@@ -1851,7 +1851,7 @@ function animateRocket() {
     }
   }
   rocketState.exhaustParticles=rocketState.exhaustParticles.filter(function(p){return p.life>0;}).map(function(p){return{x:p.x+p.vx,y:p.y+p.vy,vx:p.vx,vy:p.vy,r:p.r,life:p.life-0.03,color:p.color};});
-  document.getElementById('rocket-speed').textContent = Math.abs(rocketState.vy*metersPerPx*60*dt).toFixed(1)+' m/s';
+  document.getElementById('rocket-speed').textContent = Math.abs(rocketState.vy*metersPerPx*60).toFixed(1)+' m/s';
   drawRocketCanvas();
 
   if (rocketState.y >= groundY) {
@@ -2015,7 +2015,7 @@ function drawRCCanvas() {
 
 function launchRollerCoaster() {
   if (rcState.running) return;
-  rcState.running=true; rcState.t=0;
+  rcState.running=true; rcState.t=0; rcState.launchH=energyH;
   if (rcRaf) cancelAnimationFrame(rcRaf);
   var el = document.getElementById('law-energy-result'); if (el) { el.className='result-banner'; el.textContent=''; }
   document.getElementById('rc-status').textContent='';
@@ -2031,7 +2031,7 @@ function animateRC() {
     rcRaf = requestAnimationFrame(animateRC);
   } else {
     rcState.running=false;
-    var vBot = Math.sqrt(2 * 9.8 * energyH);
+    var vBot = Math.sqrt(2 * 9.8 * rcState.launchH);
     if (!state.energyGoal && vBot >= RC_TARGET_V) {
       state.energyGoal = true;
       showResult('law-energy-result','success','\uD83C\uDF89 Loop completed! PE converted to KE perfectly. Energy conserved! +150 pts');
@@ -2243,7 +2243,7 @@ function animateProjectile() {
   var cvs=document.getElementById('canvas-proj'); if(!cvs){projState.running=false;return;}
   var ctx=cvs.getContext('2d'); var w=cvs.width,h=cvs.height;
   var sc=getProjectileScale(cvs);
-  var gPx=gravG/60/60*sc.ppm*60; // gravity in px/frame^2
+  var gPx=gravG*sc.ppm/3600; // gravity in px/frame^2 (g m/s² * ppm px/m / 60² frames²/s²)
 
   projState.vy+=gPx;
   projState.x+=projState.vx; projState.y+=projState.vy;
