@@ -157,7 +157,7 @@
     outline: none; cursor: pointer; appearance: none; -webkit-appearance: none; background: #333;
   }
   input[type=range]::-webkit-slider-thumb {
-    -webkit-appearance: none; width: 22px; height: 22px; border-radius: 50%; cursor: pointer;
+    -webkit-appearance: none; width: 22px; height: 22px; border-radius: 50%; cursor: pointer; background: #888;
   }
   .slider-law1 { accent-color: var(--law1); }
   .slider-law1::-webkit-slider-thumb { background: var(--law1); }
@@ -166,7 +166,9 @@
   .slider-law3 { accent-color: var(--law3); }
   .slider-law3::-webkit-slider-thumb { background: var(--law3); }
   .slider-energy { accent-color: var(--energy); }
+  .slider-energy::-webkit-slider-thumb { background: var(--energy); }
   .slider-gravity { accent-color: var(--gravity); }
+  .slider-gravity::-webkit-slider-thumb { background: var(--gravity); }
 
   .slider-val { min-width: 64px; font-size: 16px; font-weight: 700; text-align: left; }
   input[type=number] {
@@ -629,6 +631,7 @@
     <div class="card card-law3">
       <h2>&#127918; ניסוי 3א — רקטת בלון</h2>
       <p>הזז את המחוון כדי לבחור כמה אוויר יש בבלון, ולחץ שחרר! יותר אוויר = יותר כוח = מרחק גדול יותר!</p>
+      <div class="goal-banner">&#127919; מטרה: נחת עם הבלון בדיוק ב-3 מ'! (כוון את האוויר כדי לפגוע בדגל!)</div>
       <div class="slider-row">
         <span class="slider-label">&#128168; אוויר בבלון:</span>
         <input type="range" class="slider-law3" id="balloon-slider" min="10" max="100" value="60" oninput="updateBalloon()">
@@ -642,6 +645,7 @@
         <div class="stat-box"><div class="stat-label">כוח האוויר</div><div class="stat-value" id="bal-force" style="color:var(--law3)">60 N</div></div>
         <div class="stat-box"><div class="stat-label">מרחק</div><div class="stat-value" id="bal-distance" style="color:var(--law3)">-- m</div></div>
       </div>
+      <div id="bal3a-result" class="result-banner"></div>
       <div class="btn-row">
         <button class="btn btn-law3 btn-lg" onclick="releaseBalloon()">&#128168; שחרר!</button>
         <button class="btn btn-gray btn-sm" onclick="resetBalloon()">אתחול</button>
@@ -775,12 +779,14 @@
     <div class="card">
       <h3>&#127944; ניסוי: כדור קופץ</h3>
       <p>קבע גובה שחרור הכדור ולחץ שחרר!</p>
+      <div class="goal-banner">&#127919; מטרה: שחרר כך שהקפיצה הראשונה תגיע לאזור הצהוב!</div>
       <div style="margin:10px 0">
         <label>גובה שחרור: <span id="bb-height-val">80</span>%</label>
         <input type="range" id="bb-height" min="20" max="100" value="80" oninput="document.getElementById('bb-height-val').textContent=this.value">
       </div>
       <button class="btn" style="background:var(--energy)" onclick="launchBounceBall()">&#127944; שחרר!</button>
       <button class="btn btn-gray" onclick="resetBounceBall()">אתחול</button>
+      <div id="bb-result" class="result-banner"></div>
       <canvas id="canvas-bb" width="300" height="220" style="display:block;margin:10px 0;border-radius:8px;background:#0a1628;max-width:100%">סימולציית כדור קופץ</canvas>
     </div>
     <div class="card" style="border-right:5px solid var(--energy);border-left:none">
@@ -839,12 +845,14 @@
         <span style="color:var(--text-dim);font-size:14px">m/s&sup2;</span>
       </div>
 
-      <div class="btn-row">
-        <span style="font-size:14px;color:var(--text-dim)">פריסטי כוכבים:</span>
-        <button class="planet-btn" onclick="setPlanetG(1.6,'ירח',this)">&#127765; ירח 1.6</button>
-        <button class="planet-btn" onclick="setPlanetG(3.7,'מאדים',this)">&#128308; מאדים 3.7</button>
-        <button class="planet-btn selected" onclick="setPlanetG(9.8,'כדור הארץ',this)">&#127758; כדור הארץ 9.8</button>
-        <button class="planet-btn" onclick="setPlanetG(24.8,'צדק',this)">&#129680; צדק 24.8</button>
+      <div style="margin:12px 0">
+        <div style="font-size:14px;color:var(--text-dim);margin-bottom:8px">פריסט כוכבי לכת:</div>
+        <div style="display:flex;flex-wrap:wrap;gap:16px">
+          <button class="planet-btn" onclick="setPlanetG(1.6,'ירח',this)">&#127765; ירח &nbsp;g=1.6</button>
+          <button class="planet-btn" onclick="setPlanetG(3.7,'מאדים',this)">&#128308; מאדים &nbsp;g=3.7</button>
+          <button class="planet-btn selected" onclick="setPlanetG(9.8,'כדור הארץ',this)">&#127758; כדור הארץ &nbsp;g=9.8</button>
+          <button class="planet-btn" onclick="setPlanetG(24.8,'צדק',this)">&#129680; צדק &nbsp;g=24.8</button>
+        </div>
       </div>
 
       <div class="canvas-wrap">
@@ -1627,6 +1635,14 @@ function drawBalloonCanvas() {
   ctx.fillStyle = '#080828'; ctx.fillRect(0, 0, W, H);
   ctx.strokeStyle = '#445'; ctx.lineWidth = 3; ctx.setLineDash([8,4]);
   ctx.beginPath(); ctx.moveTo(20, H/2); ctx.lineTo(W-20, H/2); ctx.stroke(); ctx.setLineDash([]);
+  // Target flag at 3 m
+  var ppm3 = (W-80)/5, tx = 80 + 3*ppm3;
+  ctx.strokeStyle = 'rgba(255,215,0,0.7)'; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.moveTo(tx, H*0.25); ctx.lineTo(tx, H*0.78); ctx.stroke();
+  ctx.fillStyle = '#FFD700';
+  ctx.beginPath(); ctx.moveTo(tx, H*0.25); ctx.lineTo(tx+22, H*0.32); ctx.lineTo(tx, H*0.39); ctx.fill();
+  ctx.fillStyle = 'rgba(255,215,0,0.9)'; ctx.font = 'bold 11px sans-serif'; ctx.textAlign = 'center';
+  ctx.fillText('3 מ\'', tx, H*0.22); ctx.textAlign = 'right';
   balloonState.particles.forEach(function(p) {
     ctx.globalAlpha=p.life; ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fillStyle='#99ccff'; ctx.fill(); ctx.globalAlpha=1;
   });
@@ -1677,13 +1693,23 @@ function animateBalloon() {
     balloonState.raf=requestAnimationFrame(animateBalloon);
   } else {
     balloonState.running=false;
-    if (!state.bal3aDone) { state.bal3aDone=true; addScore(100); document.getElementById('bal-pts-msg').style.display='inline'; checkLaw3Done(); }
+    var pixPerMb=(W-80)/5, finalDist=(balloonState.x-80)/pixPerMb;
+    if (!state.bal3aGoal && Math.abs(finalDist-3)<=0.3) {
+      state.bal3aGoal=true;
+      showResult('bal3a-result','success','\uD83C\uDF89 פגעת! נחתת ב-'+finalDist.toFixed(1)+' מ\' — פעולה = תגובה! +100 נקודות');
+      addScore(100); document.getElementById('bal-pts-msg').textContent='+100 נקודות!'; document.getElementById('bal-pts-msg').style.display='inline';
+    } else if (!state.bal3aGoal) {
+      showResult('bal3a-result','fail',finalDist<2.7?'\uD83D\uDCA8 קצר מדי ('+finalDist.toFixed(1)+' מ\') — נפח יותר!':'\uD83D\uDCA8 עף רחוק ('+finalDist.toFixed(1)+' מ\') — פחות אוויר!');
+    }
+    if (!state.bal3aDone) { state.bal3aDone=true; checkLaw3Done(); }
   }
 }
 
 function resetBalloon() {
   cancelAnimationFrame(balloonState.raf); balloonState.x=80; balloonState.vx=0; balloonState.running=false; balloonState.particles=[];
-  document.getElementById('bal-distance').textContent='-- m'; drawBalloonCanvas();
+  document.getElementById('bal-distance').textContent='-- m';
+  var el=document.getElementById('bal3a-result'); if(el){el.className='result-banner';el.textContent='';}
+  drawBalloonCanvas();
 }
 
 // ================================================================
@@ -2083,10 +2109,25 @@ function animateBB() {
   bbState.vy+=0.5; bbState.y+=bbState.vy;
   if (bbState.y>=bbState.maxY) {
     bbState.y=bbState.maxY; bbState.vy*=-0.72; bbState.bounces++;
+    if (bbState.bounces===1 && !state.bbGoal) {
+      var peakH=bbState.vy*bbState.vy;
+      if (peakH>=45&&peakH<=65) {
+        state.bbGoal=true;
+        showResult('bb-result','success','\uD83C\uDF89 מעולה! הקפיצה הראשונה פגעה באזור המטרה! +100 נקודות');
+        addScore(100);
+      } else {
+        showResult('bb-result','fail',peakH>65?'\u2B06\uFE0F גבוה מדי \u2014 נסה גובה שחרור נמוך יותר!':'\u2B07\uFE0F נמוך מדי \u2014 הגדל את גובה השחרור!');
+      }
+    }
     if (!state.bbDone){state.bbDone=true;addScore(50);checkEnergyCompletion();}
     if (Math.abs(bbState.vy)<1.5){bbState.running=false;}
   }
   ctx.clearRect(0,0,w,h);
+  // Target zone band
+  ctx.fillStyle='rgba(255,215,0,0.15)'; ctx.fillRect(0,bbState.maxY-65,w,20);
+  ctx.strokeStyle='rgba(255,215,0,0.6)'; ctx.lineWidth=1; ctx.strokeRect(0,bbState.maxY-65,w,20);
+  ctx.fillStyle='rgba(255,215,0,0.9)'; ctx.font='bold 10px sans-serif'; ctx.textAlign='right';
+  ctx.fillText('מטרה',w-5,bbState.maxY-50); ctx.textAlign='start';
   ctx.fillStyle='#374151'; ctx.fillRect(0,bbState.maxY+2,w,4);
   var grad=ctx.createRadialGradient(w/2,bbState.y-4,2,w/2,bbState.y,14);
   grad.addColorStop(0,'#f97316'); grad.addColorStop(1,'#7c2d12');
@@ -2106,6 +2147,7 @@ function resetBounceBall() {
   bbState.running=false; if(bbRaf)cancelAnimationFrame(bbRaf);
   var cvs=document.getElementById('canvas-bb'); if(!cvs) return;
   var ctx=cvs.getContext('2d'); ctx.clearRect(0,0,cvs.width,cvs.height);
+  var el=document.getElementById('bb-result'); if(el){el.className='result-banner';el.textContent='';}
 }
 
 function checkEnergyCompletion() {
@@ -2375,7 +2417,7 @@ var QUIZ_DATA=[
   {q:"למה צריך חגורת בטיחות כשהרכב עוצר פתאום?",opts:["הגוף ממשיך לנוע קדימה בגלל אינרציה","הרכב מושך אתכם קדימה","הבלמים דוחפים אתכם קדימה","הכבידה מושכת אתכם קדימה"],correct:0,exp:"חוק ראשון — אינרציה! הגוף שלך נע עם הרכב. כשהרכב עוצר, הגוף רוצה להמשיך לנוע. חגורת הבטיחות מפעילה את כוח העצירה!"},
   {q:"אם מכפילים את מסת העצם ושומרים על אותו כוח, התאוצה תהיה...?",opts:["מחצית","כפולה","אותו הדבר","פי שלוש"],correct:0,exp:"תאוצה = כוח ÷ מסה. אם המסה מוכפלת והכוח נשאר זהה: תאוצה = כוח ÷ (2×מסה) = מחצית התאוצה המקורית!"},
   {q:"כדור בראש גבעה מחזיק באיזה סוג אנרגיה?",opts:["אנרגיה פוטנציאלית (גובה צבור)","אנרגיה קינטית (תנועה)","אנרגיה חשמלית","אין לו אנרגיה כלל"],correct:0,exp:"בראש הגבעה לכדור יש אנרגיה פוטנציאלית — אנרגיה צבורה בגלל גובהו. כשהוא מתגלגל למטה, האנרגיה הפוטנציאלית הופכת לקינטית!"},
-  {q:"באיזו זווית כדאי לזרוק כדור כדי שיגיע לכי רחוק?",opts:["45 מעלות","90 מעלות (ישר למעלה)","10 מעלות (כמעט שטוח)","0 מעלות (אופקי לגמרי)"],correct:0,exp:"45° נותן את האיזון המושלם בין גובה ומרחק אופקי, ומייצר את הטווח המרבי לכל קליע שנזרק באותה מהירות!"}
+  {q:"באיזו זווית כדאי לזרוק כדור כדי שיגיע הכי רחוק?",opts:["45 מעלות","90 מעלות (ישר למעלה)","10 מעלות (כמעט שטוח)","0 מעלות (אופקי לגמרי)"],correct:0,exp:"45° נותן את האיזון המושלם בין גובה ומרחק אופקי, ומייצר את הטווח המרבי לכל קליע שנזרק באותה מהירות!"}
 ];
 
 var quizAnswered={};
