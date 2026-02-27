@@ -2196,21 +2196,7 @@ function drawProjectileIdle() {
   ctx.fillStyle='#FFD700'; ctx.font='bold 11px sans-serif'; ctx.textAlign='center';
   ctx.fillText('\uD83C\uDFC1 150m', padX, groundY-8); ctx.textAlign='left';
 
-  // Dotted predicted trajectory
   var rad = gravAngle*Math.PI/180;
-  var range = (gravV0*gravV0*Math.sin(2*rad))/gravG;
-  var tFlight = 2*gravV0*Math.sin(rad)/gravG;
-  ctx.strokeStyle='rgba(225,29,72,0.4)'; ctx.lineWidth=1.5; ctx.setLineDash([4,4]);
-  ctx.beginPath();
-  var launched=false;
-  for (var ti=0; ti<=60; ti++) {
-    var t2=ti/60*tFlight;
-    var px=originX+gravV0*Math.cos(rad)*t2*ppm;
-    var py=groundY - gravV0*Math.sin(rad)*t2*ppm + 0.5*gravG*t2*t2*ppm;
-    if (py>groundY) break;
-    if (!launched){ctx.moveTo(px,py);launched=true;} else {ctx.lineTo(px,py);}
-  }
-  ctx.stroke(); ctx.setLineDash([]);
 
   // Launch angle indicator
   var len=40;
