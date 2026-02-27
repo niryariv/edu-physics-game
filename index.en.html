@@ -554,7 +554,7 @@
         </div>
       </div>
 
-      <div class="goal-banner">&#127919; Goal: Knock the tower at exactly 60 m!</div>
+      <div class="goal-banner">&#127919; Goal: Knock the tower at 60 m! (Hit it at ≤25 m/s — not too hard!)</div>
 
       <div class="slider-row">
         <span class="slider-label">Cannon force:</span>
@@ -664,14 +664,14 @@
 
       <div class="slider-row">
         <span class="slider-label">Burn rate:</span>
-        <input type="range" class="slider-law3" id="burn-rate-slider" min="1" max="20" step="0.5" value="8" oninput="syncLaw3('br',this.value)">
-        <input type="number" id="burn-rate-num" min="1" max="20" step="0.5" value="8" oninput="syncLaw3('br',this.value)" style="width:70px">
+        <input type="range" class="slider-law3" id="burn-rate-slider" min="1" max="20" step="0.5" value="3" oninput="syncLaw3('br',this.value)">
+        <input type="number" id="burn-rate-num" min="1" max="20" step="0.5" value="3" oninput="syncLaw3('br',this.value)" style="width:70px">
         <span style="color:var(--text-dim);font-size:14px">kg/s</span>
       </div>
       <div class="slider-row">
         <span class="slider-label">Exhaust speed:</span>
-        <input type="range" class="slider-law3" id="exhaust-speed-slider" min="100" max="1000" step="50" value="400" oninput="syncLaw3('ex',this.value)">
-        <input type="number" id="exhaust-speed-num" min="100" max="1000" step="50" value="400" oninput="syncLaw3('ex',this.value)" style="width:80px">
+        <input type="range" class="slider-law3" id="exhaust-speed-slider" min="100" max="1000" step="50" value="250" oninput="syncLaw3('ex',this.value)">
+        <input type="number" id="exhaust-speed-num" min="100" max="1000" step="50" value="250" oninput="syncLaw3('ex',this.value)" style="width:80px">
         <span style="color:var(--text-dim);font-size:14px">m/s</span>
       </div>
 
@@ -744,8 +744,8 @@
 
       <div class="slider-row">
         <span class="slider-label">Start height:</span>
-        <input type="range" class="slider-energy" id="rc-height-slider" min="5" max="30" step="1" value="20" oninput="syncEnergy('h',this.value)" style="accent-color:var(--energy)">
-        <input type="number" id="rc-height-num" min="5" max="30" step="1" value="20" oninput="syncEnergy('h',this.value)" style="width:70px">
+        <input type="range" class="slider-energy" id="rc-height-slider" min="5" max="30" step="1" value="8" oninput="syncEnergy('h',this.value)" style="accent-color:var(--energy)">
+        <input type="number" id="rc-height-num" min="5" max="30" step="1" value="8" oninput="syncEnergy('h',this.value)" style="width:70px">
         <span style="color:var(--text-dim);font-size:14px">m</span>
       </div>
       <div class="slider-row">
@@ -1545,7 +1545,7 @@ function animateFMA(isRace) {
       obj.vx += obj.acc * dt;
       obj.xMeters += obj.vx * dt;
       // Check tower hit
-      if (Math.abs(obj.xMeters - TOWER_METERS) <= 4) {
+      if (Math.abs(obj.xMeters - TOWER_METERS) <= 4 && obj.vx <= 25) {
         obj.hitTower = true; obj.toppleT = 0;
         goalDist = obj.xMeters;
         goalHit = true;
@@ -1576,7 +1576,7 @@ function animateFMA(isRace) {
         } else if (dist < TOWER_METERS - 2) {
           showResult('law2-result', 'fail', '\uD83D\uDE22 Didn\'t reach — increase F or reduce m.');
         } else {
-          showResult('law2-result', 'fail', '\uD83D\uDCA8 Flew past! Reduce F or add mass.');
+          showResult('law2-result', 'fail', '\uD83D\uDCA8 Too fast (' + (obj ? Math.round(obj.vx) : '?') + ' m/s)! Reduce F or add mass \u2014 aim for \u226425 m/s.');
         }
       }
     }
@@ -1685,7 +1685,7 @@ function resetBalloon() {
 // ================================================================
 //  LAW 3B — ROCKET LAUNCH (with burnRate + exhaustSpeed)
 // ================================================================
-var law3BurnRate = 8, law3ExhaustSpeed = 400;
+var law3BurnRate = 3, law3ExhaustSpeed = 250;
 var rocketState = { y:262, vy:0, running:false, raf:null, exhaustParticles:[], fuelMass:0, dryMass:50, maxAlt:0 };
 var ORBIT_ALT = 500; // meters
 
@@ -1795,6 +1795,15 @@ function drawRocketCanvas() {
 
 function launchRocket() {
   if (rocketState.running) return;
+  var initThrust = law3BurnRate * law3ExhaustSpeed;
+  var initFuel = law3BurnRate * 20;
+  var initMass = 50 + initFuel;
+  var initWeight = initMass * 9.8;
+  if (initThrust <= initWeight) {
+    var el = document.getElementById('law3-result'); if (el) { el.className='result-banner'; el.textContent=''; }
+    showResult('law3-result','fail','\uD83E\uDEA8 Thrust (' + initThrust + ' N) \u2264 Weight (' + initWeight.toFixed(0) + ' N) \u2014 increase burn rate or exhaust speed so Thrust > Weight!');
+    return;
+  }
   var cvs = document.getElementById('canvas-rocket');
   var groundY = cvs ? cvs.height - 38 : 262;
   rocketState.y = groundY; rocketState.vy = 0; rocketState.running = true;
@@ -1876,7 +1885,7 @@ function resetRocket() {
 // ================================================================
 //  ENERGY — params
 // ================================================================
-var energyH = 20, energyM = 3;
+var energyH = 8, energyM = 3;
 
 function syncEnergy(param, val) {
   val = parseFloat(val);
