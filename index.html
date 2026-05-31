@@ -335,6 +335,30 @@
   }
   .planet-btn:hover { filter: brightness(1.3); }
   .planet-btn.selected { border-color: var(--gravity); background: rgba(225,29,72,0.2); color: #fff; }
+
+  .open-lesson-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .open-lesson-links a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 34px;
+    padding: 7px 11px;
+    border: 1px solid rgba(255, 215, 0, 0.35);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--gold);
+    font-weight: 700;
+    text-decoration: none;
+  }
+
 </style>
 </head>
 <body>
@@ -353,6 +377,11 @@
       <div class="dot" id="dot-quiz" title="חידון"></div>
     </div>
   </div>
+  <nav class="open-lesson-links" aria-label="קישורי קוד פתוח">
+    <a href="https://niryariv.github.io/edu/">אינדקס edu</a>
+    <a href="https://github.com/niryariv/edu-physics-game">קוד מקור</a>
+    <a href="https://github.com/niryariv/edu/blob/main/prompts/lesson-builder.md">Prompt</a>
+  </nav>
   <div id="progress-bar-wrap" style="flex-basis:100%"><div id="progress-bar"></div></div>
   <a href="index.en.html" class="lang-switch">&#127482;&#127480; English</a>
 </div>
